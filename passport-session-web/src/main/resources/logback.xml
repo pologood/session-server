@@ -22,7 +22,7 @@
         </encoder>
         <!--<param name="BufferedIO" value="true" />-->
     </appender>
-    <appender name="web" class="com.sogou.upd.push.appender.AsyncMultiThreadAppender">
+    <appender name="web" class="com.sogou.upd.passport.session.async.AsyncMultiThreadAppender">
         <queueSize>512</queueSize>
         <workerSize>1</workerSize>
         <appender-ref ref="Console" />
