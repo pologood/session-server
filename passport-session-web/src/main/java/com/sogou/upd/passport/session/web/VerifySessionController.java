@@ -7,6 +7,7 @@ import com.sogou.upd.passport.session.util.CodeUtil;
 import com.sogou.upd.passport.session.util.ControllerHelper;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class VerifySessionController {
     @Autowired
     private SessionService sessionService;
 
+    @Profiled(el = true, logger = "webTimingLogger", tag = "POST:/verify_sid", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     @RequestMapping(value = "/verify_sid", method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String verifySid(HttpServletRequest request,VerifySidParams verifySidParams){

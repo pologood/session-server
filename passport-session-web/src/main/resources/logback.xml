@@ -23,7 +23,7 @@
         <!--<param name="BufferedIO" value="true" />-->
     </appender>
     <appender name="web" class="com.sogou.upd.push.appender.AsyncMultiThreadAppender">
-        <queueSize>10</queueSize>
+        <queueSize>512</queueSize>
         <workerSize>1</workerSize>
         <appender-ref ref="Console" />
     </appender>
