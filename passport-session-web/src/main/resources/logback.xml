@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reference Manual http://logback.qos.ch/manual/index.html -->
+<configuration>
+    <property name="log.path" value="/search/passport/session-server/logs" />
+
+    <!--
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+             <pattern> %5p [%t] %logger{36} %L %m %n</pattern>
+        </encoder>
+    </appender>
+    -->
+
+    <!--标准输出Log-->
+    <appender name="Console" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/web/web.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss} %5p [%t] %logger{36} %m %n</pattern>
+            <!--<immediateFlush>false</immediateFlush>-->
+        </encoder>
+        <!--<param name="BufferedIO" value="true" />-->
+    </appender>
+    <appender name="web" class="com.sogou.upd.push.appender.AsyncMultiThreadAppender">
+        <queueSize>10</queueSize>
+        <workerSize>1</workerSize>
+        <appender-ref ref="Console" />
+    </appender>
+
+    <!--start:redis请求log-->
+    <appender name="redisPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/redis/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="redisCoalescingStatistics" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+        <!--每分钟分析一次log，做出性能测试-->
+        <param name="TimeSlice" value="60000" />
+        <appender-ref ref="redisPerfFileAppender" />
+    </appender>
+    <logger name="redisTimingLogger" level="info" additivity="false">
+        <appender-ref ref="redisCoalescingStatistics" />
+    </logger>
+    <!--end:redis性能log-->
+
+    <!--web性能log-->
+    <appender name="webPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/webperf/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="webCoalescingStatistics" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+        <!--每分钟分析一次log，做出性能测试-->
+        <param name="TimeSlice" value="60000" />
+        <appender-ref ref="webPerfFileAppender" />
+    </appender>
+    <logger name="webTimingLogger" level="info" additivity="false">
+        <appender-ref ref="webCoalescingStatistics" />
+    </logger>
+    <!--storage性能log-->
+
+    <root level="info">
+        <!--<appender-ref ref="Console" />-->
+        <appender-ref ref="web" />
+    </root>
+</configuration>
