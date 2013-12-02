@@ -59,6 +59,10 @@ public class VerifySessionController {
             result.put("statusText","sid不存在或已过期");
             return result.toJSONString();
         }
-        return userInfo.toJSONString();
+
+        result.put("status","200");
+        result.put("data",userInfo);
+
+        return result.toJSONString();
     }
 }

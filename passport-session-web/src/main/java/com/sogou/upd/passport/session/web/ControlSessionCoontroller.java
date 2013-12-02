@@ -30,7 +30,7 @@ public class ControlSessionCoontroller {
     private SessionService sessionService;
 
     @Profiled(el = true, logger = "webTimingLogger", tag = "POST:/setSession", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
-    @RequestMapping(value = "/setSession",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/set_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String setSession(HttpServletRequest request,SetSessionParams setSessionParams){
         JSONObject result=new JSONObject();
@@ -62,7 +62,7 @@ public class ControlSessionCoontroller {
     }
 
     @Profiled(el = true, logger = "webTimingLogger", tag = "POST:/delSession", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
-    @RequestMapping(value = "/delSession",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/del_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String deleteSession(HttpServletRequest request,DeleteSessionParams deleteSessionParams){
         JSONObject result=new JSONObject();

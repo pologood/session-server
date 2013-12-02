@@ -12,7 +12,7 @@ public class SetSessionParams extends BaseSidParams{
     /**
      * 用户基本信息
      */
-    @NotBlank(message = "userInfo")
+    @NotBlank(message = "userInfo不能为空")
     private String userInfo;
 
 
