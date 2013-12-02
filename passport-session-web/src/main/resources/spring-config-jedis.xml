@@ -38,6 +38,11 @@
                     <constructor-arg name="port" value="${redis2.port}" type="int"/>
                     <constructor-arg name="name" value="${redis2.name}" />
                 </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis3.ip}"/>
+                    <constructor-arg name="port" value="${redis3.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis3.name}" />
+                </bean>
             </list>
         </constructor-arg>
     </bean>
@@ -45,5 +50,29 @@
     <bean id="redisDataSource" class="com.sogou.upd.passport.session.util.redis.RedisDataSource"></bean>
 
     <bean id="redisClientTemplate" class="com.sogou.upd.passport.session.util.redis.RedisClientTemplate"/>
+
+
+
+    <!-- kv redis util definition -->
+    <bean id="kvPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxActive" value="150"/>
+        <property name="maxIdle" value="150"/>
+        <property name="minIdle" value="50"/>
+        <property name="maxWait" value="1000"/>
+        <property name="testOnBorrow" value="false"/>
+        <!--30分钟跑一次idle object eviction线程-->
+    </bean>
+    <bean id="kvConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:usePool="true">
+        <property name="hostName" value="${passport.kv.url}"/>
+        <property name="port" value="${passport.kv.port}"/>
+        <constructor-arg index="0" ref="kvPoolConfig"/>
+    </bean>
+    <bean id="kvTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+          p:connectionFactory-ref="kvConnectionFactory"/>
+    <bean id="kvUtils" class=" com.sogou.upd.passport.session.util.KvUtil">
+        <property name="kvPrefix" value="${kv.prefix}"/>
+        <property name="kvTemplate" ref="kvTemplate"/>
+    </bean>
 
 </beans>
