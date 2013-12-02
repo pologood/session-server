@@ -36,8 +36,7 @@ public class SessionServiceImpl implements SessionService {
 
         //再从kv中获取
         if(StringUtils.isBlank(value)){
-            String kvKey=CommonConstant.KV_PREFIX_SESSION+key;
-            value= kvUtil.get(kvKey);
+            value= kvUtil.get(key);
             if(StringUtils.isNotBlank(value)){
                 redisClientTemplate.expire(key,CommonConstant.SESSION_EXPIRSE);
             }
@@ -54,16 +53,14 @@ public class SessionServiceImpl implements SessionService {
     public void deleteSession(String sid) {
         String key= CommonConstant.PREFIX_SESSION+sid;
         redisClientTemplate.del(key);
+        kvUtil.delete(key);
     }
 
     @Override
     public void setSession(String sid, String userInfo) {
         String key= CommonConstant.PREFIX_SESSION+sid;
-
-        String kvKey=CommonConstant.KV_PREFIX_SESSION+key;
-
         try {
-            kvUtil.set(kvKey,userInfo);
+            kvUtil.set(key,userInfo);
         } catch (Exception e) {
             logger.error("set kv fail",e);
         }

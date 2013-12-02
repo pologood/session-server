@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 /**
  * User: ligang201716@sogou-inc.com
  * Date: 13-12-2
@@ -26,13 +29,13 @@ public class KvUtil {
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
-            valueOperations.set(storeKey, value);
+            valueOperations.set(storeKey,value);
         } catch (Exception e) {
-            logger.error("[Cache] set cache fail, key:" + key + " value:" + value, e);
+            logger.error("[Cache] set cache fail, key:" + storeKey + " value:" + value, e);
             try {
                 delete(key);
             } catch (Exception ex) {
-                logger.error("[Cache] set and delete cache fail, key:" + key + " value:" + value, e);
+                logger.error("[Cache] set and delete cache fail, key:" + storeKey + " value:" + value, e);
                 throw e;
             }
         }
@@ -43,9 +46,10 @@ public class KvUtil {
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
-            return valueOperations.get(storeKey);
+            String value=valueOperations.get(storeKey);
+            return value;
         } catch (Exception e) {
-            logger.error("[KvCache] get cache fail, key:" + key, e);
+            logger.error("[KvCache] get cache fail, key:" + storeKey, e);
         }
         return null;
     }

@@ -66,6 +66,26 @@
     </logger>
     <!--storage性能log-->
 
+
+    <!--start:redies请求log-->
+    <appender name="kvPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/kvperf/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="kvCoalescingStatistics" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+        <!--每分钟分析一次log，做出性能测试-->
+        <param name="TimeSlice" value="60000" />
+        <appender-ref ref="kvPerfFileAppender" />
+    </appender>
+    <logger name="kvTimingLogger" level="info" additivity="false">
+        <appender-ref ref="kvCoalescingStatistics" />
+    </logger>
+    <!--end:web服务器性能log-->
+
     <root level="info">
         <!--<appender-ref ref="Console" />-->
         <appender-ref ref="web" />
