@@ -28,7 +28,7 @@ public class CodeUtilTest {
         setSessionParams.setClient_id(1120);
         setSessionParams.setCode(code);
         setSessionParams.setCt(ct);
-        setSessionParams.setSid(sid);
+        setSessionParams.setSgid(sid);
         System.out.println(CodeUtil.checkCode(setSessionParams));
     }
 }

@@ -11,14 +11,14 @@ public class BaseSidParams extends BaseApiParams {
     /**
      * session id
      */
-    @NotBlank(message = "uid不允许为空")
-    private String sid;
+    @NotBlank(message = "sgid不允许为空")
+    private String sgid;
 
-    public String getSid() {
-        return sid;
+    public String getSgid() {
+        return sgid;
     }
 
-    public void setSid(String sid) {
-        this.sid = sid;
+    public void setSgid(String sgid) {
+        this.sgid = sgid;
     }
 }

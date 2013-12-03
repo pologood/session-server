@@ -42,7 +42,7 @@ public class ControlSessionCoontroller {
             return result.toJSONString();
         }
 
-        if(!SessionServerUtil.checkSid(setSessionParams.getSid())){
+        if(!SessionServerUtil.checkSid(setSessionParams.getSgid())){
             result.put("status","50001");
             result.put("statusText","sid错误或已过期");
             return result.toJSONString();
@@ -54,7 +54,7 @@ public class ControlSessionCoontroller {
             return result.toJSONString();
         }
 
-        sessionService.setSession(setSessionParams.getSid(),setSessionParams.getUserInfo());
+        sessionService.setSession(setSessionParams.getSgid(),setSessionParams.getUserInfo());
 
         result.put("status","200");
 
@@ -80,7 +80,7 @@ public class ControlSessionCoontroller {
             return result.toJSONString();
         }
 
-        sessionService.deleteSession(deleteSessionParams.getSid());
+        sessionService.deleteSession(deleteSessionParams.getSgid());
 
         result.put("status","200");
 
