@@ -78,6 +78,30 @@
         </dependency>
 
 
+        <!--srart:aop++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jexl</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--end:aop++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
         <!--srart:log++++++++++++++++++++++++++++++++++++++++++++++++++++-->
         <dependency>
             <groupId>org.slf4j</groupId>

@@ -41,7 +41,7 @@ public class VerifySessionController {
             return result.toJSONString();
         }
 
-        if(!SessionServerUtil.checkSid(verifySidParams.getSid())){
+        if(!SessionServerUtil.checkSid(verifySidParams.getSgid())){
             result.put("status","50001");
             result.put("statusText","sid不存在或已过期");
             return result.toJSONString();
@@ -53,7 +53,7 @@ public class VerifySessionController {
             return result.toJSONString();
         }
 
-        JSONObject userInfo= sessionService.getSession(verifySidParams.getSid());
+        JSONObject userInfo= sessionService.getSession(verifySidParams.getSgid());
         if(userInfo==null){
             result.put("status","50001");
             result.put("statusText","sid不存在或已过期");

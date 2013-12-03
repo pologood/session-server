@@ -56,7 +56,7 @@ public class CodeUtil {
            return false;
         }
         String secret=APP_SECRET_MAP.get(appid);
-        StringBuilder codeBuilder=new StringBuilder(baseSidParams.getSid());
+        StringBuilder codeBuilder=new StringBuilder(baseSidParams.getSgid());
         codeBuilder.append(appid);
         codeBuilder.append(secret);
         codeBuilder.append(baseSidParams.getCt());

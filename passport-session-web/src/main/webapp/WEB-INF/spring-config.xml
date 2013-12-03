@@ -11,7 +11,14 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
     ">
 
-    <context:component-scan base-package="com.sogou.upd.passport.session"/>
+    <!--perf4j性能监控AOP-->
+    <bean id="timingAspect" class="org.perf4j.slf4j.aop.TimingAspect"/>
+    <aop:aspectj-autoproxy proxy-target-class="true">
+        <aop:include name="timingAspect"/>
+    </aop:aspectj-autoproxy>
+
+
+    <context:component-scan base-package="com.sogou.upd.passport.session.**"/>
     <context:annotation-config />
     <mvc:annotation-driven />
 
