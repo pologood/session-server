@@ -1,6 +1,6 @@
 package com.springapp.mvc;
 
-import com.sogou.upd.passport.session.util.SessionServerUtil;
+import com.sogou.upd.passport.session.sdk.util.SessionServerUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 

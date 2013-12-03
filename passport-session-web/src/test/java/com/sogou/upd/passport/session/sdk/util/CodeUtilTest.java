@@ -1,6 +1,6 @@
-package com.sogou.upd.passport.session.util;
+package com.sogou.upd.passport.session.sdk.util;
 
-import com.sogou.upd.passport.session.model.SetSessionParams;
+import com.sogou.upd.passport.session.sdk.model.SetSessionParams;
 import org.junit.Test;
 
 /**

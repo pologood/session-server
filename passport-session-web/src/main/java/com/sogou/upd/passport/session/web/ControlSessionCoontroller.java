@@ -1,12 +1,12 @@
 package com.sogou.upd.passport.session.web;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sogou.upd.passport.session.model.DeleteSessionParams;
-import com.sogou.upd.passport.session.model.SetSessionParams;
+import com.sogou.upd.passport.session.sdk.model.DeleteSessionParams;
+import com.sogou.upd.passport.session.sdk.model.SetSessionParams;
 import com.sogou.upd.passport.session.services.SessionService;
-import com.sogou.upd.passport.session.util.CodeUtil;
-import com.sogou.upd.passport.session.util.ControllerHelper;
-import com.sogou.upd.passport.session.util.SessionServerUtil;
+import com.sogou.upd.passport.session.sdk.util.CodeUtil;
+import com.sogou.upd.passport.session.sdk.util.ControllerHelper;
+import com.sogou.upd.passport.session.sdk.util.SessionServerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;

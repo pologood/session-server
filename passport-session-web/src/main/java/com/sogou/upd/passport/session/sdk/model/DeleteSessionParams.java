@@ -1,6 +1,4 @@
-package com.sogou.upd.passport.session.model;
-
-import org.hibernate.validator.constraints.NotBlank;
+package com.sogou.upd.passport.session.sdk.model;
 
 /**
  * User: ligang201716@sogou-inc.com

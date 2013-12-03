@@ -1,13 +1,10 @@
-package com.sogou.upd.passport.session.util;
+package com.sogou.upd.passport.session.sdk.util;
 
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 /**
  * User: ligang201716@sogou-inc.com

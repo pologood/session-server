@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.util;
+package com.sogou.upd.passport.session.sdk.util;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
