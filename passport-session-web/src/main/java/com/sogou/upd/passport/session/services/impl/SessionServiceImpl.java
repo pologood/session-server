@@ -2,9 +2,9 @@ package com.sogou.upd.passport.session.services.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sogou.upd.passport.session.services.SessionService;
-import com.sogou.upd.passport.session.sdk.util.CommonConstant;
-import com.sogou.upd.passport.session.sdk.util.KvUtil;
-import com.sogou.upd.passport.session.sdk.util.redis.RedisClientTemplate;
+import com.sogou.upd.passport.session.util.CommonConstant;
+import com.sogou.upd.passport.session.util.KvUtil;
+import com.sogou.upd.passport.session.util.redis.RedisClientTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

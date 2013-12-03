@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.util;
+package com.sogou.upd.passport.session.util;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

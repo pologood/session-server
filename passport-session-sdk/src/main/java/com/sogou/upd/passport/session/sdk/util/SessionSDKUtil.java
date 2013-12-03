@@ -12,6 +12,8 @@ import java.util.Date;
  */
 public class SessionSDKUtil {
 
+    private static final byte VERSION=1;
+
     //创建SID的key
     private static String CHECK_SID_KEY = "FqMVs!@%&*$@#DWckun%%@@!@=*S:y^s0$Flw~yW>xZ~8#A4)bQ2Hr?";
 
@@ -26,6 +28,10 @@ public class SessionSDKUtil {
      * @return
      */
     public static boolean checkSid(String sid) {
+        //校验版本是否是支持的版本
+        if(!checkVersion(sid)){
+            return true;
+        }
         //检测sid是否为空
         if (StringUtil.isBlank(sid)||sid.length()!=23) {
             throw new IllegalArgumentException("passportid is blank or length!=23");
@@ -36,6 +42,21 @@ public class SessionSDKUtil {
         }
         //sid是否过有效期
         return checkSidExpDate(sid);
+    }
+
+
+    /**
+     * 校验sid的版本是否是支持的版本如果不是返回成功直接走cache
+     * @param sid
+     * @return
+     */
+    private static boolean checkVersion(String sid){
+        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte version=sidBytes[0];
+        if(version==VERSION){
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -1,6 +1,6 @@
-package com.sogou.upd.passport.session.sdk.util;
+package com.sogou.upd.passport.session.util;
 
-import com.sogou.upd.passport.session.sdk.model.BaseSidParams;
+import com.sogou.upd.passport.session.model.BaseSidParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.util.redis;
+package com.sogou.upd.passport.session.util.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
