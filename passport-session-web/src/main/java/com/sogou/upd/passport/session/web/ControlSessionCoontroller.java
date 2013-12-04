@@ -54,7 +54,7 @@ public class ControlSessionCoontroller {
             return result.toJSONString();
         }
 
-        sessionService.setSession(setSessionParams.getSgid(),setSessionParams.getUserInfo());
+        sessionService.setSession(setSessionParams.getSgid(),setSessionParams.getUser_info());
 
         result.put("status","200");
 

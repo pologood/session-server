@@ -13,14 +13,14 @@ public class SetSessionParams extends BaseSidParams{
      * 用户基本信息
      */
     @NotBlank(message = "userInfo不能为空")
-    private String userInfo;
+    private String user_info;
 
 
-    public String getUserInfo() {
-        return userInfo;
+    public String getUser_info() {
+        return user_info;
     }
 
-    public void setUserInfo(String userInfo) {
-        this.userInfo = userInfo;
+    public void setUser_info(String user_info) {
+        this.user_info = user_info;
     }
 }
