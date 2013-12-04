@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.util;
+package com.sogou.upd.passport.session.util;
 
 /**
  * User: ligang201716@sogou-inc.com

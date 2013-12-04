@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.util;
+package com.sogou.upd.passport.session.util;
 
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;

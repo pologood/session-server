@@ -1,6 +1,9 @@
 package com.sogou.upd.passport.session.sdk.util;
 
-import com.sogou.upd.passport.session.sdk.model.SetSessionParams;
+import com.sogou.upd.passport.session.model.SetSessionParams;
+import com.sogou.upd.passport.session.util.CodeUtil;
+import com.sogou.upd.passport.session.util.SessionCommonUtil;
+import com.sogou.upd.passport.session.util.SessionServerUtil;
 import org.junit.Test;
 
 /**
@@ -13,7 +16,7 @@ public class CodeUtilTest {
     @Test
     public void testCheckCode() throws Exception {
 
-        String sid=SessionServerUtil.createSessionSid("dasda@sogou-inc.com");
+        String sid= SessionServerUtil.createSessionSid("dasda@sogou-inc.com");
 
         StringBuilder codeBuilder=new StringBuilder(sid);
         long ct=System.currentTimeMillis();

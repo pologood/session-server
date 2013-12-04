@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.util;
+package com.sogou.upd.passport.session.util;
 
 /**
  * Sogou passport Session-server java SDK

@@ -47,9 +47,9 @@
         </constructor-arg>
     </bean>
 
-    <bean id="redisDataSource" class="com.sogou.upd.passport.session.sdk.util.redis.RedisDataSource"></bean>
+    <bean id="redisDataSource" class="com.sogou.upd.passport.session.util.redis.RedisDataSource"></bean>
 
-    <bean id="redisClientTemplate" class="com.sogou.upd.passport.session.sdk.util.redis.RedisClientTemplate"/>
+    <bean id="redisClientTemplate" class="com.sogou.upd.passport.session.util.redis.RedisClientTemplate"/>
 
 
 
@@ -70,7 +70,7 @@
     </bean>
     <bean id="kvTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
           p:connectionFactory-ref="kvConnectionFactory"/>
-    <bean id="kvUtils" class=" com.sogou.upd.passport.session.sdk.util.KvUtil">
+    <bean id="kvUtils" class=" com.sogou.upd.passport.session.util.KvUtil">
         <property name="kvPrefix" value="${kv.prefix}"/>
         <property name="kvTemplate" ref="kvTemplate"/>
     </bean>

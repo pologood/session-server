@@ -1,4 +1,4 @@
-package com.sogou.upd.passport.session.sdk.model;
+package com.sogou.upd.passport.session.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 
