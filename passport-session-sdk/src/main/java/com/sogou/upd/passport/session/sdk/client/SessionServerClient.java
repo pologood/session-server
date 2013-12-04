@@ -58,7 +58,7 @@ public class SessionServerClient {
      * 适用场景：用户做非核心操作，阅读翻页，用户行为log记录
      * 实现：优先使用本地cache进行校验，本地cache miss再到session server校验
      *
-     * @param sid 要检验的SID
+     * @param sgid 要检验的SID
      * @param userIP 用户IP
      * @return 返回结果（json）
      *
@@ -87,7 +87,7 @@ public class SessionServerClient {
      * 适用场景：用户做核心操作时使用，修改个人信息，涉及资金接口
      * 实现：远程调用session server验证，验证结果更新本地cache
      *
-     * @param sid 要检验的SID
+     * @param sgid 要检验的SID
      * @param userIP 用户IP
      * @return 返回结果（json）
      *

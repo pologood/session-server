@@ -12,6 +12,9 @@ import net.sf.ehcache.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: hujunfei
@@ -27,8 +30,8 @@ public class EhcacheServiceImpl implements EhcacheService {
     private CacheManager cacheManager = null;
     private CacheConfiguration cacheConfiguration = null;
 
-    private int maxElements = 10000000;
-    private int cacheInstanceSize = 100;
+    private int maxElements = 1000000;
+    private int cacheInstanceSize = 10;
     private int cacheExpire = CommonConfigUtil.DEFAULT_EHCACHE_EXPIRE;
 
 
@@ -36,11 +39,13 @@ public class EhcacheServiceImpl implements EhcacheService {
         if (cacheConfiguration == null) {
             cacheConfiguration = new CacheConfiguration();
 
+            int maxElementsPerCache = (maxElements + cacheInstanceSize-1) / cacheInstanceSize;  // 设置单个cache的缓存为ceil(平均数)
+
             cacheConfiguration.setEternal(false);   // 不永久存储
             cacheConfiguration.setDiskPersistent(false);    // 不存储磁盘
             cacheConfiguration.setOverflowToDisk(false);    // 超过内存限制不存磁盘
             cacheConfiguration.setTimeToLiveSeconds(cacheExpire);   // 默认过期时间
-            cacheConfiguration.setMaxElementsInMemory(maxElements);
+            cacheConfiguration.setMaxElementsInMemory(maxElementsPerCache);     // 测试发现，此数值为单个cache的最大记录数
         }
         Configuration configuration = new Configuration();
         configuration.setDefaultCacheConfiguration(cacheConfiguration);
@@ -81,6 +86,18 @@ public class EhcacheServiceImpl implements EhcacheService {
             cache.put(new Element(key, value));
         }
     }
+
+
+/*    @Override
+    public String queryCacheSize() {
+        String[] strs = this.getCacheManagerInstance().getCacheNames();
+        Map map = new HashMap();
+        map.put("all", strs.length);
+        for (int i=0; i<strs.length; i++) {
+            map.put(strs[i], this.getCacheInstance(strs[i]).getMemoryStoreSize()+"|"+this.getCacheInstance(strs[i]).calculateInMemorySize()+"|"+this.getCacheInstance(strs[i]).getMaxElementsInMemory());
+        }
+        return map.toString();
+    }*/
 
 
     /*
