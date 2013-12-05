@@ -27,7 +27,6 @@
         <javamail.version>1.4.5</javamail.version>
     </properties>
 
-
     <distributionManagement>
         <repository>
             <id>nexus</id>
