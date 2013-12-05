@@ -1,5 +1,8 @@
 package com.springapp.mvc;
 
+import com.sogou.upd.passport.session.model.BaseApiParams;
+import com.sogou.upd.passport.session.model.BaseSidParams;
+import com.sogou.upd.passport.session.util.CodeUtil;
 import com.sogou.upd.passport.session.util.SessionSDKUtil;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
 import junit.framework.Assert;
@@ -129,6 +132,8 @@ public class EncodeTest {
         Thread.sleep(100l);
         System.out.println(SessionServerUtil.checkSid(sid));
     }
+
+
 
 
     @Test
