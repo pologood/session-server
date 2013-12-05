@@ -1,9 +1,12 @@
 package com.springapp.mvc;
 
+import com.sogou.upd.passport.session.util.SessionSDKUtil;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
+import junit.framework.Assert;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
+import javax.validation.constraints.AssertTrue;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -137,7 +140,7 @@ public class EncodeTest {
               System.out.println("sid:"+sid);
               System.out.println("passportid:"+"ldasdahjkhbu@#@#%$^%^%@sogou.com"+i);
             }
-//            SessionServerUtil.(sid);
+            Assert.assertTrue(SessionSDKUtil.checkSid(sid));
             if(i%10000==0){
                 long endDate=System.currentTimeMillis();
                 System.out.println(i+":"+(endDate-startDate));

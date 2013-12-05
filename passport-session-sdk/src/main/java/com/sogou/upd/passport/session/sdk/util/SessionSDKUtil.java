@@ -1,6 +1,5 @@
 package com.sogou.upd.passport.session.sdk.util;
 
-import org.apache.commons.codec.binary.Base64;
 
 import java.util.Date;
 
@@ -51,7 +50,7 @@ public class SessionSDKUtil {
      * @return
      */
     private static boolean checkVersion(String sid){
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte version=sidBytes[0];
         if(version==VERSION){
             return true;
@@ -79,7 +78,7 @@ public class SessionSDKUtil {
      * @return
      */
     private static Date getDate(String sid) {
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte[] timeBytes = new byte[4];
         System.arraycopy(sidBytes, 1, timeBytes, 0, timeBytes.length);
         int time = SessionCommonUtil.bytes2Int(timeBytes);
@@ -96,7 +95,7 @@ public class SessionSDKUtil {
         if (StringUtil.isBlank(sid)) {
             throw new IllegalArgumentException("passportid is blank");
         }
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte[] checkByte = new byte[4];
         System.arraycopy(sidBytes, 13, checkByte, 0, checkByte.length);
         int sidCheckInt= SessionCommonUtil.bytes2Int(checkByte);

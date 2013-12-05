@@ -1,6 +1,5 @@
 package com.sogou.upd.passport.session.util;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Date;
@@ -34,8 +33,8 @@ public class SessionSDKUtil {
             return true;
         }
         //检测sid是否为空
-        if (StringUtils.isBlank(sid)||sid.length()!=23) {
-            throw new IllegalArgumentException("passportid is blank or length!=30");
+        if (StringUtils.isBlank(sid)) {
+            throw new IllegalArgumentException("passportid is blank");
         }
         //sid自校验
         if (!checkSidMd5(sid)) {
@@ -52,7 +51,7 @@ public class SessionSDKUtil {
      * @return
      */
     private static boolean checkVersion(String sid){
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte version=sidBytes[0];
         if(version==VERSION){
             return true;
@@ -80,7 +79,7 @@ public class SessionSDKUtil {
      * @return
      */
     private static Date getDate(String sid) {
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte[] timeBytes = new byte[4];
         System.arraycopy(sidBytes, 1, timeBytes, 0, timeBytes.length);
         int time = SessionCommonUtil.bytes2Int(timeBytes);
@@ -97,7 +96,7 @@ public class SessionSDKUtil {
         if (StringUtils.isBlank(sid)) {
             throw new IllegalArgumentException("passportid is blank");
         }
-        byte[] sidBytes = Base64.decodeBase64(sid);
+        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
         byte[] checkByte = new byte[4];
         System.arraycopy(sidBytes, 13, checkByte, 0, checkByte.length);
         int sidCheckInt=SessionCommonUtil.bytes2Int(checkByte);

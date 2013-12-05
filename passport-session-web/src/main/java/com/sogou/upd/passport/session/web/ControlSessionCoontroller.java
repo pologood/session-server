@@ -9,6 +9,8 @@ import com.sogou.upd.passport.session.util.ControllerHelper;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.perf4j.aop.Profiled;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class ControlSessionCoontroller {
+
+    private static Logger logger = LoggerFactory.getLogger(ControlSessionCoontroller.class);
 
     @Autowired
     private SessionService sessionService;
