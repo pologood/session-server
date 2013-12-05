@@ -19,9 +19,16 @@ public interface VerifyService {
      */
     public String verifySession(String sid, String userIp, boolean isWeak);
 
-
+    /**
+     * 设置clientId
+     * @param clientId
+     */
     public void setClientId(int clientId);
 
+    /**
+     * 设置server secret
+     * @param serverSecretKey
+     */
     public void setServerSecretKey(String serverSecretKey);
 
 }

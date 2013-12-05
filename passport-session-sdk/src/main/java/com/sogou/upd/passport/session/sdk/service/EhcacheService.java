@@ -18,4 +18,6 @@ public interface EhcacheService {
     public void setCacheInstanceSize(int cacheInstanceSize);
 
     public void setCacheExpire(int expire);
+
+/*    public String queryCacheSize();*/
 }
