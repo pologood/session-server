@@ -56,7 +56,7 @@ public class ControlSessionCoontroller {
 
         sessionService.setSession(setSessionParams.getSgid(),setSessionParams.getUser_info());
 
-        result.put("status","200");
+        result.put("status","0");
 
         return result.toJSONString();
     }
@@ -82,7 +82,7 @@ public class ControlSessionCoontroller {
 
         sessionService.deleteSession(deleteSessionParams.getSgid());
 
-        result.put("status","200");
+        result.put("status","0");
 
         return result.toJSONString();
     }

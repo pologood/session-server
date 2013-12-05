@@ -60,7 +60,7 @@ public class VerifySessionController {
             return result.toJSONString();
         }
 
-        result.put("status","200");
+        result.put("status","0");
         result.put("data",userInfo);
 
         return result.toJSONString();
