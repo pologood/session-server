@@ -43,7 +43,11 @@ public class SessionServiceImpl implements SessionService {
         }
 
         if(StringUtils.isNotBlank(value)){
-           return JSONObject.parseObject(value);
+            try{
+                return JSONObject.parseObject(value);
+            }catch (Exception e){
+                logger.error("value parse json error, value:"+value);
+            }
         }
 
         return null;
