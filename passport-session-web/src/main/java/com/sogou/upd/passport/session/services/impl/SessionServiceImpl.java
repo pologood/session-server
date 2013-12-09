@@ -43,7 +43,11 @@ public class SessionServiceImpl implements SessionService {
         }
 
         if(StringUtils.isNotBlank(value)){
-           return JSONObject.parseObject(value);
+            try{
+                return JSONObject.parseObject(value);
+            }catch (Exception e){
+                logger.error("value parse json error, value:"+value);
+            }
         }
 
         return null;
@@ -60,7 +64,7 @@ public class SessionServiceImpl implements SessionService {
     public void setSession(String sid, String userInfo) {
         String key= CommonConstant.PREFIX_SESSION+sid;
         try {
-            kvUtil.set(key,userInfo);
+            kvUtil.set(key,userInfo,CommonConstant.SESSION_EXPIRSE);
         } catch (Exception e) {
             logger.error("set kv fail",e);
         }

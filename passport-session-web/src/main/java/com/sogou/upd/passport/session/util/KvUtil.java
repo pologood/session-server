@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * User: ligang201716@sogou-inc.com
  * Date: 13-12-2
@@ -22,11 +24,11 @@ public class KvUtil {
     private String kvPrefix;
 
     @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set")
-    public void set(String key, String value) throws Exception{
+    public void set(String key, String value,long timeOut) throws Exception{
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
-            valueOperations.set(storeKey,value);
+            valueOperations.set(storeKey,value,timeOut, TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.error("[Cache] set cache fail, key:" + storeKey + " value:" + value, e);
             try {

@@ -22,11 +22,6 @@
         </encoder>
         <!--<param name="BufferedIO" value="true" />-->
     </appender>
-    <appender name="web" class="com.sogou.upd.passport.session.async.AsyncMultiThreadAppender">
-        <queueSize>512</queueSize>
-        <workerSize>1</workerSize>
-        <appender-ref ref="Console" />
-    </appender>
 
     <!--start:redis请求log-->
     <appender name="redisPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -88,6 +83,6 @@
 
     <root level="info">
         <!--<appender-ref ref="Console" />-->
-        <appender-ref ref="web" />
+        <appender-ref ref="Console" />
     </root>
 </configuration>
