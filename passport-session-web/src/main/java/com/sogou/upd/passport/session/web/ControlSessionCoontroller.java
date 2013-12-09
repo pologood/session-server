@@ -41,7 +41,7 @@ public class ControlSessionCoontroller {
         // 参数校验
         String validateResult = ControllerHelper.validateParams(setSessionParams);
         if(StringUtils.isNotBlank(validateResult)){
-            result.put("status","1002");
+            result.put("status","10002");
             result.put("statusText",validateResult);
             return result.toJSONString();
         }
@@ -73,7 +73,7 @@ public class ControlSessionCoontroller {
         // 参数校验
         String validateResult = ControllerHelper.validateParams(deleteSessionParams);
         if(StringUtils.isNotBlank(validateResult)){
-            result.put("status","1002");
+            result.put("status","10002");
             result.put("statusText",validateResult);
             return result.toJSONString();
         }

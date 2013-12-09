@@ -36,7 +36,7 @@ public class VerifySessionController {
         // 参数校验
         String validateResult = ControllerHelper.validateParams(verifySidParams);
         if(StringUtils.isNotBlank(validateResult)){
-            result.put("status","1002");
+            result.put("status","10002");
             result.put("statusText",validateResult);
             return result.toJSONString();
         }

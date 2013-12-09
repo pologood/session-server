@@ -32,8 +32,8 @@ public class SessionSDKUtil {
             return true;
         }
         //检测sid是否为空
-        if (StringUtil.isBlank(sid)||sid.length()!=23) {
-            throw new IllegalArgumentException("passportid is blank or length!=23");
+        if (StringUtil.isBlank(sid)) {
+            throw new IllegalArgumentException("passportid is blank ");
         }
         //sid自校验
         if (!checkSidMd5(sid)) {
