@@ -1,5 +1,6 @@
 package com.sogou.upd.passport.session.util.redis;
 
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class RedisClientTemplate {
 
     private static final Logger log = LoggerFactory.getLogger(RedisClientTemplate.class);
 
+    private final static String REDIS_PERF4J_LOGGER = "redisTimingLogger";
+
     @Autowired
     private RedisDataSource redisDataSource;
 
@@ -34,6 +37,7 @@ public class RedisClientTemplate {
      * @param value
      * @return
      */
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_set")
     public String set(String key, String value) {
         String result = null;
 
@@ -59,6 +63,7 @@ public class RedisClientTemplate {
      * @param key
      * @return
      */
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_get")
     public String get(String key) {
         String result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -79,6 +84,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_exists")
     public Boolean exists(String key) {
         Boolean result = false;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -97,6 +103,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_type")
     public String type(String key) {
         String result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -123,6 +130,7 @@ public class RedisClientTemplate {
      * @param seconds
      * @return
      */
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_expire")
     public Long expire(String key, int seconds) {
         Long result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -149,6 +157,7 @@ public class RedisClientTemplate {
      * @param unixTime
      * @return
      */
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_expireAt")
     public Long expireAt(String key, long unixTime) {
         Long result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -168,6 +177,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_ttl")
     public Long ttl(String key) {
         Long result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -187,6 +197,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_setbit")
     public boolean setbit(String key, long offset, boolean value) {
 
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
@@ -564,6 +575,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    @Profiled(el = true, logger = REDIS_PERF4J_LOGGER, tag = "redis_del")
     public Long del(String key) {
         Long result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
