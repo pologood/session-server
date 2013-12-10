@@ -21,27 +21,28 @@ public class CodeUtil {
     private static ConcurrentHashMap<Integer,String> APP_SECRET_MAP=new ConcurrentHashMap<Integer, String>();
 
     static{
-        //bobo
-        APP_SECRET_MAP.put(1001,"c3425ddc98da66f51628ee6a59eb08cb784d610c");
-        //搜狗游戏
-        APP_SECRET_MAP.put(1100,"yRWHIkB$2.9Esk>7mBNIFEcr:8\\[Cv");
-        //搜狗通行证
-        APP_SECRET_MAP.put(1120,"4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY");
-        //应用市场
-        APP_SECRET_MAP.put(1110,"FqMV=*S:y^s0$FlwyW>xZ8#A4bQ2Hr");
-        //搜狗地图
-        APP_SECRET_MAP.put(1024,"Z>DsObdUXTV,?)uYu7+V4T#14J2F");
-        //搜狗邮箱
-        APP_SECRET_MAP.put(1014,"6n$gFQf<=Az_3MZb#W?4&LCm~)Qhm{");
-        //浏览器输入法桌面
-        APP_SECRET_MAP.put(1044,"=#dW$h%q)6xZB#m#lu'x]]wP=\\FUO7");
-        //浏览器
-        APP_SECRET_MAP.put(1065,"tg6Fd%/Ik5l3#6(,UB0%p5[+a&1(Cd");
-        //搜狗百科
-        APP_SECRET_MAP.put(1121,"JaE]Masjc2#0D0XKYc8%uN3c9P5HV1");
-        //搜狗阅读
-        APP_SECRET_MAP.put(1115,"RBCqf6a448Wj5a8#KF&POL75*5GBQ5");
-
+        APP_SECRET_MAP.put(1001,"c3425ddc98da66f51628ee6a59eb08cb784d610c");//bobo
+        APP_SECRET_MAP.put(1100,"yRWHIkB$2.9Esk>7mBNIFEcr:8\\[Cv");//搜狗游戏
+        APP_SECRET_MAP.put(1120,"4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY");//搜狗通行证
+        APP_SECRET_MAP.put(1110,"FqMV=*S:y^s0$FlwyW>xZ8#A4bQ2Hr");//应用市场
+        APP_SECRET_MAP.put(1024,"Z>DsObdUXTV,?)uYu7+V4T#14J2F");//搜狗地图
+        APP_SECRET_MAP.put(1044,"=#dW$h%q)6xZB#m#lu'x]]wP=\\FUO7");//浏览器输入法桌面
+        APP_SECRET_MAP.put(1065,"tg6Fd%/Ik5l3#6(,UB0%p5[+a&1(Cd");//浏览器
+        APP_SECRET_MAP.put(1121,"JaE]Masjc2#0D0XKYc8%uN3c9P5HV1");//搜狗百科
+        APP_SECRET_MAP.put(1086,"Ds9h4/7a*d?(qcodS&oeGw=<s=Q&#$");//搜狗开放平台
+        APP_SECRET_MAP.put(2000,"\\NTA'1]UY!SJ6P8ad|zNI$9AMkO4W&");//笑话
+        APP_SECRET_MAP.put(2001,"XFUKkwkoSFJ>$&M=3Z[1w2Fw!_~8qZ");//LOST
+        APP_SECRET_MAP.put(2002,"hc,H:O%eq`748f,zXs]}m%7g%kI>H0");//壁纸
+        APP_SECRET_MAP.put(1112,"Q*FO8%4SG4@N$RcgX2UsQ)g5BK39TX");//搜狗问答
+        APP_SECRET_MAP.put(2003,"VV(x^d5~`i#SnO]D,5'&5UtTBv-lp[");//输入法
+        APP_SECRET_MAP.put(1099,"Ge,+)2%LT(oOYoO?i<B^0`E7rQsgUg");//手机助手
+        APP_SECRET_MAP.put(1119,"c79I[mL5*I2SWST5IQ2otZsm23Nlew");//站长平台
+        APP_SECRET_MAP.put(2004,"NLKo43`^Ek`2'JlV%M=0b]GRL&y4~k");//opsms
+        APP_SECRET_MAP.put(2005,"P|Me0f(0~[wD}\"/&2G8)x\\%Dh!53/^");//搜狗指数
+        APP_SECRET_MAP.put(1115,"RBCqf6a448Wj5a8#KF&POL75*5GBQ5");//搜狗阅读
+        APP_SECRET_MAP.put(2006,"9i1J4(P;TWTw=9)KGs7xA^LMEI+|2v");//搜狗新闻搜索
+        APP_SECRET_MAP.put(2007,"udj0D>~Ez`:%Zbj`wFfh8mW`lB[{(]");//随便看看
+        APP_SECRET_MAP.put(2008,"O/R*!&`.=K!n/~FMH`))7JbD8:.kT)");//搜狗游戏盒子
 
     }
 
