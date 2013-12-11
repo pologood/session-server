@@ -34,7 +34,7 @@ public class SessionSDKUtil {
         }
         //检测sid是否为空
         if (StringUtils.isBlank(sid)) {
-            throw new IllegalArgumentException("passportid is blank");
+            throw new IllegalArgumentException("sgid is blank");
         }
         //sid自校验
         if (!checkSidMd5(sid)) {
