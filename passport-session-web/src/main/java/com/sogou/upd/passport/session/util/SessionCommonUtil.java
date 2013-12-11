@@ -73,6 +73,7 @@ public class SessionCommonUtil {
             return "";
         }
         byte[] bytes=calculateMD5(str.getBytes());
+
         return String.valueOf(Hex.encodeHex(bytes));
     }
 

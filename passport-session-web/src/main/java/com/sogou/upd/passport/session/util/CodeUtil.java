@@ -67,7 +67,7 @@ public class CodeUtil {
             logger.debug("codeBuilder:"+codeBuilder.toString()+",code:"+code+",result:"+result);
         }
         if(!result){
-            logger.warn("codeBuilder:"+codeBuilder.toString()+",params_code"+baseSidParams.getCode()+",code:"+code+",result:"+result);
+            logger.warn("codeBuilder:"+codeBuilder.toString()+",params_code:"+baseSidParams.getCode()+",code:"+code+",result:"+result);
         }
         return result;
     }

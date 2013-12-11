@@ -19,5 +19,9 @@ public interface EhcacheService {
 
     public void setCacheExpire(int expire);
 
+    public long getCacheHits();
+
+    public long getCacheMisses();
+
 /*    public String queryCacheSize();*/
 }

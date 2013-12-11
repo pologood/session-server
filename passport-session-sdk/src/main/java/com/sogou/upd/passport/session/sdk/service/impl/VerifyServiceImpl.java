@@ -23,7 +23,7 @@ public class VerifyServiceImpl implements VerifyService {
     private static String ERR_MSG_PARAMS = "{\"data\": {},\"status\": \"10002\",\"statusText\": \"参数错误,请输入必填的参数或参数验证失败\"}";
     private static String ERR_MSG_SIG = "{\"data\": {},\"status\": \"50001\",\"statusText\": \"sid错误或已过期\"}";
 
-    private EhcacheService ehcacheService;
+    EhcacheService ehcacheService;
     private RemoteSessionService remoteSessionService;
 
     private int clientId;

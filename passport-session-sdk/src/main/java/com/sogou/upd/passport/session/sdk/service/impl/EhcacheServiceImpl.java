@@ -12,9 +12,6 @@ import net.sf.ehcache.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created with IntelliJ IDEA.
  * User: hujunfei
@@ -70,7 +67,6 @@ public class EhcacheServiceImpl implements EhcacheService {
             Element element = cache.get(key);
             value = element == null ? null : (String) element.getObjectValue();
         }
-
         return value;
     }
 
@@ -158,5 +154,42 @@ public class EhcacheServiceImpl implements EhcacheService {
 
     public void setCacheExpire(int cacheExpire) {
         this.cacheExpire = cacheExpire;
+    }
+
+    @Override
+    public long getCacheHits() {
+        long hits=0l;
+        try{
+            String[] cacheNames= this.getCacheManagerInstance().getCacheNames();
+            for(String cacheName:cacheNames){
+                Cache cache= this.getCacheManagerInstance().getCache(cacheName);
+                hits+=cache.getStatistics().getCacheHits();
+            }
+        }catch (Exception e){
+            logger.error("ehcache getHits error:",e);
+        }
+
+        return hits;
+    }
+
+    @Override
+    public long getCacheMisses() {
+        long misses=0l;
+        try{
+            String[] cacheNames= this.getCacheManagerInstance().getCacheNames();
+            for(String cacheName:cacheNames){
+                Cache cache= this.getCacheManagerInstance().getCache(cacheName);
+                misses+=cache.getStatistics().getCacheMisses();
+            }
+        }catch (Exception e){
+            logger.error("ehcache getHits error:",e);
+        }
+
+        return misses;
+    }
+
+
+    public void shooting(){
+
     }
 }

@@ -1,5 +1,6 @@
 package com.sogou.upd.passport.session.sdk.client;
 
+import com.sogou.upd.passport.session.sdk.service.EhcacheService;
 import com.sogou.upd.passport.session.sdk.service.VerifyService;
 import com.sogou.upd.passport.session.sdk.service.impl.VerifyServiceImpl;
 
@@ -12,10 +13,11 @@ import com.sogou.upd.passport.session.sdk.service.impl.VerifyServiceImpl;
  */
 public class SessionServerClient {
 
-/*    private int clientId;
+/*  private int clientId;
     private String serverSecret;
     private int cacheMaxElements;
-    private int cacheExpire;*/
+    private int cacheExpire;
+*/
 
     private VerifyService verifyService;
 
@@ -108,4 +110,5 @@ public class SessionServerClient {
     public String coerciveVerifySid(String sgid,String userIP) {
         return verifyService.verifySession(sgid, userIP, false);
     }
+
 }
