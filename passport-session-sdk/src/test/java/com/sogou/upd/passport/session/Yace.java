@@ -21,14 +21,14 @@ public class Yace implements  Runnable{
     public void run() {
         long startTime=System.currentTimeMillis();
         System.out.println("start:"+a);
-        for(int i=0;i<10000;i++){
+        for(int i=0;i<1000;i++){
             String sgid=setSession(i);
             for(int j=0;j <10;j++){
                 getSession(sgid);
             }
         }
         long endTime=System.currentTimeMillis();
-        System.out.println("end:"+a+",time:"+(endTime=startTime));
+        System.out.println("end:"+a+",time:"+(endTime-startTime));
 
     }
 
@@ -47,7 +47,6 @@ public class Yace implements  Runnable{
             if(!result.contains("\"status\":\"0\"")){
                System.out.println(result);
             }
-//            System.out.println(result);
         } catch (RuntimeException re) {
         }
         return sgid;
@@ -74,7 +73,7 @@ public class Yace implements  Runnable{
 
     public static void main(String[] args){
         ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(50);
-        for(int i=0;i<100;i++){
+        for(int i=0;i<1000;i++){
             Yace ya=new Yace();
             ya.a=i+"";
             scheduledThreadPool.execute(ya);

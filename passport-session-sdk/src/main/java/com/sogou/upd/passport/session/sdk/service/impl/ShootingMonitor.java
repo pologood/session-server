@@ -17,7 +17,7 @@ import java.util.Date;
  * Date: 13-12-10
  * Time: 下午7:28
  */
-public class ShootingMonitor implements Runnable{
+public class ShootingMonitor implements Runnable {
 
     private static String REPORT_SHOOTING_URL = "http://session.account.sogou.com.z.sogou-op.org/report_shooting";
 
@@ -27,56 +27,55 @@ public class ShootingMonitor implements Runnable{
 
     private long hitsLastMin;
 
-    private long missesLastMin=0;
+    private long missesLastMin = 0;
 
-    private SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public ShootingMonitor(EhcacheService ehcacheService){
-        this.ehcacheService=ehcacheService;
-        hitsLastMin=0;
-        missesLastMin=0;
+    public ShootingMonitor(EhcacheService ehcacheService) {
+        this.ehcacheService = ehcacheService;
+        hitsLastMin = 0;
+        missesLastMin = 0;
     }
 
     @Override
     public void run() {
-       while (true){
-           if(ehcacheService==null){
-               logger.error("session server SDK ehcacheService is null");
-           }
-           long hits=ehcacheService.getCacheHits();
-           long misses=ehcacheService.getCacheMisses();
-           long hitsMin=hits-hitsLastMin;
-           long misMin= misses-missesLastMin;
-           long countMin=hitsMin+misMin;
-           double shooting=1;
-           if(countMin>0){
-               shooting=hitsMin/(hitsMin+misMin);
-           }
+        if (ehcacheService == null) {
+            logger.error("session server SDK ehcacheService is null");
+        }
+        long hits = ehcacheService.getCacheHits();
+        long misses = ehcacheService.getCacheMisses();
+        long hitsMin = hits - hitsLastMin;
+        long misMin = misses - missesLastMin;
+        long countMin = hitsMin + misMin;
+        double shooting = 1;
+        if (countMin > 0) {
+            shooting = hitsMin / (hitsMin + misMin);
+        }
+        logger.info("[session-server SDK] local cache hits:" + hitsMin + ",misses=" + misMin + ",shooting=" + shooting);
 
-           logger.info("[session-server SDK] local cache hits:"+hitsMin+",misses="+misMin+",shooting="+shooting);
-       }
+        this.sendShootingLog(hitsMin,misMin,shooting);
     }
 
-    private void sendShootingLog(long hitsMin,long misMin,double shooting){
-        RequestModel requestModel=new RequestModel(REPORT_SHOOTING_URL);
+    private void sendShootingLog(long hitsMin, long misMin, double shooting) {
+        RequestModel requestModel = new RequestModel(REPORT_SHOOTING_URL);
         requestModel.setHttpMethodEnum(HttpMethodEnum.POST);
         InetAddress addr;
-        String ip="";
-        String address="";
+        String ip = "";
+        String address = "";
         try {
             addr = InetAddress.getLocalHost();
-            ip=addr.getHostAddress();//获得本机IP
-            address=addr.getHostName();//获得本机名称
+            ip = addr.getHostAddress();//获得本机IP
+            address = addr.getHostName();//获得本机名称
         } catch (UnknownHostException e) {
             logger.warn("[session-server SDK] getLocalHost error");
         }
-        requestModel.addParam("ip",ip);
-        requestModel.addParam("address",address);
-        requestModel.addParam("hitsMin",hitsMin);
-        requestModel.addParam("misMin",misMin);
-        requestModel.addParam("shooting",shooting);
-        String time=dateformat.format(new Date());
-        requestModel.addParam("time",time);
+        requestModel.addParam("ip", ip);
+        requestModel.addParam("address", address);
+        requestModel.addParam("hitsMin", hitsMin);
+        requestModel.addParam("misMin", misMin);
+        requestModel.addParam("shooting", shooting);
+        String time = dateformat.format(new Date());
+        requestModel.addParam("time", time);
 
         HttpClientUtil.execute(requestModel);
     }

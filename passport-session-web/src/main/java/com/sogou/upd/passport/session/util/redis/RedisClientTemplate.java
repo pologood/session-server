@@ -76,7 +76,7 @@ public class RedisClientTemplate {
             result = shardedJedis.get(key);
 
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            log.error("redis error"+e.getMessage(), e);
             broken = true;
         } finally {
             redisDataSource.returnResource(shardedJedis, broken);

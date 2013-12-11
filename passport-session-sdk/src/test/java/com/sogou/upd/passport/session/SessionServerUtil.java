@@ -1,6 +1,7 @@
 package com.sogou.upd.passport.session;
 
 import com.sogou.upd.passport.session.sdk.util.Base62;
+import com.sogou.upd.passport.session.sdk.util.CoderUtil;
 import com.sogou.upd.passport.session.sdk.util.SessionCommonUtil;
 import org.apache.commons.codec.binary.StringUtils;
 
@@ -188,5 +189,10 @@ public class SessionServerUtil {
             }
         }
         return true;
+    }
+
+
+    public void testCode(){
+        String a="AVKn1YLaFialAGdnEmET8DQg11204xoG%9>2Z67iL5]OdtBq$l#>DfW@TY1386730882698";
     }
 }

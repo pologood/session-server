@@ -3,6 +3,7 @@ package com.springapp.mvc;
 import com.sogou.upd.passport.session.model.BaseApiParams;
 import com.sogou.upd.passport.session.model.BaseSidParams;
 import com.sogou.upd.passport.session.util.CodeUtil;
+import com.sogou.upd.passport.session.util.SessionCommonUtil;
 import com.sogou.upd.passport.session.util.SessionSDKUtil;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
 import junit.framework.Assert;
@@ -153,5 +154,12 @@ public class EncodeTest {
         }
         long endDate=System.currentTimeMillis();
         System.out.println("end:"+(endDate-startDate));
+    }
+
+    @Test
+    public void testCode(){
+        String a="AVKn1YLaFialAGdnEmET8DQg11204xoG%9>2Z67iL5]OdtBq$l#>DfW@TY1386730882698";
+        String code= SessionCommonUtil.calculateMD5Hex(a);
+        System.out.println(code);
     }
 }
