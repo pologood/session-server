@@ -27,7 +27,6 @@ public class ReportController {
     @ResponseBody
     public String verifySid(HttpServletRequest request){
         logger.info(JSONObject.toJSON(request.getParameterMap()).toString());
-
         return "{\"statuc\":\"0\"}";
     }
 }
