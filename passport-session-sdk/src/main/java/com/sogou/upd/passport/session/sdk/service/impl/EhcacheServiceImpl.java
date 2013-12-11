@@ -12,6 +12,8 @@ import net.sf.ehcache.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 
 /**
@@ -33,12 +35,15 @@ public class EhcacheServiceImpl implements EhcacheService {
     private int cacheInstanceSize = 10;
     private int cacheExpire = CommonConfigUtil.DEFAULT_EHCACHE_EXPIRE;
 
+    // 设置一个本地Map存储Cache，由于此处对缓存的一致性要求不高，
+    // 而且CacheManager里的caches变量不会变，所以允许较小概率的不一致
+    private Map<String, Cache> caches = new HashMap();
 
     public void init() {
         if (cacheConfiguration == null) {
             cacheConfiguration = new CacheConfiguration();
 
-            int maxElementsPerCache = (maxElements + cacheInstanceSize-1) / cacheInstanceSize;  // 设置单个cache的缓存为ceil(平均数)
+            int maxElementsPerCache = (maxElements + cacheInstanceSize - 1) / cacheInstanceSize;  // 设置单个cache的缓存为ceil(平均数)
 
             cacheConfiguration.setEternal(false);   // 不永久存储
             cacheConfiguration.setDiskPersistent(false);    // 不存储磁盘
@@ -111,15 +116,19 @@ public class EhcacheServiceImpl implements EhcacheService {
         if (StringUtil.isEmpty(cacheKey)) {
             return null;
         }
-        Cache cache = this.getCacheManagerInstance().getCache(cacheKey);
+        Cache cache = caches.get(cacheKey);
         if (cache == null) {
-            synchronized (cacheManager) {
-                cache = this.getCacheManagerInstance().getCache(cacheKey);
-                if (cache == null) {
-                    this.getCacheManagerInstance().addCache(cacheKey);
+            cache = this.getCacheManagerInstance().getCache(cacheKey);
+            if (cache == null) {
+                synchronized (cacheManager) {
                     cache = this.getCacheManagerInstance().getCache(cacheKey);
+                    if (cache == null) {
+                        this.getCacheManagerInstance().addCache(cacheKey);
+                        cache = this.getCacheManagerInstance().getCache(cacheKey);
+                    }
                 }
             }
+            caches.put(cacheKey, cache);
         }
         return cache;
     }
@@ -130,7 +139,9 @@ public class EhcacheServiceImpl implements EhcacheService {
     private CacheManager getCacheManagerInstance() {
         if (cacheManager == null) {
             synchronized (this) {
-                init();
+                if (cacheManager == null) {
+                    init();
+                }
             }
         }
         return cacheManager;

@@ -1,7 +1,6 @@
 package com.sogou.upd.passport;
 
 import com.sogou.upd.passport.session.util.SessionServerUtil;
-import sun.net.www.http.HttpClient;
 
 /**
  * User: ligang201716@sogou-inc.com

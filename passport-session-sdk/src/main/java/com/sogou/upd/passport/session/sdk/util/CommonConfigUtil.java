@@ -10,6 +10,6 @@ package com.sogou.upd.passport.session.sdk.util;
 public class CommonConfigUtil {
 
     public static final String DEFAULT_CONTENT_CHARSET = "UTF-8";
-    public static final int DEFAULT_EHCACHE_EXPIRE = 30 * 60;
+    public static final int DEFAULT_EHCACHE_EXPIRE = 10 * 60;
 
 }

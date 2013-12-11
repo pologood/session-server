@@ -22,6 +22,22 @@ public class CoderUtil {
     public static final String KEY_SHA = "SHA";
     public static final String KEY_MD5 = "MD5";
 
+    private static ThreadLocal<MessageDigest> mdThreadLocal = new ThreadLocal<MessageDigest>();
+
+    public static MessageDigest getMD() {
+        MessageDigest md = mdThreadLocal.get();
+        if (md == null) {
+            try {
+                md = MessageDigest.getInstance(KEY_MD5);
+                mdThreadLocal.set(md);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return md;
+    }
+
+
     /**
      * MAC算法可选以下多种算法
      * <p/>
@@ -105,7 +121,9 @@ public class CoderUtil {
      */
     public static String encryptMD5(String data) throws Exception {
 
-        MessageDigest md5 = MessageDigest.getInstance(KEY_MD5);
+        // MessageDigest md5 = MessageDigest.getInstance(KEY_MD5);
+        MessageDigest md5 = getMD();
+        md5.reset();
         md5.update(data.getBytes());
 
         return toHexString(md5.digest());
@@ -121,7 +139,9 @@ public class CoderUtil {
      */
     public static byte[] encryptMD5_Byte(String data) throws Exception {
 
-        MessageDigest md5 = MessageDigest.getInstance(KEY_MD5);
+        // MessageDigest md5 = MessageDigest.getInstance(KEY_MD5);
+        MessageDigest md5 = getMD();
+        md5.reset();
         md5.update(data.getBytes(CommonConfigUtil.DEFAULT_CONTENT_CHARSET));
         return md5.digest();
     }

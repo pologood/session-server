@@ -2,6 +2,7 @@ package com.sogou.upd.passport.session.sdk.client;
 
 import com.sogou.upd.passport.session.sdk.service.EhcacheService;
 import com.sogou.upd.passport.session.sdk.service.VerifyService;
+import com.sogou.upd.passport.session.sdk.service.impl.EhcacheServiceImpl;
 import com.sogou.upd.passport.session.sdk.service.impl.VerifyServiceImpl;
 
 /**
@@ -13,11 +14,10 @@ import com.sogou.upd.passport.session.sdk.service.impl.VerifyServiceImpl;
  */
 public class SessionServerClient {
 
-/*  private int clientId;
+/*    private int clientId;
     private String serverSecret;
     private int cacheMaxElements;
-    private int cacheExpire;
-*/
+    private int cacheExpire;*/
 
     private VerifyService verifyService;
 
@@ -111,4 +111,16 @@ public class SessionServerClient {
         return verifyService.verifySession(sgid, userIP, false);
     }
 
+    public static void main(String args[]) {
+        EhcacheService service = new EhcacheServiceImpl();
+        service.set("key1", "value1");
+        System.out.println(service.get("key1"));
+        service.set("key1", "value2");
+        System.out.println(service.get("key1"));
+        try {
+            Thread.sleep(1000000);
+        } catch (InterruptedException e) {
+            //
+        }
+    }
 }
