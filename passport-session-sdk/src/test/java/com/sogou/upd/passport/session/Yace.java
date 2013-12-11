@@ -72,7 +72,7 @@ public class Yace implements  Runnable{
     }
 
     public static void main(String[] args){
-        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(50);
+        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(100);
         for(int i=0;i<500;i++){
             Yace ya=new Yace();
             ya.a=i+"";
