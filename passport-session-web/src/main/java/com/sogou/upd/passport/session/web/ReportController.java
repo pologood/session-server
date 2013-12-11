@@ -1,5 +1,6 @@
 package com.sogou.upd.passport.session.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sogou.upd.passport.session.model.VerifySidParams;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
@@ -25,7 +26,8 @@ public class ReportController {
     @RequestMapping(value = "/report_shooting", method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String verifySid(HttpServletRequest request){
-        logger.info(request.getParameterMap().toString());
+        logger.info(JSONObject.toJSON(request.getParameterMap()).toString());
+
         return "{\"statuc\":\"0\"}";
     }
 }
