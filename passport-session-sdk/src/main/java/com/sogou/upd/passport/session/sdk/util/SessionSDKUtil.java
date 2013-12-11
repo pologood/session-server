@@ -1,6 +1,9 @@
 package com.sogou.upd.passport.session.sdk.util;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Date;
 
 /**
@@ -17,7 +20,7 @@ public class SessionSDKUtil {
     private static String CHECK_SID_KEY = "FqMVs!@%&*$@#DWckun%%@@!@=*S:y^s0$Flw~yW>xZ~8#A4)bQ2Hr?";
 
     private static long EXPIRSE=6*30*24*60*60*1000l;
-
+    private static Logger logger = LoggerFactory.getLogger(SessionSDKUtil.class);
 
     /**
      * 检测sid是否正确
@@ -27,20 +30,25 @@ public class SessionSDKUtil {
      * @return
      */
     public static boolean checkSid(String sid) {
-        //校验版本是否是支持的版本
-        if(!checkVersion(sid)){
-            return true;
-        }
-        //检测sid是否为空
-        if (StringUtil.isBlank(sid)) {
-            throw new IllegalArgumentException("passportid is blank ");
-        }
-        //sid自校验
-        if (!checkSidMd5(sid)) {
+        try{
+            //校验版本是否是支持的版本
+            if(!checkVersion(sid)){
+                return true;
+            }
+            //检测sid是否为空
+            if (StringUtil.isBlank(sid)) {
+                throw new IllegalArgumentException("passportid is blank ");
+            }
+            //sid自校验
+            if (!checkSidMd5(sid)) {
+                return false;
+            }
+            //sid是否过有效期
+            return checkSidExpDate(sid);
+        }catch(Exception e){
+            logger.error("sid check error",e);
             return false;
         }
-        //sid是否过有效期
-        return checkSidExpDate(sid);
     }
 
 
