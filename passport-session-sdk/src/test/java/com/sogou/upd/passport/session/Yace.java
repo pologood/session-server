@@ -34,7 +34,7 @@ public class Yace implements  Runnable{
 
     public String getSession(String sgid){
         long ct=System.currentTimeMillis();
-        RequestModel setRequestModel=new RequestModel("http://10.136.55.189:8090/verify_sid");
+        RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/verify_sid");
         String code= CoderUtil.generatorCode(sgid, 1120, "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
         setRequestModel.addParam("sgid",sgid);
@@ -55,7 +55,7 @@ public class Yace implements  Runnable{
 
     public String setSession(int i){
         long ct=System.currentTimeMillis();
-        RequestModel setRequestModel=new RequestModel("http://10.136.55.189:8090/set_session");
+        RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/set_session");
         String sgid=SessionServerUtil.createSessionSid(a+i+"@test.com");
         String code= CoderUtil.generatorCode(sgid, 1120, "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
@@ -73,7 +73,7 @@ public class Yace implements  Runnable{
 
     public static void main(String[] args){
         ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(50);
-        for(int i=0;i<1000;i++){
+        for(int i=0;i<500;i++){
             Yace ya=new Yace();
             ya.a=i+"";
             scheduledThreadPool.execute(ya);
