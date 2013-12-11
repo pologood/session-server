@@ -3,30 +3,18 @@
 <configuration>
     <property name="log.path" value="/search/passport/session-server/logs" />
 
-    <!--
-    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
-         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-             <pattern> %5p [%t] %logger{36} %L %m %n</pattern>
-        </encoder>
-    </appender>
-    -->
-
     <!--标准输出Log-->
-    <appender name="Console" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/web/web.log.%d{yyyy-MM-dd}</fileNamePattern>
-        </rollingPolicy>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{HH:mm:ss} %5p [%t] %logger{36} %m %n</pattern>
-            <!--<immediateFlush>false</immediateFlush>-->
+            <pattern> %5p [%t] %logger{36} %L %m %n</pattern>
         </encoder>
-        <!--<param name="BufferedIO" value="true" />-->
     </appender>
 
     <!--start:redis请求log-->
     <appender name="redisPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/redis/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%msg %n</pattern>
@@ -46,6 +34,7 @@
     <appender name="webPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/webperf/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%msg %n</pattern>
@@ -66,6 +55,7 @@
     <appender name="kvPerfFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/kvperf/perfStats.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>%msg %n</pattern>

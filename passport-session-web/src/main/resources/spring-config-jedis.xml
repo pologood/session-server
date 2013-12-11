@@ -13,12 +13,11 @@
     ">
 
 
-    <!--============== 序号生成器 ============== -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxActive" value="150"/>
-        <property name="maxIdle" value="150"/>
-        <property name="minIdle" value="50"/>
-        <property name="maxWait" value="1000"/>
+        <property name="maxActive" value="300"/>
+        <property name="maxIdle" value="300"/>
+        <property name="minIdle" value="150"/>
+        <property name="maxWait" value="10"/><!--由于session server在redis出问题之后可以将所有请求达到kv，所以这里可以快速返回-->
         <property name="testOnBorrow" value="false"/>
         <!--30分钟跑一次idle object eviction线程-->
         <property name="timeBetweenEvictionRunsMillis" value="1800000"/>
