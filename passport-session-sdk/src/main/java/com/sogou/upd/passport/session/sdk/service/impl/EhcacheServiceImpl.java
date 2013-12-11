@@ -55,7 +55,7 @@ public class EhcacheServiceImpl implements EhcacheService {
          * 启动监控代码，每分钟执行一次
          */
         Timer timer=new Timer();
-        timer.schedule(new ShootingMonitor(this),60*1000,60*1000);
+        timer.schedule(new ShootingMonitor(this),60*1000l,60*1000l);
     }
 
     public void stop() {
