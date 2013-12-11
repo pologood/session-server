@@ -119,8 +119,8 @@ public class VerifyServiceImpl implements VerifyService {
             return ERR_MSG_SYSTEM;
         }
 
-        // String value = remoteSessionService.getSession(sid, userIp, clientId, stamp, code);
-        String value = "{\"data\":{\"passport_id\":\"upd_test"+sid+"@sogou.com\"},\"status\":\"0\",\"statusText\":\"\"}";
+        String value = remoteSessionService.getSession(sid, userIp, clientId, stamp, code);
+//        String value = "{\"data\":{\"passport_id\":\"upd_test"+sid+"@sogou.com\"},\"status\":\"0\",\"statusText\":\"\"}";
 
         if (StringUtil.isEmpty(value)) {
             return ERR_MSG_SYSTEM;
