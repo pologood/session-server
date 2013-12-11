@@ -12,6 +12,8 @@ import net.sf.ehcache.config.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Timer;
+
 /**
  * Created with IntelliJ IDEA.
  * User: hujunfei
@@ -48,6 +50,12 @@ public class EhcacheServiceImpl implements EhcacheService {
         configuration.setDefaultCacheConfiguration(cacheConfiguration);
 
         cacheManager = new CacheManager(configuration);
+
+        /**
+         * 启动监控代码，每分钟执行一次
+         */
+        Timer timer=new Timer();
+        timer.schedule(new ShootingMonitor(this),60*1000,60*1000);
     }
 
     public void stop() {

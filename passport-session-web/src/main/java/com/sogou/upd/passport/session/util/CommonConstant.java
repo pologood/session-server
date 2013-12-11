@@ -11,8 +11,6 @@ public class CommonConstant {
 
     public static final String PREFIX_SESSION = "sessionid_";
 
-    public static final String KV_PREFIX_SESSION="20002/test/";
-
     public static int SESSION_EXPIRSE=6*30*24*60*60;
 
 }

@@ -11,13 +11,14 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimerTask;
 
 /**
  * User: ligang201716@sogou-inc.com
  * Date: 13-12-10
  * Time: 下午7:28
  */
-public class ShootingMonitor implements Runnable {
+public class ShootingMonitor extends TimerTask {
 
     private static String REPORT_SHOOTING_URL = "http://session.account.sogou.com.z.sogou-op.org/report_shooting";
 
