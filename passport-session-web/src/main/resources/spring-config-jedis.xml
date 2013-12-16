@@ -42,6 +42,31 @@
                     <constructor-arg name="port" value="${redis3.port}" type="int"/>
                     <constructor-arg name="name" value="${redis3.name}" />
                 </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis4.ip}"/>
+                    <constructor-arg name="port" value="${redis4.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis4.name}" />
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis5.ip}"/>
+                    <constructor-arg name="port" value="${redis5.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis5.name}" />
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis6.ip}"/>
+                    <constructor-arg name="port" value="${redis6.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis6.name}" />
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis7.ip}"/>
+                    <constructor-arg name="port" value="${redis7.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis7.name}" />
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis8.ip}"/>
+                    <constructor-arg name="port" value="${redis8.port}" type="int"/>
+                    <constructor-arg name="name" value="${redis8.name}" />
+                </bean>
             </list>
         </constructor-arg>
     </bean>

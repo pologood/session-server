@@ -25,6 +25,11 @@ public class Yace implements  Runnable{
             String sgid=setSession(i);
             for(int j=0;j <10;j++){
                 getSession(sgid);
+//                try {
+////                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+//                }
             }
         }
         long endTime=System.currentTimeMillis();
@@ -72,7 +77,7 @@ public class Yace implements  Runnable{
     }
 
     public static void main(String[] args){
-        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(100);
+        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(50);
         for(int i=0;i<500;i++){
             Yace ya=new Yace();
             ya.a=i+"";
