@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ReportController {
 
-    private static Logger logger = LoggerFactory.getLogger(ReportController.class);
+    private static Logger logger = LoggerFactory.getLogger("localCacheLogger");
 
     @Profiled(el = true, logger = "webTimingLogger", tag = "POST:/report_shooting", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     @RequestMapping(value = "/report_shooting", method = RequestMethod.POST,produces = "text/html;charset=UTF-8")

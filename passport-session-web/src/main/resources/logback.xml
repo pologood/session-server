@@ -71,6 +71,21 @@
     </logger>
     <!--end:web服务器性能log-->
 
+    <!--local cache report-->
+    <appender name="localCacheAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/localCache/localCache.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %msg %n</pattern>
+        </encoder>
+        <maxHistory>30</maxHistory>
+    </appender>
+    <logger name="localCacheLogger" level="info" additivity="false">
+        <appender-ref ref="localCacheAppender" />
+    </logger>
+    <!---->
+
     <root level="info">
         <!--<appender-ref ref="Console" />-->
         <appender-ref ref="Console" />
