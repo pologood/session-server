@@ -49,9 +49,9 @@ public class SessionServerClient {
      * @param cacheMaxElements
      * @param cacheExpire
      */
-    public SessionServerClient(int clientId,String serverSecret,int cacheMaxElements,int cacheExpire, int instanceSize) {
+    /*public SessionServerClient(int clientId,String serverSecret,int cacheMaxElements,int cacheExpire, int instanceSize) {
         verifyService = new VerifyServiceImpl(clientId, serverSecret, cacheMaxElements, cacheExpire, instanceSize);
-    }
+    }*/
 
 
     /**
@@ -111,16 +111,4 @@ public class SessionServerClient {
         return verifyService.verifySession(sgid, userIP, false);
     }
 
-    public static void main(String args[]) {
-        EhcacheService service = new EhcacheServiceImpl();
-        service.set("key1", "value1");
-        System.out.println(service.get("key1"));
-        service.set("key1", "value2");
-        System.out.println(service.get("key1"));
-        try {
-            Thread.sleep(1000000);
-        } catch (InterruptedException e) {
-            //
-        }
-    }
 }
