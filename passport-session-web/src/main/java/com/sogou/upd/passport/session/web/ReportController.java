@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * Time: 下午3:21
  */
 @Controller
-public class ReportController {
+public class ReportController{
 
     private static Logger logger = LoggerFactory.getLogger("localCacheLogger");
 

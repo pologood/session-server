@@ -16,7 +16,7 @@ public class BaseController  {
 
     public static final String STOPWATCH= "stopWatch";
 
-    public static final String WebTimingLogger="webTimingLogger";
+    public static final Logger WebTimingLogger= LoggerFactory.getLogger("webTimingLogger");
 
     private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
