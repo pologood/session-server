@@ -45,6 +45,6 @@ public class BaseController  {
         } catch (Exception e) {
             logger.error("CostTimeInteceptor.afterCompletion error url=" + request.getRequestURL(), e);
         }
-        return request.toString();
+        return result.toString();
     }
 }
