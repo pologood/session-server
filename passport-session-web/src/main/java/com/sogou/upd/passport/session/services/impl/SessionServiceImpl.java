@@ -37,7 +37,9 @@ public class SessionServiceImpl implements SessionService {
         //再从kv中获取
         if(StringUtils.isBlank(value)){
             value= kvUtil.get(key);
+            //kv中存在则存入redis中
             if(StringUtils.isNotBlank(value)){
+                redisClientTemplate.set(key,value);
                 redisClientTemplate.expire(key,CommonConstant.SESSION_EXPIRSE);
             }
         }
