@@ -86,20 +86,25 @@ public class SessionServerUtil {
      * @return
      */
     public static boolean checkSid(String sid) {
-        //校验版本是否是支持的版本
-        if(!checkVersion(sid)){
-            return true;
-        }
-        //检测sid是否为空
-        if (StringUtils.isBlank(sid)) {
-            throw new IllegalArgumentException("passportid is blank");
-        }
-        //sid自校验
-        if (!checkSidMd5(sid)) {
+        try{
+            //校验版本是否是支持的版本
+            if(!checkVersion(sid)){
+                return true;
+            }
+            //检测sid是否为空
+            if (StringUtils.isBlank(sid)) {
+                throw new IllegalArgumentException("passportid is blank");
+            }
+            //sid自校验
+            if (!checkSidMd5(sid)) {
+                return false;
+            }
+            //sid是否过有效期
+            return checkSidExpDate(sid);
+        }catch(Exception e){
+            logger.error("check sid error sid:"+sid,e);
             return false;
         }
-        //sid是否过有效期
-        return checkSidExpDate(sid);
     }
 
 
