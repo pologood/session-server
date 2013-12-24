@@ -38,18 +38,22 @@ public class SessionServiceImpl implements SessionService {
         if(StringUtils.isBlank(value)){
             value= kvUtil.get(key);
             //kv中存在则存入redis中
-            if(StringUtils.isNotBlank(value)){
-                redisClientTemplate.set(key,value);
-                redisClientTemplate.expire(key,CommonConstant.SESSION_EXPIRSE);
+
+            if(StringUtils.isBlank(value)){
+                value="null";
             }
+            redisClientTemplate.set(key,value);
+            redisClientTemplate.expire(key,CommonConstant.SESSION_EXPIRSE);
         }
 
-        if(StringUtils.isNotBlank(value)){
-            try{
-                return JSONObject.parseObject(value);
-            }catch (Exception e){
-                logger.error("value parse json error, value:"+value);
-            }
+        if(StringUtils.isBlank(value)||"null".equals(value)){
+            return null;
+        }
+
+        try{
+            return JSONObject.parseObject(value);
+        }catch (Exception e){
+            logger.error("value parse json error, value:"+value);
         }
 
         return null;
