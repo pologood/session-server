@@ -20,7 +20,7 @@ public class RemoteSessionServiceImpl implements RemoteSessionService {
     private static String URL = "http://session.account.sogou.com.z.sogou-op.org/verify_sid";
     // private static String URL = "http://10.11.202.168:8090/verify_sid";
 
-    private HttpClientUtil httpClientUtil;
+//    private HttpClientUtil httpClientUtil;
 
     @Override
     public String getSession(String sid, String userIp, int clientId, long stamp, String code) {
@@ -35,7 +35,7 @@ public class RemoteSessionServiceImpl implements RemoteSessionService {
         try {
             return HttpClientUtil.executeStr(requestModel);
         } catch (RuntimeException re) {
-            logger.error("http error" + re.getMessage());
+            logger.error("http error" ,re);
             return null;
         }
     }
