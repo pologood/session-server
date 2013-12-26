@@ -31,13 +31,13 @@ public class SessionSDKUtil {
      */
     public static boolean checkSid(String sid) {
         try{
-            //校验版本是否是支持的版本
-            if(!checkVersion(sid)){
-                return true;
-            }
             //检测sid是否为空
             if (StringUtil.isBlank(sid)) {
                 throw new IllegalArgumentException("passportid is blank ");
+            }
+            //校验版本是否是支持的版本
+            if(!checkVersion(sid)){
+                return true;
             }
             //sid自校验
             if (!checkSidMd5(sid)) {
