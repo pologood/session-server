@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.perf4j.StopWatch;
 import org.perf4j.aop.Profiled;
 import org.perf4j.slf4j.Slf4JStopWatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,8 @@ public class VerifySessionController extends BaseController{
 
     @Autowired
     private SessionService sessionService;
+
+    private static Logger logger = LoggerFactory.getLogger(VerifySessionController.class);
 
     @RequestMapping(value = "/verify_sid", method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
@@ -63,6 +67,7 @@ public class VerifySessionController extends BaseController{
         if(userInfo==null){
             result.put("status","50001");
             result.put("statusText","sid不存在或已过期");
+            logger.warn("sid miss sgid:"+verifySidParams.getSgid());
             return handleResult(result,request);
         }
 
