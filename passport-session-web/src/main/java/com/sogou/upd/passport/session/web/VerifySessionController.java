@@ -67,7 +67,7 @@ public class VerifySessionController extends BaseController{
         if(userInfo==null){
             result.put("status","50001");
             result.put("statusText","sid不存在或已过期");
-            logger.warn("sid miss sgid:"+verifySidParams.getSgid());
+            logger.warn("sid miss sgid:"+verifySidParams.getSgid() + " , client_id:"+verifySidParams.getClient_id() );
             return handleResult(result,request);
         }
 
