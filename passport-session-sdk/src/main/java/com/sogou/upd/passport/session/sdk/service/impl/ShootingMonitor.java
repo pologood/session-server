@@ -46,7 +46,9 @@ public class ShootingMonitor extends TimerTask {
         long hits = ehcacheService.getCacheHits();
         long misses = ehcacheService.getCacheMisses();
         long hitsMin = hits - hitsLastMin;
+        hitsLastMin=hits;
         long misMin = misses - missesLastMin;
+        missesLastMin= misses;
         long countMin = hitsMin + misMin;
         double shooting = 1;
         if (countMin > 0) {
@@ -78,6 +80,8 @@ public class ShootingMonitor extends TimerTask {
         String time = dateformat.format(new Date());
         requestModel.addParam("time", time);
 
-        HttpClientUtil.execute(requestModel);
+        String result= HttpClientUtil.executeStr(requestModel);
+
+        logger.info("upload shooting result:"+result);
     }
 }
