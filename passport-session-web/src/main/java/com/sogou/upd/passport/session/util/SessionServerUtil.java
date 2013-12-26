@@ -87,16 +87,17 @@ public class SessionServerUtil {
      */
     public static boolean checkSid(String sid) {
         try{
-            //校验版本是否是支持的版本
-            if(!checkVersion(sid)){
-                return true;
-            }
             //检测sid是否为空
             if (StringUtils.isBlank(sid)) {
                 throw new IllegalArgumentException("passportid is blank");
             }
+            //校验版本是否是支持的版本
+            if(!checkVersion(sid)){
+                return true;
+            }
             //sid自校验
             if (!checkSidMd5(sid)) {
+                logger.warn("checkSidMd5 false sid:"+sid);
                 return false;
             }
             //sid是否过有效期
