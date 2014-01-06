@@ -1,6 +1,8 @@
 package com.sogou.upd.passport.session.util;
 
+import org.perf4j.StopWatch;
 import org.perf4j.aop.Profiled;
+import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,12 +21,18 @@ public class KvUtil {
 
     private final static String KV_PERF4J_LOGGER = "kvTimingLogger";
 
+    public static final Logger KVTimingLogger= LoggerFactory.getLogger(KV_PERF4J_LOGGER);
+
     private RedisTemplate kvTemplate;
 
     private String kvPrefix;
 
-    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
+//    kv set  操作慢请求日志
+//    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     public void set(String key, String value,long timeOut) throws Exception{
+        StopWatch stopWatch = new Slf4JStopWatch(KVTimingLogger);
+
+
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
@@ -38,6 +46,16 @@ public class KvUtil {
                 throw e;
             }
         }
+
+
+        StringBuilder tagBuilder = new StringBuilder("kv_set");
+        if (stopWatch.getElapsedTime() >= 10) {
+            tagBuilder.append(".slow");
+            logger.warn("kv slow key :" + key);
+        }else{
+            tagBuilder.append(".normal");
+        }
+        stopWatch.stop(tagBuilder.toString());
     }
 
     @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_get", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
