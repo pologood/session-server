@@ -51,7 +51,7 @@ public class KvUtil {
         StringBuilder tagBuilder = new StringBuilder("kv_set");
         if (stopWatch.getElapsedTime() >= 10) {
             tagBuilder.append(".slow");
-            logger.warn("kv slow key :" + key);
+            logger.warn("kv slow key :" + key + " ,time:"+stopWatch.getElapsedTime());
         }else{
             tagBuilder.append(".normal");
         }
