@@ -16,6 +16,8 @@ public class BaseController  {
 
     public static final String STOPWATCH= "stopWatch";
 
+    public static final String SLOW_THRESHOLD="slowThreshold";
+
     public static final Logger WebTimingLogger= LoggerFactory.getLogger("webTimingLogger");
 
     private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
@@ -35,8 +37,15 @@ public class BaseController  {
                 tagBuilder.append(".");
                 tagBuilder.append(status);
 
+                //获取自定义慢请求阀值
+                Object slowThreshold = request.getAttribute(SLOW_THRESHOLD);
+                int slowTime=SLOW_TIME;
+                if(slowThreshold!=null){
+                    slowTime=(Integer)slowThreshold;
+                }
+
                 //检测是否慢请求
-                if (stopWatch.getElapsedTime() >= SLOW_TIME) {
+                if (stopWatch.getElapsedTime() >= slowTime) {
                     tagBuilder.append(".slow");
                 }
 

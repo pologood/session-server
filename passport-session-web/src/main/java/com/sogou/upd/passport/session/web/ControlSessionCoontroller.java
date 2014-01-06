@@ -39,7 +39,9 @@ public class ControlSessionCoontroller extends BaseController{
     @ResponseBody
     public String setSession(HttpServletRequest request,SetSessionParams setSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
-        request.setAttribute("stopWatch", stopWatch);
+        request.setAttribute(STOPWATCH, stopWatch);
+        request.setAttribute(SLOW_THRESHOLD, 15);
+
 
         JSONObject result=new JSONObject();
         // 参数校验
