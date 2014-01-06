@@ -40,7 +40,7 @@ public class ControlSessionCoontroller extends BaseController{
     public String setSession(HttpServletRequest request,SetSessionParams setSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute(STOPWATCH, stopWatch);
-        request.setAttribute(SLOW_THRESHOLD, 15);
+        request.setAttribute(SLOW_THRESHOLD, 20);
 
 
         JSONObject result=new JSONObject();
