@@ -94,7 +94,7 @@ public class HttpClientUtil {
                 value = value.trim();
             }
             return value;
-        } catch (IOException | ParseException e) {
+        } catch (Exception e) {
             throw new RuntimeException("http request error ", e);
         }
     }

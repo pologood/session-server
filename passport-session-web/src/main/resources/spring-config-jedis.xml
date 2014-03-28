@@ -80,13 +80,12 @@
     <!-- kv redis util definition -->
     <bean id="kvPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxActive" value="200"/>
-        <property name="maxIdle" value="200"/>
-        <property name="minIdle" value="100"/>
+        <property name="maxIdle" value="100"/>
+        <property name="minIdle" value="50"/>
         <property name="maxWait" value="1000"/>
         <property name="testOnBorrow" value="false"/>
-        <!--30分钟跑一次idle object eviction线程-->
-        <property name="timeBetweenEvictionRunsMillis" value="1800000"/>
     </bean>
+
 
     <bean id="kvConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:usePool="true">

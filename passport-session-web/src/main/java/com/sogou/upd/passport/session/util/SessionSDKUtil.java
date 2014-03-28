@@ -28,13 +28,13 @@ public class SessionSDKUtil {
      * @return
      */
     public static boolean checkSid(String sid) {
-        //校验版本是否是支持的版本
-        if(!checkVersion(sid)){
-            return true;
-        }
         //检测sid是否为空
         if (StringUtils.isBlank(sid)) {
             throw new IllegalArgumentException("sgid is blank");
+        }
+        //校验版本是否是支持的版本
+        if(!checkVersion(sid)){
+            return true;
         }
         //sid自校验
         if (!checkSidMd5(sid)) {
@@ -112,5 +112,4 @@ public class SessionSDKUtil {
 
         return calculateCheckInt == sidCheckInt;
     }
-
 }

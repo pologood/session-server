@@ -57,8 +57,8 @@ public class RequestModel {
         }
         this.url = url.trim();
         this.httpMethodEnum = HttpMethodEnum.GET;
-        this.params = new HashMap<>();
-        this.headers = new HashMap<>(1);
+        this.params = new HashMap<String, Object>();
+        this.headers = new HashMap<String, String>(1);
         this.headers.put(HEADER_CONTENT_TYPE, HEADER_CONTENT_TYPE_VALUE);
     }
 
@@ -150,7 +150,7 @@ public class RequestModel {
     }
 
     public HttpEntity getRequestEntity() {
-        List<NameValuePair> nameValuePairs = new ArrayList<>(this.params.size());
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(this.params.size());
         for (Map.Entry<String, Object> entry : this.params.entrySet()) {
             NameValuePair param = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
             nameValuePairs.add(param);
