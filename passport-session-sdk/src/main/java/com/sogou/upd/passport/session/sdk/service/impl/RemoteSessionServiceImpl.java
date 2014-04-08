@@ -18,7 +18,7 @@ public class RemoteSessionServiceImpl implements RemoteSessionService {
     private static Logger logger = LoggerFactory.getLogger(RemoteSessionServiceImpl.class);
 
     private static String URL = "http://session.account.sogou.com.z.sogou-op.org/verify_sid";
-    // private static String URL = "http://10.11.202.168:8090/verify_sid";
+//    private static String URL = "http://10.11.202.168:8090/verify_sid";
 
 //    private HttpClientUtil httpClientUtil;
 

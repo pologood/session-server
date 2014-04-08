@@ -43,6 +43,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2006,"9i1J4(P;TWTw=9)KGs7xA^LMEI+|2v");//搜狗新闻搜索
         APP_SECRET_MAP.put(2007,"udj0D>~Ez`:%Zbj`wFfh8mW`lB[{(]");//随便看看
         APP_SECRET_MAP.put(2008,"O/R*!&`.=K!n/~FMH`))7JbD8:.kT)");//搜狗游戏盒子
+        APP_SECRET_MAP.put(2011,"vYaI0Cf=ui$EOyB\\NK_r%et*v~jH(t");//TIMO
 
     }
 
