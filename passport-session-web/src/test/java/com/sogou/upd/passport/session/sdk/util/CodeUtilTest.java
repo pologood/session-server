@@ -28,7 +28,7 @@ public class CodeUtilTest {
         System.out.println("sid:"+sid+",ct:"+ct+",code:"+code);
         SetSessionParams setSessionParams=new SetSessionParams();
         setSessionParams.setUser_info("{\"passport_id\":\"upd_test@sogou.com\"}");
-        setSessionParams.setClient_id();
+        setSessionParams.setClient_id(1120);
         setSessionParams.setCode(code);
         setSessionParams.setCt(ct);
         setSessionParams.setSgid(sid);
