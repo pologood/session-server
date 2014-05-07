@@ -20,7 +20,7 @@ public class CodeUtilTest {
 
         StringBuilder codeBuilder=new StringBuilder(sid);
         long ct=System.currentTimeMillis();
-        codeBuilder.append("1120");
+        codeBuilder.append("");
         codeBuilder.append("4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY");
         codeBuilder.append(ct);
         String code= SessionCommonUtil.calculateMD5Hex(codeBuilder.toString());
@@ -28,7 +28,7 @@ public class CodeUtilTest {
         System.out.println("sid:"+sid+",ct:"+ct+",code:"+code);
         SetSessionParams setSessionParams=new SetSessionParams();
         setSessionParams.setUser_info("{\"passport_id\":\"upd_test@sogou.com\"}");
-        setSessionParams.setClient_id(1120);
+        setSessionParams.setClient_id();
         setSessionParams.setCode(code);
         setSessionParams.setCt(ct);
         setSessionParams.setSgid(sid);

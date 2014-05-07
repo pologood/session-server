@@ -15,7 +15,7 @@ public class CodeUtil {
 
     private static Logger logger = LoggerFactory.getLogger(CodeUtil.class);
 
-    public static int PASSPORT_CLIENT_ID=1120;
+    public static int PASSPORT_CLIENT_ID=;
 
     //TODO 由于这次时间较为紧急，先将数据写死到代码中，之后将其改为从数据库读取
     private static ConcurrentHashMap<Integer,String> APP_SECRET_MAP=new ConcurrentHashMap<Integer, String>();
@@ -43,7 +43,12 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2006,"9i1J4(P;TWTw=9)KGs7xA^LMEI+|2v");//搜狗新闻搜索
         APP_SECRET_MAP.put(2007,"udj0D>~Ez`:%Zbj`wFfh8mW`lB[{(]");//随便看看
         APP_SECRET_MAP.put(2008,"O/R*!&`.=K!n/~FMH`))7JbD8:.kT)");//搜狗游戏盒子
+        APP_SECRET_MAP.put(2009,"Hpi%#ZT<u@hR.6F)HtfvUKf5ERYR1b");//qq导航
+        APP_SECRET_MAP.put(2010,"vYaI0Cf=ui$EOyB\\NK_r%et*v~jH(t");//qq输入法
         APP_SECRET_MAP.put(2011,"vYaI0Cf=ui$EOyB\\NK_r%et*v~jH(t");//TIMO
+        APP_SECRET_MAP.put(2012,"=Rlo\\\"PjYrM_epd3PTEG{`Ww$mR2@og");//彩票
+        APP_SECRET_MAP.put(2013,"ezr8DRjSn%*[mqa>,$^m6_+r~qSwN3");//安全应急响应中心
+        APP_SECRET_MAP.put(2014,"^]cG4z\\\\zkl0}`p|6O2;ivHK~KdC|!u");//搜狗导航
 
     }
 

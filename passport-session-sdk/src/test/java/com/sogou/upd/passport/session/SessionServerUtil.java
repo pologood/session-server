@@ -193,6 +193,6 @@ public class SessionServerUtil {
 
 
     public void testCode(){
-        String a="AVKn1YLaFialAGdnEmET8DQg11204xoG%9>2Z67iL5]OdtBq$l#>DfW@TY1386730882698";
+        String a="AVKn1YLaFialAGdnEmET8DQg4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY1386730882698";
     }
 }

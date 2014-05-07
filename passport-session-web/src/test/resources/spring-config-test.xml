@@ -8,7 +8,7 @@
      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="sessionServerClient" class="com.sogou.upd.passport.session.sdk.client.SessionServerClient">
-        <constructor-arg name="clientId" value="1120"/>
+        <constructor-arg name="clientId" value=""/>
         <constructor-arg name="serverSecret" value="4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY"/>
     </bean>
 

@@ -35,7 +35,7 @@ public class ControlSessionCoontroller extends BaseController{
     @Autowired
     private SessionService sessionService;
 
-    @RequestMapping(value = "/set_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/set_session",params={"client_id="}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String setSession(HttpServletRequest request,SetSessionParams setSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
@@ -71,7 +71,7 @@ public class ControlSessionCoontroller extends BaseController{
         return handleResult(result,request);
     }
 
-    @RequestMapping(value = "/del_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/del_session",params={"client_id="}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String deleteSession(HttpServletRequest request,DeleteSessionParams deleteSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
