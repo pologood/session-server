@@ -28,7 +28,7 @@ public class EhcacheServiceImpl implements EhcacheService {
     private static final String CACHE_PREFIX = "cache_";
 
 
-    private CacheManager cacheManager = null;
+    private static CacheManager cacheManager = null;
     private CacheConfiguration cacheConfiguration = null;
 
     private int maxElements = 1000000;

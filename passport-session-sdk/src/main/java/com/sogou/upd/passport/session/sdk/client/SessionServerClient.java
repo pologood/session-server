@@ -19,15 +19,21 @@ public class SessionServerClient {
     private int cacheMaxElements;
     private int cacheExpire;*/
 
-    private VerifyService verifyService;
+    private static VerifyService verifyService=null;
 
     /**
      * 初始化SDK（local cache默认最高10W条记录，缓存30分钟）
      * @param clientId passport分配的应用clientid
      * @param serverSecret passport分配的应用服务端秘钥
      */
-    public SessionServerClient(int clientId,String serverSecret) {
-        verifyService = new VerifyServiceImpl(clientId, serverSecret);
+    public  SessionServerClient(int clientId,String serverSecret) {
+        if(verifyService==null){
+             synchronized (VerifyService.class){
+                 if(verifyService==null){
+                     verifyService = new VerifyServiceImpl(clientId, serverSecret);
+                 }
+             }
+        }
     }
 
 
@@ -39,7 +45,13 @@ public class SessionServerClient {
      * @param cacheExpire 本地cache的有效期（默认为30分钟）
      */
     public SessionServerClient(int clientId,String serverSecret,int cacheMaxElements,int cacheExpire) {
-        verifyService = new VerifyServiceImpl(clientId, serverSecret, cacheMaxElements, cacheExpire);
+        if(verifyService==null){
+            synchronized (VerifyService.class){
+                if(verifyService==null){
+                    verifyService = new VerifyServiceImpl(clientId, serverSecret, cacheMaxElements, cacheExpire);
+                }
+            }
+        }
     }
 
     /**

@@ -40,11 +40,11 @@ public class Yace implements  Runnable{
     public String getSession(String sgid){
         long ct=System.currentTimeMillis();
         RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/verify_sid");
-        String code= CoderUtil.generatorCode(sgid, , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
+        String code= CoderUtil.generatorCode(sgid,2002 , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
         setRequestModel.addParam("sgid",sgid);
         setRequestModel.addParam("code",code);
-        setRequestModel.addParam("client_id",);
+//        setRequestModel.addParam("client_id",);
         setRequestModel.addParam("user_ip","127.0.0.1");
         setRequestModel.setHttpMethodEnum(HttpMethodEnum.POST);
         try {
@@ -62,11 +62,11 @@ public class Yace implements  Runnable{
         long ct=System.currentTimeMillis();
         RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/set_session");
         String sgid=SessionServerUtil.createSessionSid(a+i+"@test.com");
-        String code= CoderUtil.generatorCode(sgid, , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
+//        String code= CoderUtil.generatorCode(sgid, , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
         setRequestModel.addParam("sgid",sgid);
-        setRequestModel.addParam("code",code);
-        setRequestModel.addParam("client_id",);
+//        setRequestModel.addParam("code",code);
+//        setRequestModel.addParam("client_id",);
         setRequestModel.addParam("user_info","{\"prssport_id\":\""+a+i+"@test.com"+"\"}");
         setRequestModel.setHttpMethodEnum(HttpMethodEnum.POST);
         try {
