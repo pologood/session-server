@@ -49,6 +49,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2012,"=Rlo\"PjYrM_epd3PTEG{`Ww$mR2@og");//彩票
         APP_SECRET_MAP.put(2013,"ezr8DRjSn%*[mqa>,$^m6_+r~qSwN3");//安全应急响应中心
         APP_SECRET_MAP.put(2014,"^]cG4z\\zkl0}`p|6O2;ivHK~KdC|!u");//搜狗导航
+        APP_SECRET_MAP.put(2020,"JaoV><rv/l fJi3i(vgK5m(hK$M%UF");//X1
 
     }
 

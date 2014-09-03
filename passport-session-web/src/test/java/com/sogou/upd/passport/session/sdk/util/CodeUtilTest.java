@@ -16,7 +16,7 @@ public class CodeUtilTest {
     @Test
     public void testCheckCode() throws Exception {
 
-        String sid= SessionServerUtil.createSessionSid("dasda@sogou-inc.com");
+        String sid= SessionServerUtil.createSessionSid("upd_test@sogou.com");
 
         StringBuilder codeBuilder=new StringBuilder(sid);
         long ct=System.currentTimeMillis();
