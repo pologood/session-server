@@ -61,6 +61,7 @@ public class CodeUtil {
     public static boolean checkCode(BaseSidParams baseSidParams){
         int appid=baseSidParams.getClient_id();
         if(!APP_SECRET_MAP.containsKey(appid)){
+           logger.warn("checkCode appid not contain "+appid);
            return false;
         }
         String secret=APP_SECRET_MAP.get(appid);

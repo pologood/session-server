@@ -182,7 +182,7 @@ public class EhcacheServiceImpl implements EhcacheService {
             String[] cacheNames= this.getCacheManagerInstance().getCacheNames();
             for(String cacheName:cacheNames){
                 Cache cache= this.getCacheManagerInstance().getCache(cacheName);
-                hits+=cache.getStatistics().getCacheHits();
+                hits+=cache.getStatistics().cacheHitCount();
             }
         }catch (Exception e){
             logger.error("ehcache getHits error:",e);
@@ -198,7 +198,7 @@ public class EhcacheServiceImpl implements EhcacheService {
             String[] cacheNames= this.getCacheManagerInstance().getCacheNames();
             for(String cacheName:cacheNames){
                 Cache cache= this.getCacheManagerInstance().getCache(cacheName);
-                misses+=cache.getStatistics().getCacheMisses();
+                misses+=cache.getStatistics().cacheMissCount();
             }
         }catch (Exception e){
             logger.error("ehcache getHits error:",e);

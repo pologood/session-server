@@ -13,18 +13,18 @@ public class SessionServerClientTest {
 
     @BeforeClass
     public static void SessionServerClientTest(){
-        sessionServerClient=new SessionServerClient(2011,"vYaI0Cf=ui$EOyB\\NK_r%et*v~jH(t");
+        sessionServerClient=new SessionServerClient(2020,"JaoV><rv/l fJi3i(vgK5m(hK$M%UF");
     }
 
 
     @org.junit.Test
     public void testWeakVerifySid() throws Exception {
-      System.out.println(sessionServerClient.weakVerifySid("AVKgJSxwas9zJLANVvPwD8Y","192.168.2.1"))  ;
+      System.out.println(sessionServerClient.weakVerifySid("AVQF6sO3bjpZ7uaGerWDq7M","192.168.2.1"))  ;
     }
 
     @org.junit.Test
     public void testCoerciveVerifySid() throws Exception {
-       System.out.println(sessionServerClient.coerciveVerifySid("AVKgJSxwas9zJLANVvPwD8Y","192.168.2.1"))  ;
+       System.out.println(sessionServerClient.coerciveVerifySid("AVQF6sO3bjpZ7uaGerWDq7M","192.168.2.1"))  ;
     }
 
 //    public static void main(String[] srgs){

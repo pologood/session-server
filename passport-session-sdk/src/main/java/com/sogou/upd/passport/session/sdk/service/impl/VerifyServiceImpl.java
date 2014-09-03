@@ -97,7 +97,7 @@ public class VerifyServiceImpl implements VerifyService {
             if (isWeak) {
                 // 弱查询
                 value = ehcacheService.get(sid);
-                if (StringUtil.isEmpty(value)) {
+                if (StringUtil.isBlank(value)) {
                     value = verifyRemoteSession(sid, userIp);
                 }
             } else {
