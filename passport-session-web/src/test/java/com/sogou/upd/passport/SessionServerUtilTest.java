@@ -12,7 +12,7 @@ public class SessionServerUtilTest {
 
     @Test
     public void testCode(){
-        String code="AVK778BvsOiaO55YOBcHWhIM";
-        SessionServerUtil.checkSid(code);
+        String code="AVOWj3ARP3PFtf8VLqy5Twg";
+        System.out.println(SessionServerUtil.checkSid(code));
     }
 }
