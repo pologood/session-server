@@ -52,8 +52,8 @@ public class VerifySessionController extends BaseController{
         }
 
         if(!SessionServerUtil.checkSid(verifySidParams.getSgid())){
-            result.put("status","50001");
-            result.put("statusText","sid不存在或已过期");
+            result.put("status","50002");
+            result.put("statusText","sid自校验错误");
             return handleResult(result,request);
         }
 

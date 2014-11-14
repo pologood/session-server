@@ -162,4 +162,11 @@ public class EncodeTest {
         String code= SessionCommonUtil.calculateMD5Hex(a);
         System.out.println(code);
     }
+
+    @Test
+    public void testRenewval(){
+        String passportId="nahongxu########@sogou.com";
+        String sid= SessionServerUtil.createSessionSid(passportId);
+        System.out.println("passport_id:"+passportId+",sid:"+sid);
+    }
 }

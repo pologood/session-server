@@ -53,8 +53,8 @@ public class ControlSessionCoontroller extends BaseController{
         }
 
         if(!SessionServerUtil.checkSid(setSessionParams.getSgid())){
-            result.put("status","50001");
-            result.put("statusText","sid错误或已过期");
+            result.put("status","50002");
+            result.put("statusText","sid自校验错误");
             return handleResult(result,request);
         }
 

@@ -21,7 +21,7 @@ public class VerifyServiceImpl implements VerifyService {
 
     private static String ERR_MSG_SYSTEM = "{\"data\": {},\"status\": \"10001\",\"statusText\": \"系统级错误\"}";
     private static String ERR_MSG_PARAMS = "{\"data\": {},\"status\": \"10002\",\"statusText\": \"参数错误,请输入必填的参数或参数验证失败\"}";
-    private static String ERR_MSG_SIG = "{\"data\": {},\"status\": \"50001\",\"statusText\": \"sid错误或已过期\"}";
+    private static String ERR_MSG_SIG = "{\"data\": {},\"status\": \"50002\",\"statusText\": \"sid自校验错误\"}";
 
     EhcacheService ehcacheService;
     private RemoteSessionService remoteSessionService;

@@ -81,7 +81,6 @@ public class SessionServerUtil {
      * 检测sid是否正确
      * 1.校验版本
      * 2.自校验是否正确
-     * 3.是否过有效期
      * @param sid
      * @return
      */
@@ -101,7 +100,8 @@ public class SessionServerUtil {
                 return false;
             }
             //sid是否过有效期
-            return checkSidExpDate(sid);
+//            return checkSidExpDate(sid);
+            return true;
         }catch(Exception e){
             logger.error("check sid error sid:"+sid,e);
             return false;

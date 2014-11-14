@@ -50,6 +50,17 @@ public class SessionServiceImpl implements SessionService {
             return null;
         }
 
+        //对有效的且剩余生命不足有效期一半的sgid进行续期
+        Long leftTime=redisClientTemplate.ttl(key);
+        if(leftTime!=null && leftTime<=0.5*CommonConstant.SESSION_EXPIRSE){
+            redisClientTemplate.expire(key,CommonConstant.SESSION_EXPIRSE);
+            try {
+                kvUtil.set(key,value,CommonConstant.SESSION_EXPIRSE);
+            } catch (Exception e) {
+                logger.error("set kv fail",e);
+            }
+        }
+
         try{
             return JSONObject.parseObject(value);
         }catch (Exception e){

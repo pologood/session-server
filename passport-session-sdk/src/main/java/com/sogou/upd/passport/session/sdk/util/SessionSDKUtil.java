@@ -44,7 +44,8 @@ public class SessionSDKUtil {
                 return false;
             }
             //sid是否过有效期
-            return checkSidExpDate(sid);
+//            return checkSidExpDate(sid);
+            return true;
         }catch(Exception e){
             logger.error("sid check error",e);
             return false;
