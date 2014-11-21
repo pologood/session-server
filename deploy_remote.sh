@@ -9,6 +9,7 @@ BRANCH=master
 
 DEPLEMENT_SH="/search/script/deploment/deployment_online_session_server/session-duildCode-Deploment.sh"
 DEPLEMENT_CMD="sh $DEPLEMENT_SH -b ${BRANCH}"
+DEPLEMENT2_SH="/search/script/deployment/online_deployment_session_server/session-duildCode-Deploment.sh"
 
 for loop in $HOST_LIST
 do
@@ -16,7 +17,7 @@ do
     read
     ssh root@$loop "mkdir -p /search/script/deploment/deployment_online_session_server/"
     ssh root@$loop "rm ${DEPLEMENT_SH}"
-    scp $DEPLEMENT_SH  root@$loop:$DEPLEMENT_SH
+    scp $DEPLEMENT2_SH  root@$loop:$DEPLEMENT_SH
     ssh root@$loop "${DEPLEMENT_CMD}"
     echo "在 $loop 部署 $BRANCH 结束"
 done
