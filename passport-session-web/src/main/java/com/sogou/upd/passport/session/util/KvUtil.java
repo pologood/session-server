@@ -58,7 +58,7 @@ public class KvUtil {
         stopWatch.stop(tagBuilder.toString());
     }
 
-    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_get", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
+    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_get", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
     public String get(String key) {
         String storeKey = kvPrefix+key;
         try {
@@ -72,7 +72,7 @@ public class KvUtil {
     }
 
 
-    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_delete", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
+    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_delete", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
     public void delete(String key) {
         try {
             String storeKey = kvPrefix+key;
