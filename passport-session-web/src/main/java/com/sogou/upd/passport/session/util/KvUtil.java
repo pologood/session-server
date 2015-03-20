@@ -28,11 +28,8 @@ public class KvUtil {
     private String kvPrefix;
 
 //    kv set  操作慢请求日志
-//    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
+    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
     public void set(String key, String value,long timeOut) throws Exception{
-        StopWatch stopWatch = new Slf4JStopWatch(KVTimingLogger);
-
-
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
@@ -46,16 +43,6 @@ public class KvUtil {
                 throw e;
             }
         }
-
-
-        StringBuilder tagBuilder = new StringBuilder("kv_set");
-        if (stopWatch.getElapsedTime() >= 10) {
-            tagBuilder.append(".slow");
-            logger.warn("kv slow key :" + key + " ,time:"+stopWatch.getElapsedTime());
-        }else{
-            tagBuilder.append(".normal");
-        }
-        stopWatch.stop(tagBuilder.toString());
     }
 
     @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_get", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
