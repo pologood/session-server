@@ -53,6 +53,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2022,"3JM8?d.0%;fT;s;I$CSs<3HVd2xX%#");//搜狗公交
         APP_SECRET_MAP.put(2023,"myws\\~ZZPm6rRK93z'Nf?I3lo5t2r-");//车载导航
         APP_SECRET_MAP.put(2024,"dUC_*|<97Xv^MsTjA&#*6>lG5k,4Hb");//手机浏览器
+        APP_SECRET_MAP.put(2025,"voU-GwrPkd52WL(N@DsH72Wv0PRL0U");//手机搜狗输入法
 
     }
 
