@@ -54,7 +54,8 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2023,"myws\\~ZZPm6rRK93z'Nf?I3lo5t2r-");//车载导航
         APP_SECRET_MAP.put(2024,"dUC_*|<97Xv^MsTjA&#*6>lG5k,4Hb");//手机浏览器
         APP_SECRET_MAP.put(2025,"voU-GwrPkd52WL(N@DsH72Wv0PRL0U");//手机搜狗输入法
-        APP_SECRET_MAP.put(2026,"*5R9t9`r$%8$prdu{CR>YS%9$^w?z!");//垂搜
+        APP_SECRET_MAP.put(2026,"*5R9t9`r$%8$prdu{CR>YS%9$^w?z!");//一拍解题
+        APP_SECRET_MAP.put(2027,"VBXOU|V!S(\"5;vI'LRrq%ISv-ae^*~");//导航内容平台系统
     }
 
     /**
