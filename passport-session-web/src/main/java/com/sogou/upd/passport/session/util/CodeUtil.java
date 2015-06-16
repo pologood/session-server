@@ -57,6 +57,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2026,"*5R9t9`r$%8$prdu{CR>YS%9$^w?z!");//一拍解题
         APP_SECRET_MAP.put(2027,"VBXOU|V!S(\"5;vI'LRrq%ISv-ae^*~");//导航内容平台系统
         APP_SECRET_MAP.put(2028,"s{(/zI4b9`8-8NRyyuir($Ue\"8@'_e");//搜狗尚美
+        APP_SECRET_MAP.put(2029,"lt~-q^+#+t\\broJ$AkMZgGcQl.n<6b");//爱对讲
     }
 
     /**
