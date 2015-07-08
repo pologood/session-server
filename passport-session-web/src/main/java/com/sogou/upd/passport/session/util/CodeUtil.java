@@ -59,7 +59,8 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2028,"s{(/zI4b9`8-8NRyyuir($Ue\"8@'_e");//搜狗尚美
         APP_SECRET_MAP.put(2029,"lt~-q^+#+t\\broJ$AkMZgGcQl.n<6b");//爱对讲
         APP_SECRET_MAP.put(2030,"(|,udq$)ImQ3tp=i3P4[ah~TSkg3ha");//微信头条
-        APP_SECRET_MAP.put(2031,"(e<T&/f`y~$&?L~(1p{txfKjkI7blnl");//食神
+        APP_SECRET_MAP.put(2031,"e<T&/f`y~$&?L~(1p{txfKjkI7blnl");//食神APP
+        APP_SECRET_MAP.put(2032,"sv'+2,U'0#PPL2DV;%pjGgBur?cerv");//搜狗暑期整合营销
     }
 
     /**
