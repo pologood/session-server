@@ -62,6 +62,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2031,"e<T&/f`y~$&?L~(1p{txfKjkI7blnl");//食神APP
         APP_SECRET_MAP.put(2032,"sv'+2,U'0#PPL2DV;%pjGgBur?cerv");//搜狗暑期整合营销
         APP_SECRET_MAP.put(2033,"I0U)0eW5XcL0&Ju9]#0p l((No!%HY");//懒人跑步
+        APP_SECRET_MAP.put(2034,"o[%H4)Z,H)\"ZXG&\\#m(!Vy2E<TGT9!");//不能不看
     }
 
     /**
