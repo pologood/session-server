@@ -67,6 +67,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2036,"2up\"];ANX{=7f'}}0coT>}1M1*)TQa");//大料APP
         APP_SECRET_MAP.put(2037,"4Cx9kRg)r)oew`/vh9;t,}FWu[:zux");//搜狗输入法论坛项目
         APP_SECRET_MAP.put(2038,"% rIn-yx#+FD$C|m7cC-bZf)2*>z4!");//搜狗导航IOS客户端
+        APP_SECRET_MAP.put(2039,"M4(K?lT+UPtZ^f%~P9\":lP1!)aqL[o");//从前IOS客户端
     }
 
     /**
