@@ -69,6 +69,8 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2038,"% rIn-yx#+FD$C|m7cC-bZf)2*>z4!");//搜狗导航IOS客户端
         APP_SECRET_MAP.put(2039,"M4(K?lT+UPtZ^f%~P9\":lP1!)aqL[o");//从前IOS客户端
         APP_SECRET_MAP.put(2015,"{Q;6sxEi[R8gj{g!k%w3'o%&8'xee*");//号码通
+        APP_SECRET_MAP.put(2040,"w_6 pR|W]S/~}K^ j+y4X{`y>yb Ce");//好友链测试
+        APP_SECRET_MAP.put(2041,"df{P;d=<Cz\"k'fyr2%u0FWDnwZ>D*T");//东风风行皮肤设计大赛
     }
 
     /**
