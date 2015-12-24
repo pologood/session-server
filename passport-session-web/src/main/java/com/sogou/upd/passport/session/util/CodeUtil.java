@@ -71,6 +71,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2015,"{Q;6sxEi[R8gj{g!k%w3'o%&8'xee*");//号码通
         APP_SECRET_MAP.put(2040,"w_6 pR|W]S/~}K^ j+y4X{`y>yb Ce");//好友链测试
         APP_SECRET_MAP.put(2041,"df{P;d=<Cz\"k'fyr2%u0FWDnwZ>D*T");//东风风行皮肤设计大赛
+        APP_SECRET_MAP.put(2042,"SY2dXLm+DCfxcz&e(aok7uG3>Ptav&");//fuwuapp
     }
 
     /**
