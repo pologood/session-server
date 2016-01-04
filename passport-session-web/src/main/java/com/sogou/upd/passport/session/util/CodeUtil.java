@@ -73,6 +73,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2041,"df{P;d=<Cz\"k'fyr2%u0FWDnwZ>D*T");//东风风行皮肤设计大赛
         APP_SECRET_MAP.put(2042,"SY2dXLm+DCfxcz&e(aok7uG3>Ptav&");//fuwuapp
         APP_SECRET_MAP.put(2043,"5Pb&Ze'IO}5N3*,t#(^o38H4k4pd_A");//健康宝典
+        APP_SECRET_MAP.put(2044,"a5fKkv4fiv_sHk*0QK*6C8`3WW]hr>");//趣读
     }
 
     /**
