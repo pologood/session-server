@@ -74,6 +74,8 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2042,"SY2dXLm+DCfxcz&e(aok7uG3>Ptav&");//fuwuapp
         APP_SECRET_MAP.put(2043,"5Pb&Ze'IO}5N3*,t#(^o38H4k4pd_A");//健康宝典
         APP_SECRET_MAP.put(2044,"a5fKkv4fiv_sHk*0QK*6C8`3WW]hr>");//趣读
+        APP_SECRET_MAP.put(2045,"CB7%aZe{K17IhH]!1O<Y0Wq0BtR>k");//小P测试
+        APP_SECRET_MAP.put(2046,"GgLqe&72z#|xK1R.bsd,m@&S%2_R^>");//荐文
     }
 
     /**
