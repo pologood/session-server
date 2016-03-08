@@ -77,6 +77,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2045,"CB7%aZe{K17IhH]!1O<Y0Wq0BtR>k");//小P测试
         APP_SECRET_MAP.put(2046,"GgLqe&72z#|xK1R.bsd,m@&S%2_R^>");//荐文
         APP_SECRET_MAP.put(2047,"<r)h3fj,s%6Z<.x=<mJKm<6IkLhhUm");//荐闻
+        APP_SECRET_MAP.put(2048,"[D0.Jc[A|)T1Q50#Y)8wcL,nB1i!kj");//糖猫故事机
     }
 
     /**
