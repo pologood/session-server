@@ -79,6 +79,8 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2047,"<r)h3fj,s%6Z<.x=<mJKm<6IkLhhUm");//荐闻
         APP_SECRET_MAP.put(2048,"[D0.Jc[A|)T1Q50#Y)8wcL,nB1i!kj");//糖猫故事机
         APP_SECRET_MAP.put(2049,"FyD+1H2vp!i`m[t/B8)o~ZY&[K Kk_");//搜狗输入法注音版
+        APP_SECRET_MAP.put(2050,"V6HYx?u-&^w2!LyvZ)epI:PA5hr6CL");//广告信流息
+        APP_SECRET_MAP.put(2051,"[m4F1AvVvU}+$34=XA50, #]c$i_?}");//今日十大新闻
     }
 
     /**
