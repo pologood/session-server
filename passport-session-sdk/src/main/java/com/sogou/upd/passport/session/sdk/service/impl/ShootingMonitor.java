@@ -20,7 +20,7 @@ import java.util.TimerTask;
  */
 public class ShootingMonitor extends TimerTask {
 
-    private static String REPORT_SHOOTING_URL = "http://session.account.sogou.com.z.sogou-op.org/report_shooting";
+    private static String REPORT_SHOOTING_URL = "http://session.account.sogou/report_shooting";
 
     private static Logger logger = LoggerFactory.getLogger(ShootingMonitor.class);
 

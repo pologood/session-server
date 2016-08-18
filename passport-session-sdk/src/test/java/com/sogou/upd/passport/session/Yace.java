@@ -39,7 +39,7 @@ public class Yace implements  Runnable{
 
     public String getSession(String sgid){
         long ct=System.currentTimeMillis();
-        RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/verify_sid");
+        RequestModel setRequestModel=new RequestModel("http://session.account.sogou/verify_sid");
         String code= CoderUtil.generatorCode(sgid,2002 , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
         setRequestModel.addParam("sgid",sgid);
@@ -60,7 +60,7 @@ public class Yace implements  Runnable{
 
     public String setSession(int i){
         long ct=System.currentTimeMillis();
-        RequestModel setRequestModel=new RequestModel("http://session.account.sogou.com.z.sogou-op.org/set_session");
+        RequestModel setRequestModel=new RequestModel("http://session.account.sogou/set_session");
         String sgid=SessionServerUtil.createSessionSid(a+i+"@test.com");
 //        String code= CoderUtil.generatorCode(sgid, , "4xoG%9>2Z67iL5]OdtBq$l#>DfW@TY", ct);
         setRequestModel.addParam("ct",ct);
