@@ -44,7 +44,11 @@
     <distributionManagement>
         <repository>
             <id>nexus</id>
-            <url>http://repo.upd.sogou-inc.com/nexus/content/repositories/thirdparty/</url>
+            <!-- passport 使用的 maven 库 -->
+            <!-- <url>http://repo.upd.sogou-inc.com/nexus/content/repositories/thirdparty/</url> -->
+            <!-- 其他业务线使用的 maven 库 -->
+            <url>http://ns.sogou-inc.com:8081/nexus/content/repositories/thirdparty</url>
+
         </repository>
     </distributionManagement>
 
