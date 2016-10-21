@@ -83,6 +83,7 @@ public class CodeUtil {
         APP_SECRET_MAP.put(2051,"[m4F1AvVvU}+$34=XA50, #]c$i_?}");//今日十大新闻
         APP_SECRET_MAP.put(2052,"c9y&1`j1/bTxe3SC''1$;pO%HSy=c");//好奇者
         APP_SECRET_MAP.put(2058,"rKgE1mVmDDGkEAq4UgVLldYs08gqpA");//搜狗哈哈
+        APP_SECRET_MAP.put(2021,"tZUo[+%=f7)bxx?F0M4;M9B1|dhhJ`");//游戏SDK
     }
 
     /**
