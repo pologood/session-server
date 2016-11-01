@@ -180,6 +180,6 @@ public class SessionServiceImpl implements SessionService {
     }
     
     private String buildAppConfigCacheKey(int client_id) {
-        return "SP.CLIENTID:APPCONFIG_SECRET" + client_id;
+        return "SP.CLIENTID:APPCONFIG_SECRET_" + client_id;
     }
 }
