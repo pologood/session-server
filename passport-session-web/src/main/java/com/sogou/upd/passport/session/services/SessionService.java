@@ -28,5 +28,21 @@ public interface SessionService {
      * @param sid
      */
     public void deleteSession(String sid);
-
+    
+    /**
+     * 读取 app 的 server secret
+     * @param clientId
+     * @return
+     */
+    public String queryAppConfigByClientId(int clientId);
+    
+    /**
+     * 检查 code
+     * @param sgid
+     * @param clientId
+     * @param code
+     * @param ct
+     * @return
+     */
+    public boolean checkCode(String sgid, int clientId, String code, long ct);
 }
