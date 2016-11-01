@@ -41,6 +41,8 @@ public class SessionServiceImpl implements SessionService {
     
     private static Logger logger = LoggerFactory.getLogger(SessionServiceImpl.class);
     
+    private static final long ONE_MONTH = 1 * 30 * 24 * 60 * 60; // 时间 1个月 ,单位s
+    
     private static LoadingCache<Integer, String> appLocalCache = null;
     
     public SessionServiceImpl() {
@@ -125,7 +127,7 @@ public class SessionServiceImpl implements SessionService {
             try {
                 serverSecret = appLocalCache.get(clientId);
             } catch (Exception e) {
-                logger.warn("[App] queryAppConfigByClientId fail,clientId:" + clientId, e);
+                logger.warn("loadAppServerSecret fail,clientId:" + clientId, e);
                 return null;
             }
         } else {
@@ -144,6 +146,13 @@ public class SessionServiceImpl implements SessionService {
         String serverSecret = redisUtils.get(cacheKey);
         if (StringUtils.isBlank(serverSecret)) {
             serverSecret = sessionDao.queryAppConfigByClientId(clientId);
+            if (StringUtils.isNotBlank(serverSecret)) {
+                try {
+                    redisUtils.setWithinSeconds(cacheKey, serverSecret, ONE_MONTH);
+                } catch (Exception e) {
+                    logger.error("save server secret to redis fail,clientId:" + clientId);
+                }
+            }
         }
         
         return serverSecret;
@@ -171,6 +180,6 @@ public class SessionServiceImpl implements SessionService {
     }
     
     private String buildAppConfigCacheKey(int client_id) {
-        return "SP.CLIENTID:APPCONFIG_" + client_id;
+        return "SP.CLIENTID:APPCONFIG_SECRET" + client_id;
     }
 }
