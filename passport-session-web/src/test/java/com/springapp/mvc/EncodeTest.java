@@ -1,8 +1,5 @@
 package com.springapp.mvc;
 
-import com.sogou.upd.passport.session.model.BaseApiParams;
-import com.sogou.upd.passport.session.model.BaseSidParams;
-import com.sogou.upd.passport.session.util.CodeUtil;
 import com.sogou.upd.passport.session.util.SessionCommonUtil;
 import com.sogou.upd.passport.session.util.SessionSDKUtil;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
@@ -10,7 +7,6 @@ import junit.framework.Assert;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
-import javax.validation.constraints.AssertTrue;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;

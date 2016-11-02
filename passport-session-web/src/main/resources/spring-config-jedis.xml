@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-    http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
     ">
 
-
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxActive" value="400"/>
+        <property name="maxTotal" value="400"/>
         <property name="maxIdle" value="400"/>
         <property name="minIdle" value="100"/>
-        <property name="maxWait" value="5"/><!--由于session server在redis出问题之后可以将所有请求达到kv，所以这里可以快速返回-->
+        <property name="maxWaitMillis" value="5"/><!--由于session server在redis出问题之后可以将所有请求达到kv，所以这里可以快速返回-->
         <property name="testOnBorrow" value="false"/>
         <!--30分钟跑一次idle object eviction线程-->
         <property name="timeBetweenEvictionRunsMillis" value="1800000"/>
@@ -75,14 +67,12 @@
 
     <bean id="redisClientTemplate" class="com.sogou.upd.passport.session.util.redis.RedisClientTemplate"/>
 
-
-
     <!-- kv redis util definition -->
     <bean id="kvPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        <property name="maxActive" value="200"/>
+        <property name="maxTotal" value="200"/>
         <property name="maxIdle" value="100"/>
         <property name="minIdle" value="50"/>
-        <property name="maxWait" value="1000"/>
+        <property name="maxWaitMillis" value="1000"/>
         <property name="testOnBorrow" value="false"/>
     </bean>
 
@@ -100,4 +90,27 @@
         <property name="kvTemplate" ref="kvTemplate"/>
     </bean>
 
+    <!-- cache redis util definition -->
+    <bean id="redisUtils" class="com.sogou.upd.passport.session.util.redis.RedisUtils">
+        <property name="redisTemplate" ref="cacheTemplate"/>
+    </bean>
+    <bean id="cacheTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+          p:connectionFactory-ref="cacheConnectionFactory"/>
+    <bean id="cacheConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:usePool="true">
+        <property name="hostName" value="${passport.redis.url}"/>
+        <property name="port" value="${passport.redis.port}"/>
+        <constructor-arg index="0" ref="cachePoolConfig"/>
+    </bean>
+    <bean id="cachePoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="1600"/>
+        <property name="maxIdle" value="300"/>
+        <property name="minIdle" value="300"/>
+        <property name="maxWaitMillis" value="1000"/>
+        <property name="testOnBorrow" value="false"/>
+        <!--30分钟跑一次idle object eviction线程-->
+        <property name="timeBetweenEvictionRunsMillis" value="180000" />
+        <!-- 解决java.net.SocketTimeoutException: connect timed out-->
+        <property name="lifo" value="false" />
+    </bean>
 </beans>

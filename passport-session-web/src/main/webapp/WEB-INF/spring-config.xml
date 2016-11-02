@@ -23,6 +23,7 @@
     <mvc:annotation-driven />
 
     <import resource="classpath:spring-config-jedis.xml"/>
+    <import resource="classpath:spring-config-dao.xml"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>

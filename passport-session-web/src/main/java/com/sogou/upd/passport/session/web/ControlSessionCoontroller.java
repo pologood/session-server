@@ -4,12 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.sogou.upd.passport.session.model.DeleteSessionParams;
 import com.sogou.upd.passport.session.model.SetSessionParams;
 import com.sogou.upd.passport.session.services.SessionService;
-import com.sogou.upd.passport.session.util.CodeUtil;
 import com.sogou.upd.passport.session.util.ControllerHelper;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
+
 import org.apache.commons.lang3.StringUtils;
 import org.perf4j.StopWatch;
-import org.perf4j.aop.Profiled;
 import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,11 @@ public class ControlSessionCoontroller extends BaseController{
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute(STOPWATCH, stopWatch);
         request.setAttribute(SLOW_THRESHOLD, 20);
-
+    
+        String sgid = setSessionParams.getSgid();
+        int clientId = setSessionParams.getClient_id();
+        String code = setSessionParams.getCode();
+        long ct = setSessionParams.getCt();
 
         JSONObject result=new JSONObject();
         // 参数校验
@@ -52,19 +55,19 @@ public class ControlSessionCoontroller extends BaseController{
             return handleResult(result,request);
         }
 
-        if(!SessionServerUtil.checkSid(setSessionParams.getSgid())){
+        if(!SessionServerUtil.checkSid(sgid)){
             result.put("status","50002");
             result.put("statusText","sid自校验错误");
             return handleResult(result,request);
         }
 
-        if(!CodeUtil.checkCode(setSessionParams)){
+        if(!sessionService.checkCode(sgid, clientId, code, ct)){
             result.put("status","10003");
             result.put("statusText","code签名错误");
             return handleResult(result,request);
         }
 
-        sessionService.setSession(setSessionParams.getSgid(),setSessionParams.getUser_info());
+        sessionService.setSession(sgid,setSessionParams.getUser_info());
 
         result.put("status","0");
 
@@ -76,6 +79,11 @@ public class ControlSessionCoontroller extends BaseController{
     public String deleteSession(HttpServletRequest request,DeleteSessionParams deleteSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute("stopWatch", stopWatch);
+    
+        String sgid = deleteSessionParams.getSgid();
+        int clientId = deleteSessionParams.getClient_id();
+        String code = deleteSessionParams.getCode();
+        long ct = deleteSessionParams.getCt();
 
         JSONObject result=new JSONObject();
         // 参数校验
@@ -85,14 +93,14 @@ public class ControlSessionCoontroller extends BaseController{
             result.put("statusText",validateResult);
             return handleResult(result,request);
         }
-
-        if(!CodeUtil.checkCode(deleteSessionParams)){
+    
+        if(!sessionService.checkCode(sgid, clientId, code, ct)){
             result.put("status","10003");
             result.put("statusText","code签名错误");
             return handleResult(result,request);
         }
 
-        sessionService.deleteSession(deleteSessionParams.getSgid());
+        sessionService.deleteSession(sgid);
 
         result.put("status","0");
 
