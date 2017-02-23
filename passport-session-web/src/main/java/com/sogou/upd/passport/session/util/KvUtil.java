@@ -2,7 +2,6 @@ package com.sogou.upd.passport.session.util;
 
 import com.google.common.collect.Maps;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.perf4j.aop.Profiled;
@@ -12,7 +11,6 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -121,17 +119,7 @@ public class KvUtil {
         Map<String, String> resultMap = Maps.newHashMap();
         try {
             HashOperations<String, String, String> hashOperations = kvTemplate.opsForHash();
-            List<String> valueList = hashOperations.values(key);
-            if(CollectionUtils.isNotEmpty(valueList)) {
-                for (int i = 0; i < valueList.size(); i += 2) {
-                    String field = valueList.get(i);
-                    String value = valueList.get(i + 1);
-
-                    resultMap.put(field, value);
-                }
-
-                return resultMap;
-            }
+            return hashOperations.entries(key);
         } catch (Exception e) {
             logger.error("[KvCache] hgetAll cache fail, key:" + key, e);
         }
