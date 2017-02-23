@@ -29,6 +29,8 @@ public class RedisTest {
     public void testNewSgidRedisUtils() {
         String cacheKey = "sessionid_12-23932186";
         Map<String, String> map = newSgidRedisClientTemplate.hgetAll(cacheKey);
-        System.err.println(map);
+        for (Map.Entry<String, String> set : map.entrySet()) {
+            System.err.println(set);
+        }
     }
 }

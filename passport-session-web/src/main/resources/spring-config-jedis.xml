@@ -9,7 +9,7 @@
         <property name="maxTotal" value="400"/>
         <property name="maxIdle" value="400"/>
         <property name="minIdle" value="100"/>
-        <property name="maxWaitMillis" value="5"/><!--由于session server在redis出问题之后可以将所有请求达到kv，所以这里可以快速返回-->
+        <property name="maxWaitMillis" value="1000"/><!--由于session server在redis出问题之后可以将所有请求达到kv，所以这里可以快速返回-->
         <property name="testOnBorrow" value="false"/>
         <!--30分钟跑一次idle object eviction线程-->
         <property name="timeBetweenEvictionRunsMillis" value="1800000"/>
@@ -126,32 +126,26 @@
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis1.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis1.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis1.name}" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis2.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis2.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis2.name}" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis3.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis3.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis3.name}" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis4.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis4.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis4.name}" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis5.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis5.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis5.name}" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="${passport.new.sgid.redis6.url}"/>
                     <constructor-arg name="port" value="${passport.new.sgid.redis6.port}" type="int"/>
-                    <constructor-arg name="name" value="${passport.new.sgid.redis6.name}" />
                 </bean>
             </list>
         </constructor-arg>
