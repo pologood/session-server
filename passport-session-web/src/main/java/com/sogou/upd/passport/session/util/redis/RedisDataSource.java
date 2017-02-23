@@ -2,7 +2,7 @@ package com.sogou.upd.passport.session.util.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
@@ -15,7 +15,6 @@ public class RedisDataSource {
 
     private static final Logger log = LoggerFactory.getLogger(RedisDataSource.class);
 
-    @Autowired
     private ShardedJedisPool shardedJedisPool;
 
     public ShardedJedis getRedisClient() {
@@ -38,5 +37,9 @@ public class RedisDataSource {
         } else {
             shardedJedisPool.returnResource(shardedJedis);
         }
+    }
+
+    public void setShardedJedisPool(ShardedJedisPool shardedJedisPool) {
+        this.shardedJedisPool = shardedJedisPool;
     }
 }

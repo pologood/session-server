@@ -1,17 +1,11 @@
 package com.sogou.upd.passport.session.util;
 
-import com.google.common.collect.Maps;
-
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,57 +80,6 @@ public class KvUtil {
 
     public void setKvPrefix(String kvPrefix) {
         this.kvPrefix = kvPrefix;
-    }
-
-    @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_expire", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
-    public void expire(String cacheKey, long timeout) {
-        try {
-            kvTemplate.expire(cacheKey, timeout, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            logger.error("[Cache] set cache expire fail, key:" + cacheKey + "timeout:" + timeout, e);
-        }
-    }
-
-    public void hset(String key, String field, String value) {
-        try {
-            HashOperations<String, String, String> hashOperations = kvTemplate.opsForHash();
-            hashOperations.put(key, field, value);
-        } catch (Exception e) {
-            logger.error("[KvCache] hset cache fail, key:" + key + " field:" + field + " value:" + value, e);
-        }
-    }
-
-    public void hmset(String key, Map<String, String> hash) {
-        try {
-            HashOperations<String, String, String> hashOperations = kvTemplate.opsForHash();
-            hashOperations.putAll(key, hash);
-        } catch (Exception e) {
-            logger.error("[KvCache] hmset cache fail, key:" + key + " hash:" + hash, e);
-        }
-    }
-
-    public Map<String, String> hgetAll(String key) {
-        Map<String, String> resultMap = Maps.newHashMap();
-        try {
-            HashOperations<String, String, String> hashOperations = kvTemplate.opsForHash();
-            return hashOperations.entries(key);
-        } catch (Exception e) {
-            logger.error("[KvCache] hgetAll cache fail, key:" + key, e);
-        }
-        return resultMap;
-    }
-
-
-    public void hdel(String key, String... field) {
-        if(ArrayUtils.isEmpty(field)) {
-            return ;
-        }
-        try {
-            HashOperations<String, String, String> hashOperations = kvTemplate.opsForHash();
-            hashOperations.delete(key, (Object[]) field);
-        } catch (Exception e) {
-            logger.error("[KvCache] hdel cache fail, key:" + key + " field:" + StringUtils.join(field, ' '));
-        }
     }
 }
 

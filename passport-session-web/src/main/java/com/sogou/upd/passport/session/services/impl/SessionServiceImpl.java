@@ -12,11 +12,9 @@ import com.sogou.upd.passport.session.services.SessionService;
 import com.sogou.upd.passport.session.util.CommonConstant;
 import com.sogou.upd.passport.session.util.KvUtil;
 import com.sogou.upd.passport.session.util.SessionCommonUtil;
-import com.sogou.upd.passport.session.util.redis.NewSgidRedisUtils;
 import com.sogou.upd.passport.session.util.redis.RedisClientTemplate;
 import com.sogou.upd.passport.session.util.redis.RedisUtils;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +42,7 @@ public class SessionServiceImpl implements SessionService {
     @Autowired
     private SessionDao sessionDao;
     @Autowired
-    private NewSgidRedisUtils newSgidRedisUtils;
+    private RedisClientTemplate newSgidRedisClientTemplate;
 
     private static Logger logger = LoggerFactory.getLogger(SessionServiceImpl.class);
 
@@ -93,10 +91,7 @@ public class SessionServiceImpl implements SessionService {
 
         JSONObject jsonResult = null;
 
-        Map<String, String> valueMap = newSgidRedisUtils.hgetAll(cacheKey);
-        if (MapUtils.isEmpty(valueMap)) {
-            valueMap = kvUtil.hgetAll(cacheKey);
-        }
+        Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
         for (Map.Entry<String, String> entry : valueMap.entrySet()) {
             // 存储的 sgid （field）
             String cachedSgid = entry.getKey();
@@ -129,21 +124,18 @@ public class SessionServiceImpl implements SessionService {
         }
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
-            newSgidRedisUtils.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
-            kvUtil.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
+            newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
 
         }
         if (updateFieldsMap.size() > 0) { // 待更新的 field
-            newSgidRedisUtils.hmset(cacheKey, updateFieldsMap);
-            kvUtil.hmset(cacheKey, updateFieldsMap);
+            newSgidRedisClientTemplate.hmset(cacheKey, updateFieldsMap);
         }
 
         // 对有效的且剩余生命不足有效期一半的 key 进行续期
         // ttl 返回，key 不存在 -2，未设置过期时间 -1，正常设置返回剩余时间
         Long leftTime = redisClientTemplate.ttl(cacheKey);
         if ((leftTime != null) && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) {
-            newSgidRedisUtils.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
-            kvUtil.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+            newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
         }
 
         // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
@@ -177,7 +169,7 @@ public class SessionServiceImpl implements SessionService {
         Long leftTime = redisClientTemplate.ttl(key);
         if ((leftTime != null) && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) {
             redisClientTemplate.expire(key, CommonConstant.SESSION_EXPIRSE);
-            kvUtil.expire(key, CommonConstant.SESSION_EXPIRSE);
+            kvUtil.set(key, value, CommonConstant.SESSION_EXPIRSE);
         }
 
         try {
@@ -212,11 +204,8 @@ public class SessionServiceImpl implements SessionService {
         userInfoJson.put("expire", expire);
 
         // 设置 field 和 key 的失效时间
-        newSgidRedisUtils.hset(cacheKey, realSgid, userInfoJson.toJSONString());
-        newSgidRedisUtils.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
-
-        kvUtil.hset(cacheKey, realSgid, userInfoJson.toJSONString());
-        kvUtil.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+        newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());
+        newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
     }
 
     @Override
@@ -227,8 +216,7 @@ public class SessionServiceImpl implements SessionService {
             String prefix = sgid.substring(0, lastIndex);
             String realSgid = sgid.substring(lastIndex + 1);
 
-            newSgidRedisUtils.hdel(prefix, realSgid);
-            kvUtil.hdel(prefix, realSgid);
+            newSgidRedisClientTemplate.hdel(prefix, realSgid);
         } else {    // 旧 sgid
             String key = CommonConstant.PREFIX_SESSION + sgid;
             redisClientTemplate.del(key);

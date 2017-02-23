@@ -3,7 +3,6 @@ package com.sogou.upd.passport.session.util.redis;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,7 +28,6 @@ public class RedisClientTemplate {
 
     private final static String REDIS_PERF4J_LOGGER = "redisTimingLogger";
 
-    @Autowired
     private RedisDataSource redisDataSource;
 
     public void disconnect() {
@@ -3109,4 +3107,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    public void setRedisDataSource(RedisDataSource redisDataSource) {
+        this.redisDataSource = redisDataSource;
+    }
 }
