@@ -115,7 +115,7 @@
     </bean>
 
     <!-- new sgid redis utils-->
-    <bean id="newSgidRedisUtils" class="com.sogou.upd.passport.session.util.redis.RedisUtils">
+    <bean id="newSgidRedisUtils" class="com.sogou.upd.passport.session.util.redis.NewSgidRedisUtils">
         <property name="redisTemplate" ref="newSgidTemplate"/>
     </bean>
     <bean id="newSgidTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
