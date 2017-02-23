@@ -113,4 +113,28 @@
         <!-- 解决java.net.SocketTimeoutException: connect timed out-->
         <property name="lifo" value="false" />
     </bean>
+
+    <!-- new sgid redis utils-->
+    <bean id="newSgidRedisUtils" class="com.sogou.upd.passport.session.util.redis.RedisUtils">
+        <property name="redisTemplate" ref="newSgidTemplate"/>
+    </bean>
+    <bean id="newSgidTemplate" class="org.springframework.data.redis.core.StringRedisTemplate"
+          p:connectionFactory-ref="newSgidConnectionFactory"/>
+    <bean id="newSgidConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:usePool="true">
+        <property name="hostName" value="${passport.new.sgid.redis.url}"/>
+        <property name="port" value="${passport.new.sgid.redis.port}"/>
+        <constructor-arg index="0" ref="newSgidPoolConfig"/>
+    </bean>
+    <bean id="newSgidPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="1600"/>
+        <property name="maxIdle" value="400"/>
+        <property name="minIdle" value="400"/>
+        <property name="maxWaitMillis" value="1000"/>
+        <property name="testOnBorrow" value="false"/>
+        <!--30分钟跑一次idle object eviction线程-->
+        <property name="timeBetweenEvictionRunsMillis" value="180000" />
+        <!-- 解决java.net.SocketTimeoutException: connect timed out-->
+        <property name="lifo" value="false" />
+    </bean>
 </beans>

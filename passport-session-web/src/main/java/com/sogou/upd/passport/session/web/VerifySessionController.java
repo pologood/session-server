@@ -27,24 +27,24 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class VerifySessionController extends BaseController {
-    
+
     @Autowired
     private SessionService sessionService;
-    
+
     private static Logger logger = LoggerFactory.getLogger(VerifySessionController.class);
-    
+
     @RequestMapping(value = "/verify_sid", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String verifySid(HttpServletRequest request, VerifySidParams verifySidParams) {
-        
+
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute("stopWatch", stopWatch);
-        
+
         String sgid = verifySidParams.getSgid();
         int clientId = verifySidParams.getClient_id();
         String code = verifySidParams.getCode();
         long ct = verifySidParams.getCt();
-        
+
         JSONObject result = new JSONObject();
         // 参数校验
         String validateResult = ControllerHelper.validateParams(verifySidParams);
@@ -53,31 +53,30 @@ public class VerifySessionController extends BaseController {
             result.put("statusText", validateResult);
             return handleResult(result, request);
         }
-        
-        if (!SessionServerUtil.checkSid(sgid)) {
+
+        if (!SessionServerUtil.checkSgid(sgid)) {
             result.put("status", "50002");
             result.put("statusText", "sid自校验错误");
             return handleResult(result, request);
         }
-        
+
         if (!sessionService.checkCode(sgid, clientId, code, ct)) {
             result.put("status", "10003");
             result.put("statusText", "code签名错误");
             return handleResult(result, request);
         }
-        
+
         JSONObject userInfo = sessionService.getSession(sgid);
         if (userInfo == null) {
             result.put("status", "50001");
             result.put("statusText", "sid不存在或已过期");
-            logger
-                .warn("sid miss sgid:" + sgid + " , client_id:" + clientId);
+            logger.warn("sid miss sgid:" + sgid + " , client_id:" + clientId);
             return handleResult(result, request);
         }
-        
+
         result.put("status", "0");
         result.put("data", userInfo);
-        
+
         return handleResult(result, request);
     }
 }

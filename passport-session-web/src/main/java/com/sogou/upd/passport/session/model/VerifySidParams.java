@@ -1,6 +1,6 @@
 package com.sogou.upd.passport.session.model;
 
-import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * User: ligang201716@sogou-inc.com
@@ -12,7 +12,7 @@ public class VerifySidParams extends BaseSidParams {
     /**
      * 用户调用IP
      */
-    @NotBlank(message = "userIp不允许为空")
+    @NotEmpty(message = "userIp不允许为空")
     private String user_ip;
 
 

@@ -40,7 +40,7 @@ public class ControlSessionCoontroller extends BaseController{
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute(STOPWATCH, stopWatch);
         request.setAttribute(SLOW_THRESHOLD, 20);
-    
+
         String sgid = setSessionParams.getSgid();
         int clientId = setSessionParams.getClient_id();
         String code = setSessionParams.getCode();
@@ -55,7 +55,7 @@ public class ControlSessionCoontroller extends BaseController{
             return handleResult(result,request);
         }
 
-        if(!SessionServerUtil.checkSid(sgid)){
+        if(!SessionServerUtil.checkSgid(sgid)){
             result.put("status","50002");
             result.put("statusText","sid自校验错误");
             return handleResult(result,request);
@@ -79,7 +79,7 @@ public class ControlSessionCoontroller extends BaseController{
     public String deleteSession(HttpServletRequest request,DeleteSessionParams deleteSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute("stopWatch", stopWatch);
-    
+
         String sgid = deleteSessionParams.getSgid();
         int clientId = deleteSessionParams.getClient_id();
         String code = deleteSessionParams.getCode();
@@ -93,7 +93,7 @@ public class ControlSessionCoontroller extends BaseController{
             result.put("statusText",validateResult);
             return handleResult(result,request);
         }
-    
+
         if(!sessionService.checkCode(sgid, clientId, code, ct)){
             result.put("status","10003");
             result.put("statusText","code签名错误");
