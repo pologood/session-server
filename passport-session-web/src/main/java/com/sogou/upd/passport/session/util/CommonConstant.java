@@ -22,5 +22,5 @@ public class CommonConstant {
     /**
      * redis key -
      */
-    public static final String REDIS_KEY_EXPIRE = "expire";
+    public static final String REDIS_SGID_EXPIRE = "expire";
 }

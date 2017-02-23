@@ -103,9 +103,9 @@ public class SessionServiceImpl implements SessionService {
             JSONObject userInfoJson = JSONObject.parseObject(userInfo);
 
             // 有效期
-            String expire = (String) userInfoJson.get(CommonConstant.REDIS_KEY_EXPIRE);
+            int expire = (Integer) userInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
             // 剩余时间
-            long leftTime = Long.parseLong(expire) - currentTimeMillis;
+            long leftTime = expire - (currentTimeMillis / 1000);
             if (leftTime <= 0) { // 超过有效期
                 // 加入待删除列表
                 delFieldsList.add(cachedSgid);
@@ -113,7 +113,7 @@ public class SessionServiceImpl implements SessionService {
             } else if (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF) { // 不足一半有效期
                 // 计算新过期时间
                 long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
-                userInfoJson.put(CommonConstant.REDIS_KEY_EXPIRE, expireTime);
+                userInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
                 updateFieldsMap.put(cachedSgid, userInfoJson.toJSONString());
             }
 
@@ -143,7 +143,7 @@ public class SessionServiceImpl implements SessionService {
 
         // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
         // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
-        jsonResult.remove(CommonConstant.REDIS_KEY_EXPIRE);
+        jsonResult.remove(CommonConstant.REDIS_SGID_EXPIRE);
 
         return jsonResult;
     }
