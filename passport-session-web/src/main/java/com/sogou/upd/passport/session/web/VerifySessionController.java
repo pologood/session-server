@@ -44,6 +44,7 @@ public class VerifySessionController extends BaseController {
         int clientId = verifySidParams.getClient_id();
         String code = verifySidParams.getCode();
         long ct = verifySidParams.getCt();
+        boolean isWeb = verifySidParams.isWeb();
 
         JSONObject result = new JSONObject();
         // 参数校验
@@ -66,7 +67,7 @@ public class VerifySessionController extends BaseController {
             return handleResult(result, request);
         }
 
-        JSONObject userInfo = sessionService.getSession(sgid);
+        JSONObject userInfo = sessionService.getSession(sgid, isWeb);
         if (userInfo == null) {
             result.put("status", "50001");
             result.put("statusText", "sid不存在或已过期");

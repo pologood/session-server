@@ -36,7 +36,7 @@ public class ControlSessionCoontroller extends BaseController{
 
     @RequestMapping(value = "/set_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String setSession(HttpServletRequest request,SetSessionParams setSessionParams){
+    public String setSession(HttpServletRequest request, SetSessionParams setSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute(STOPWATCH, stopWatch);
         request.setAttribute(SLOW_THRESHOLD, 20);
@@ -45,6 +45,7 @@ public class ControlSessionCoontroller extends BaseController{
         int clientId = setSessionParams.getClient_id();
         String code = setSessionParams.getCode();
         long ct = setSessionParams.getCt();
+        boolean isWeb = setSessionParams.isWeb();
 
         JSONObject result=new JSONObject();
         // 参数校验
@@ -67,7 +68,7 @@ public class ControlSessionCoontroller extends BaseController{
             return handleResult(result,request);
         }
 
-        sessionService.setSession(sgid,setSessionParams.getUser_info());
+        sessionService.setSession(sgid,setSessionParams.getUser_info(), isWeb);
 
         result.put("status","0");
 
@@ -76,7 +77,7 @@ public class ControlSessionCoontroller extends BaseController{
 
     @RequestMapping(value = "/del_session",params={"client_id=1120"}, method = RequestMethod.POST,produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String deleteSession(HttpServletRequest request,DeleteSessionParams deleteSessionParams){
+    public String deleteSession(HttpServletRequest request, DeleteSessionParams deleteSessionParams){
         StopWatch stopWatch = new Slf4JStopWatch(WebTimingLogger);
         request.setAttribute("stopWatch", stopWatch);
 

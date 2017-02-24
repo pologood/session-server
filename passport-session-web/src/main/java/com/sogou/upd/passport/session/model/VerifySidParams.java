@@ -15,6 +15,10 @@ public class VerifySidParams extends BaseSidParams {
     @NotEmpty(message = "userIp不允许为空")
     private String user_ip;
 
+    /**
+     * 是否是 web 登陆
+     */
+    private boolean isWeb;
 
     public String getUser_ip() {
         return user_ip;
@@ -22,5 +26,13 @@ public class VerifySidParams extends BaseSidParams {
 
     public void setUser_ip(String user_ip) {
         this.user_ip = user_ip;
+    }
+
+    public boolean isWeb() {
+        return isWeb;
+    }
+
+    public void setWeb(boolean web) {
+        isWeb = web;
     }
 }
