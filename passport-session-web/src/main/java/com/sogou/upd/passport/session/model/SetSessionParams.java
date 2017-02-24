@@ -33,6 +33,6 @@ public class SetSessionParams extends BaseSidParams{
     }
 
     public void setWap(boolean wap) {
-        wap = wap;
+        this.wap = wap;
     }
 }

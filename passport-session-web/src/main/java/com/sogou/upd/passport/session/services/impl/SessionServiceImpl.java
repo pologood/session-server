@@ -15,6 +15,7 @@ import com.sogou.upd.passport.session.util.SessionCommonUtil;
 import com.sogou.upd.passport.session.util.redis.RedisClientTemplate;
 import com.sogou.upd.passport.session.util.redis.RedisUtils;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,13 +66,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public JSONObject getSession(String sgid, boolean isWap) {
+    public JSONObject getSession(String sgid) {
         // 判断新旧 sgid
         int lastIndex = sgid.lastIndexOf('-');
         if (lastIndex > 0) { // 新 sgid
             String prefix = sgid.substring(0, lastIndex);
             String realSgid = sgid.substring(lastIndex + 1);
-            return getNewSgidSession(prefix, realSgid, isWap);
+            return getNewSgidSession(prefix, realSgid);
         } else {    // 旧 sgid
             return getOldSgidSession(sgid);
         }
@@ -81,7 +82,7 @@ public class SessionServiceImpl implements SessionService {
      * 获取新 sgid <br>
      * 因为使用 hash 存储，所以只能手动维护过期时间。为保证 hash 下不会保存大量无效 field，故会将失败的 field 删除，并对不足一半有效期的进行续期
      */
-    private JSONObject getNewSgidSession(String prefix, String sgid, boolean isWap) {
+    private JSONObject getNewSgidSession(String prefix, String sgid) {
         //先从redis中获取
         String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
 
@@ -94,6 +95,8 @@ public class SessionServiceImpl implements SessionService {
 
         JSONObject jsonResult = null;
 
+        boolean isWap = false;
+
         Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
         for (Map.Entry<String, String> entry : valueMap.entrySet()) {
             // 存储的 sgid （field）
@@ -101,6 +104,8 @@ public class SessionServiceImpl implements SessionService {
             // 存储的 passport id，有效期 等信息 （value）
             String userInfo = entry.getValue();
             JSONObject userInfoJson = JSONObject.parseObject(userInfo);
+
+            isWap = BooleanUtils.isTrue(userInfoJson.getBoolean("isWap"));
 
             // 有效期
             int expire = (Integer) userInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
@@ -110,7 +115,7 @@ public class SessionServiceImpl implements SessionService {
                 // 加入待删除列表
                 delFieldsList.add(cachedSgid);
                 continue;
-            } else if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // 非 web 登录，不足一半有效期的续期
+            } else if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // wap 登录，不足一半有效期的续期
                 // 计算新过期时间
                 long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
                 userInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
@@ -137,13 +142,6 @@ public class SessionServiceImpl implements SessionService {
             if ((leftTime != null) && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) {
                 newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
             }
-
-        }
-
-        if(jsonResult != null) {
-            // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
-            // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
-            jsonResult.remove(CommonConstant.REDIS_SGID_EXPIRE);
         }
 
         return jsonResult;
@@ -208,6 +206,7 @@ public class SessionServiceImpl implements SessionService {
         JSONObject userInfoJson = JSONObject.parseObject(userInfo);
         long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
         userInfoJson.put("expire", expire);
+        userInfoJson.put("isWap", isWap);
 
         // 设置 field 和 key 的失效时间
         newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());

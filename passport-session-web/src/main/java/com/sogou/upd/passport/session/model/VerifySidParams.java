@@ -15,24 +15,11 @@ public class VerifySidParams extends BaseSidParams {
     @NotEmpty(message = "userIp不允许为空")
     private String user_ip;
 
-    /**
-     * 是否是 wap 登陆
-     */
-    private boolean isWap;
-
     public String getUser_ip() {
         return user_ip;
     }
 
     public void setUser_ip(String user_ip) {
         this.user_ip = user_ip;
-    }
-
-    public boolean isWap() {
-        return isWap;
-    }
-
-    public void setWap(boolean wap) {
-        isWap = wap;
     }
 }

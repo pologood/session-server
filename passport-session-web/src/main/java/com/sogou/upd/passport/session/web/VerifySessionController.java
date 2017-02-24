@@ -3,6 +3,7 @@ package com.sogou.upd.passport.session.web;
 import com.alibaba.fastjson.JSONObject;
 import com.sogou.upd.passport.session.model.VerifySidParams;
 import com.sogou.upd.passport.session.services.SessionService;
+import com.sogou.upd.passport.session.util.CommonConstant;
 import com.sogou.upd.passport.session.util.ControllerHelper;
 import com.sogou.upd.passport.session.util.SessionServerUtil;
 
@@ -44,7 +45,6 @@ public class VerifySessionController extends BaseController {
         int clientId = verifySidParams.getClient_id();
         String code = verifySidParams.getCode();
         long ct = verifySidParams.getCt();
-        boolean isWap = verifySidParams.isWap();
 
         JSONObject result = new JSONObject();
         // 参数校验
@@ -67,13 +67,18 @@ public class VerifySessionController extends BaseController {
             return handleResult(result, request);
         }
 
-        JSONObject userInfo = sessionService.getSession(sgid, isWap);
+        JSONObject userInfo = sessionService.getSession(sgid);
         if (userInfo == null) {
             result.put("status", "50001");
             result.put("statusText", "sid不存在或已过期");
             logger.warn("sid miss sgid:" + sgid + " , client_id:" + clientId);
             return handleResult(result, request);
         }
+
+        // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
+        // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
+        userInfo.remove(CommonConstant.REDIS_SGID_EXPIRE);
+        userInfo.remove("isWap");
 
         result.put("status", "0");
         result.put("data", userInfo);

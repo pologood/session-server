@@ -21,7 +21,7 @@ public interface SessionService {
      * @param sgid
      * @return
      */
-    public JSONObject getSession(String sgid, boolean isWap);
+    public JSONObject getSession(String sgid);
 
     /**
      * 删除session信息
