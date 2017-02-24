@@ -122,10 +122,6 @@ public class SessionServiceImpl implements SessionService {
             }
         }
 
-        if (jsonResult == null) { // 未取到
-            return null;
-        }
-
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
 
@@ -141,9 +137,11 @@ public class SessionServiceImpl implements SessionService {
             newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
         }
 
-        // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
-        // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
-        jsonResult.remove(CommonConstant.REDIS_SGID_EXPIRE);
+        if(jsonResult != null) {
+            // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
+            // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
+            jsonResult.remove(CommonConstant.REDIS_SGID_EXPIRE);
+        }
 
         return jsonResult;
     }
