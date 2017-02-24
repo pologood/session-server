@@ -14,14 +14,14 @@ public interface SessionService {
      * @param sgid
      * @param userInfo
      */
-    public void setSession(String sgid, String userInfo, boolean isWeb);
+    public void setSession(String sgid, String userInfo, boolean isWap);
 
     /**
      * 获取session信息
      * @param sgid
      * @return
      */
-    public JSONObject getSession(String sgid, boolean isWeb);
+    public JSONObject getSession(String sgid, boolean isWap);
 
     /**
      * 删除session信息

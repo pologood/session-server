@@ -65,13 +65,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public JSONObject getSession(String sgid, boolean isWeb) {
+    public JSONObject getSession(String sgid, boolean isWap) {
         // 判断新旧 sgid
         int lastIndex = sgid.lastIndexOf('-');
         if (lastIndex > 0) { // 新 sgid
             String prefix = sgid.substring(0, lastIndex);
             String realSgid = sgid.substring(lastIndex + 1);
-            return getNewSgidSession(prefix, realSgid, isWeb);
+            return getNewSgidSession(prefix, realSgid, isWap);
         } else {    // 旧 sgid
             return getOldSgidSession(sgid);
         }
@@ -81,7 +81,7 @@ public class SessionServiceImpl implements SessionService {
      * 获取新 sgid <br>
      * 因为使用 hash 存储，所以只能手动维护过期时间。为保证 hash 下不会保存大量无效 field，故会将失败的 field 删除，并对不足一半有效期的进行续期
      */
-    private JSONObject getNewSgidSession(String prefix, String sgid, boolean isWeb) {
+    private JSONObject getNewSgidSession(String prefix, String sgid, boolean isWap) {
         //先从redis中获取
         String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
 
@@ -110,7 +110,7 @@ public class SessionServiceImpl implements SessionService {
                 // 加入待删除列表
                 delFieldsList.add(cachedSgid);
                 continue;
-            } else if (!isWeb && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // 非 web 登录，不足一半有效期的续期
+            } else if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // 非 web 登录，不足一半有效期的续期
                 // 计算新过期时间
                 long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
                 userInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
@@ -130,7 +130,7 @@ public class SessionServiceImpl implements SessionService {
             newSgidRedisClientTemplate.hmset(cacheKey, updateFieldsMap);
         }
 
-        if(!isWeb) { // 非 web 对 key 续期
+        if(isWap) { // wap 对 key 续期
             // 对有效的且剩余生命不足有效期一半的 key 进行续期
             // ttl 返回，key 不存在 -2，未设置过期时间 -1，正常设置返回剩余时间
             Long leftTime = redisClientTemplate.ttl(cacheKey);
@@ -186,7 +186,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void setSession(String sgid, String userInfo, boolean isWeb) {
+    public void setSession(String sgid, String userInfo, boolean isWap) {
         // 判断新旧 sgid
         int lastIndex = sgid.lastIndexOf('-');
         if (lastIndex <= 0) {
@@ -195,7 +195,7 @@ public class SessionServiceImpl implements SessionService {
             return;
         }
 
-        int sessionExpirse = isWeb ? CommonConstant.SESSION_EXPIRSE_TWO_WEEKS : CommonConstant.SESSION_EXPIRSE;
+        int sessionExpirse = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
 
         // sgid 前缀 [分表索引]-[account 自增 id]
         String prefix = sgid.substring(0, lastIndex);

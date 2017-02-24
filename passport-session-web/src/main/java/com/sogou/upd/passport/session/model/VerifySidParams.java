@@ -16,9 +16,9 @@ public class VerifySidParams extends BaseSidParams {
     private String user_ip;
 
     /**
-     * 是否是 web 登陆
+     * 是否是 wap 登陆
      */
-    private boolean isWeb;
+    private boolean isWap;
 
     public String getUser_ip() {
         return user_ip;
@@ -28,11 +28,11 @@ public class VerifySidParams extends BaseSidParams {
         this.user_ip = user_ip;
     }
 
-    public boolean isWeb() {
-        return isWeb;
+    public boolean isWap() {
+        return isWap;
     }
 
-    public void setWeb(boolean web) {
-        isWeb = web;
+    public void setWap(boolean wap) {
+        isWap = wap;
     }
 }

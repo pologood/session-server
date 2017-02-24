@@ -16,9 +16,9 @@ public class SetSessionParams extends BaseSidParams{
     private String user_info;
 
     /**
-     * 是否是 web 登陆
+     * 是否是 wap 登陆
      */
-    private boolean isWeb;
+    private boolean isWap;
 
     public String getUser_info() {
         return user_info;
@@ -28,11 +28,11 @@ public class SetSessionParams extends BaseSidParams{
         this.user_info = user_info;
     }
 
-    public boolean isWeb() {
-        return isWeb;
+    public boolean isWap() {
+        return isWap;
     }
 
-    public void setWeb(boolean web) {
-        isWeb = web;
+    public void setWap(boolean wap) {
+        isWap = wap;
     }
 }

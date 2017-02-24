@@ -45,7 +45,7 @@ public class ControlSessionCoontroller extends BaseController{
         int clientId = setSessionParams.getClient_id();
         String code = setSessionParams.getCode();
         long ct = setSessionParams.getCt();
-        boolean isWeb = setSessionParams.isWeb();
+        boolean isWap = setSessionParams.isWap();
 
         JSONObject result=new JSONObject();
         // 参数校验
@@ -68,7 +68,7 @@ public class ControlSessionCoontroller extends BaseController{
             return handleResult(result,request);
         }
 
-        sessionService.setSession(sgid,setSessionParams.getUser_info(), isWeb);
+        sessionService.setSession(sgid,setSessionParams.getUser_info(), isWap);
 
         result.put("status","0");
 
