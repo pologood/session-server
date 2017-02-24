@@ -221,8 +221,8 @@ public class SessionServiceImpl implements SessionService {
         if (lastIndex > 0) { // 新 sgid
             String prefix = sgid.substring(0, lastIndex);
             String realSgid = sgid.substring(lastIndex + 1);
-
-            newSgidRedisClientTemplate.hdel(prefix, realSgid);
+            String key = CommonConstant.PREFIX_SESSION + prefix;
+            newSgidRedisClientTemplate.hdel(key, realSgid);
         } else {    // 旧 sgid
             String key = CommonConstant.PREFIX_SESSION + sgid;
             redisClientTemplate.del(key);
