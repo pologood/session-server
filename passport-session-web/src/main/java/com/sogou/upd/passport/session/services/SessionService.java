@@ -11,31 +11,31 @@ public interface SessionService {
 
     /**
      * 设置session信息
-     * @param sid
+     * @param sgid
      * @param userInfo
      */
-    public void setSession(String sid,String userInfo);
+    public void setSession(String sgid, String userInfo, boolean isWap);
 
     /**
      * 获取session信息
-     * @param sid
+     * @param sgid
      * @return
      */
-    public JSONObject getSession(String sid);
+    public JSONObject getSession(String sgid);
 
     /**
      * 删除session信息
-     * @param sid
+     * @param sgid
      */
-    public void deleteSession(String sid);
-    
+    public void deleteSession(String sgid);
+
     /**
      * 读取 app 的 server secret
      * @param clientId
      * @return
      */
     public String queryAppConfigByClientId(int clientId);
-    
+
     /**
      * 检查 code
      * @param sgid

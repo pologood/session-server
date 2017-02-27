@@ -127,7 +127,7 @@ public class EncodeTest {
         Date date= SessionServerUtil.getDate(sid);
         System.out.println("date:"+date);
         Thread.sleep(100l);
-        System.out.println(SessionServerUtil.checkSid(sid));
+        System.out.println(SessionServerUtil.checkSgid(sid));
     }
 
 
@@ -138,7 +138,7 @@ public class EncodeTest {
         long startDate=System.currentTimeMillis();
         for(int i=0;i<1000000;i++){
             String sid= SessionServerUtil.createSessionSid("ldasdahjkhbu@#@#%$^%^%@sogou.com" + i);
-            if(!SessionServerUtil.checkSid(sid)){
+            if(!SessionServerUtil.checkSgid(sid)){
               System.out.println("sid:"+sid);
               System.out.println("passportid:"+"ldasdahjkhbu@#@#%$^%^%@sogou.com"+i);
             }

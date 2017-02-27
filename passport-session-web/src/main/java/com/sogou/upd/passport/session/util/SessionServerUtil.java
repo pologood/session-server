@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User: ligang201716@sogou-inc.com
@@ -24,8 +26,8 @@ public class SessionServerUtil {
 
     private static Logger logger = LoggerFactory.getLogger(SessionServerUtil.class);
 
-    private static long EXPIRSE=6*30*24*60*60*1000l;
-
+    /** sgid 正则校验 */
+    private static final Pattern SGID_PATTERN = Pattern.compile("^[A-Za-z0-9\\-]+$");
 
     /**
      * 计算sid
@@ -81,34 +83,35 @@ public class SessionServerUtil {
      * 检测sid是否正确
      * 1.校验版本
      * 2.自校验是否正确
-     * @param sid
+     * @param sgid
      * @return
      */
-    public static boolean checkSid(String sid) {
+    public static boolean checkSgid(String sgid) {
         try{
-            //检测sid是否为空
-            if (StringUtils.isBlank(sid)) {
-                throw new IllegalArgumentException("passportid is blank");
+            // 获取除去前缀的真实 sgid，进行 sgid 规则校验
+            String realSgid = sgid;
+            int lastIndex = sgid.lastIndexOf('-');
+            if(lastIndex > 0) {
+                realSgid = sgid.substring(lastIndex + 1);
             }
+
             //校验版本是否是支持的版本
-            if(!checkVersion(sid)){
+            if(!checkVersion(realSgid)){
                 return true;
             }
             //sid自校验
-            if (!checkSidMd5(sid)) {
-                logger.warn("checkSidMd5 false sid:"+sid);
+            if (!checkSidMd5(realSgid)) {
+                logger.warn("checkSidMd5 false sid:"+sgid);
                 return false;
             }
             //sid是否过有效期
 //            return checkSidExpDate(sid);
             return true;
         }catch(Exception e){
-            logger.error("check sid error sid:"+sid,e);
+            logger.error("check sid error sid:"+sgid,e);
             return false;
         }
     }
-
-
 
     /**
      * 校验sid的版本是否是支持的版本如果不是返回成功直接走cache
@@ -132,9 +135,9 @@ public class SessionServerUtil {
      */
     protected static boolean checkSidExpDate(String sid) {
         Date createDate = getDate(sid);
-        long createDateTime =createDate.getTime();
-        long nowTime=new Date().getTime();
-        return createDateTime+EXPIRSE > nowTime;
+        long createDateTime = createDate.getTime();
+        long nowTime = new Date().getTime();
+        return createDateTime + CommonConstant.SESSION_EXPIRSE_MILLIS > nowTime;
     }
 
     /**
@@ -151,20 +154,20 @@ public class SessionServerUtil {
         return SessionCommonUtil.secondTimeToDate(time);
     }
 
-
-
-
     /**
      * 检测sid的校验位是否正确
      *
-     * @param sid
+     * @param sgid
      * @return
      */
-    private static boolean checkSidMd5(String sid) {
-        if (StringUtils.isBlank(sid)) {
-            throw new IllegalArgumentException("passportid is blank");
+    private static boolean checkSidMd5(String sgid) {
+        // 判断 sgid 中是否有非法字符
+        Matcher matcher = SGID_PATTERN.matcher(sgid);
+        if(!matcher.matches()) {
+            return false;
         }
-        byte[] sidBytes = Base62.decodeBase62(sid.toCharArray());
+
+        byte[] sidBytes = Base62.decodeBase62(sgid.toCharArray());
         byte[] checkByte = new byte[4];
         System.arraycopy(sidBytes, 13, checkByte, 0, checkByte.length);
         int sidCheckInt=SessionCommonUtil.bytes2Int(checkByte);
@@ -180,6 +183,4 @@ public class SessionServerUtil {
 
         return calculateCheckInt == sidCheckInt;
     }
-
-
 }

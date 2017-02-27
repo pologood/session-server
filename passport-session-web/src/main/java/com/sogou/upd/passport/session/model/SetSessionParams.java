@@ -15,6 +15,10 @@ public class SetSessionParams extends BaseSidParams{
     @NotBlank(message = "user_info不能为空")
     private String user_info;
 
+    /**
+     * 是否是 wap 登陆
+     */
+    private boolean wap;
 
     public String getUser_info() {
         return user_info;
@@ -22,5 +26,13 @@ public class SetSessionParams extends BaseSidParams{
 
     public void setUser_info(String user_info) {
         this.user_info = user_info;
+    }
+
+    public boolean isWap() {
+        return wap;
+    }
+
+    public void setWap(boolean wap) {
+        this.wap = wap;
     }
 }
