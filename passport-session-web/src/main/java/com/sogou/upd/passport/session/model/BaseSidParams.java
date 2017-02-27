@@ -1,6 +1,6 @@
 package com.sogou.upd.passport.session.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * User: ligang201716@sogou-inc.com
@@ -11,7 +11,7 @@ public class BaseSidParams extends BaseApiParams {
     /**
      * session id
      */
-    @NotEmpty(message = "sgid不允许为空")
+    @NotBlank(message = "sgid不允许为空")
     private String sgid;
 
     public String getSgid() {

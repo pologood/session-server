@@ -1,6 +1,6 @@
 package com.sogou.upd.passport.session.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.Min;
 
@@ -12,7 +12,7 @@ import javax.validation.constraints.Min;
 public class BaseApiParams {
     @Min(0)
     protected int client_id; //应用id
-    @NotEmpty(message = "code不允许为空")
+    @NotBlank(message = "code不允许为空")
     protected String code; // MD5（str+client_id+ct+server_secret+ct)方法签名
     @Min(0)
     protected long ct; //单位为毫秒
