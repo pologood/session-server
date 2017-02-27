@@ -267,11 +267,8 @@ public class SessionServiceImpl implements SessionService {
         String actualCode = sgid + clientId + serverSecret + ct;
         String actualCodeMD5Hex = SessionCommonUtil.calculateMD5Hex(actualCode);
         boolean result = actualCodeMD5Hex.equals(code);
-        if (logger.isDebugEnabled()) {
-            logger.debug("actualCode:" + actualCode + ",code:" + actualCodeMD5Hex + ",result:" + result);
-        }
         if (!result) {
-            logger.warn("actualCode:" + actualCode + ",params_code:" + code + ",code:" + actualCode + ",result:" + result);
+            logger.warn("actualCode:{},params_code:{},code:{},result:{}", actualCode, code, actualCode, result);
         }
         return result;
     }
