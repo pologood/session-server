@@ -15,7 +15,6 @@ public class VerifySidParams extends BaseSidParams {
     @NotBlank(message = "userIp不允许为空")
     private String user_ip;
 
-
     public String getUser_ip() {
         return user_ip;
     }

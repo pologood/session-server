@@ -17,9 +17,6 @@ public class SessionSDKUtil {
     //创建SID的key
     private static String CHECK_SID_KEY = "FqMVs!@%&*$@#DWckun%%@@!@=*S:y^s0$Flw~yW>xZ~8#A4)bQ2Hr?";
 
-    private static long EXPIRSE=6*30*24*60*60*1000l;
-
-
     /**
      * 检测sid是否正确
      * 1.自校验是否正确
@@ -67,9 +64,9 @@ public class SessionSDKUtil {
      */
     private static boolean checkSidExpDate(String sid) {
         Date createDate = getDate(sid);
-        long createDateTime =createDate.getTime();
-        long nowTime=new Date().getTime();
-        return createDateTime+EXPIRSE > nowTime;
+        long createDateTime = createDate.getTime();
+        long nowTime = new Date().getTime();
+        return createDateTime + CommonConstant.SESSION_EXPIRSE_MILLIS > nowTime;
     }
 
     /**

@@ -3,13 +3,19 @@ package com.sogou.upd.passport.session.util.redis;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.jedis.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import redis.clients.jedis.BinaryClient;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPipeline;
+import redis.clients.jedis.SortingParams;
+import redis.clients.jedis.Tuple;
 
 /**
  * User: ligang201716@sogou-inc.com
@@ -22,7 +28,6 @@ public class RedisClientTemplate {
 
     private final static String REDIS_PERF4J_LOGGER = "redisTimingLogger";
 
-    @Autowired
     private RedisDataSource redisDataSource;
 
     public void disconnect() {
@@ -595,7 +600,7 @@ public class RedisClientTemplate {
         return result;
     }
 
-    public Long hdel(String key, String field) {
+    public Long hdel(String key, String... field) {
         Long result = null;
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
         if (shardedJedis == null) {
@@ -3102,4 +3107,7 @@ public class RedisClientTemplate {
         return result;
     }
 
+    public void setRedisDataSource(RedisDataSource redisDataSource) {
+        this.redisDataSource = redisDataSource;
+    }
 }

@@ -1,8 +1,6 @@
 package com.sogou.upd.passport.session.util;
 
-import org.perf4j.StopWatch;
 import org.perf4j.aop.Profiled;
-import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,13 +21,13 @@ public class KvUtil {
 
     public static final Logger KVTimingLogger= LoggerFactory.getLogger(KV_PERF4J_LOGGER);
 
-    private RedisTemplate kvTemplate;
+    private RedisTemplate<String, String> kvTemplate;
 
     private String kvPrefix;
 
 //    kv set  操作慢请求日志
     @Profiled(el = true, logger = KV_PERF4J_LOGGER, tag = "kv_set", timeThreshold = 50, normalAndSlowSuffixesEnabled = true)
-    public void set(String key, String value,long timeOut) throws Exception{
+    public void set(String key, String value,long timeOut) {
         String storeKey = kvPrefix+key;
         try {
             ValueOperations<String, String> valueOperations = kvTemplate.opsForValue();
@@ -40,7 +38,6 @@ public class KvUtil {
                 delete(key);
             } catch (Exception ex) {
                 logger.error("[Cache] set and delete cache fail, key:" + storeKey + " value:" + value, e);
-                throw e;
             }
         }
     }
@@ -73,7 +70,7 @@ public class KvUtil {
         return kvTemplate;
     }
 
-    public void setKvTemplate(RedisTemplate kvTemplate) {
+    public void setKvTemplate(RedisTemplate<String, String> kvTemplate) {
         this.kvTemplate = kvTemplate;
     }
 

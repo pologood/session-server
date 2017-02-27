@@ -17,14 +17,14 @@ import java.util.concurrent.TimeUnit;
  * Redis工具类 User: mayan Date: 13-3-27 Time: 上午11:19 To change this template use File | Settings | File Templates.
  */
 public class RedisUtils {
-    
+
     private static Logger logger = LoggerFactory.getLogger(RedisUtils.class);
     private static final Logger redisMissLogger = LoggerFactory.getLogger("redisMissLogger");
-    
+
     private RedisTemplate redisTemplate;
-    
+
     private static final String ALL_REQUEST_TIMER = "REDIES_ALL_REQUEST";
-    
+
     /*
      * 设置缓存内容
      */
@@ -43,7 +43,7 @@ public class RedisUtils {
             }
         }
     }
-    
+
     @Profiled(el = true, logger = "rediesTimingLogger", tag = "redies_hIncrByTimes", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     public void hIncrByTimes(String cacheKey, String key, long time) {
         try {
@@ -53,16 +53,16 @@ public class RedisUtils {
             logger.error("[Cache] hIncr num cache fail, key:" + cacheKey + "value:" + key, e);
         }
     }
-    
+
     /*
      * 设置缓存内容及有效期，单位为秒
      * TODO:是否抛出异常及如何处理
      */
     @Profiled(el = true, logger = "rediesTimingLogger", tag = "redies_setEx", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
-    public void setWithinSeconds(String key, String value, long timeout) throws Exception {
+    public void setWithinSeconds(String key, String value, long timeout) {
         set(key, value, timeout, TimeUnit.SECONDS);
     }
-    
+
     /*
      * 设置缓存内容
      */
@@ -78,7 +78,7 @@ public class RedisUtils {
         }
         return countNum;
     }
-    
+
     /*
      * 设置缓存内容
      * 冲突不覆盖
@@ -93,7 +93,7 @@ public class RedisUtils {
             return false;
         }
     }
-    
+
     /*
      * 根据key取缓存内容
      */
@@ -111,7 +111,7 @@ public class RedisUtils {
         }
         return null;
     }
-    
+
     /*
      * 判断key是否存在
      */
@@ -128,7 +128,7 @@ public class RedisUtils {
             return false;
         }
     }
-    
+
     @Profiled(el = true, logger = "rediesTimingLogger", tag = "redies_expire", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     public void expire(String cacheKey, long timeout) {
         try {
@@ -137,34 +137,33 @@ public class RedisUtils {
             logger.error("[Cache] set cache expire fail, key:" + cacheKey + "timeout:" + timeout, e);
         }
     }
-    
+
     @Profiled(el = true, logger = "rediesTimingLogger", tag = "redies_delete", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     public void delete(String cacheKey) {
         redisTemplate.delete(cacheKey);
     }
-    
+
     @Profiled(el = true, logger = "rediesTimingLogger", tag = "redies_multiDelete", timeThreshold = 10, normalAndSlowSuffixesEnabled = true)
     public void multiDelete(Collection cacheKeyList) {
         redisTemplate.delete(cacheKeyList);
     }
-    
+
     public void setRedisTemplate(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-    
+
     /*
      * 设置缓存内容
      */
-    public void set(String key, String value, long timeout, TimeUnit timeUnit) throws Exception {
+    public void set(String key, String value, long timeout, TimeUnit timeUnit) {
         try {
             ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
             valueOperations.set(key, value, timeout, timeUnit);
         } catch (Exception e) {
             logger.error("[Cache] set cache fail, key:" + key + " value:" + value, e);
-            
         }
     }
-    
+
     /**
      * 获取key 的剩余时间
      */
