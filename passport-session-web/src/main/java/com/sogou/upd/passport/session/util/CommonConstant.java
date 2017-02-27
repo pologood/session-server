@@ -21,6 +21,9 @@ public class CommonConstant {
     /** session 过期时间一半，秒值， 三个月 */
     public static int SESSION_EXPIRSE_HALF = 3 * 30 * 24 * 60 * 60;
 
+    /** 一个月 */
+    public static final long ONE_MONTH = 30 * 24 * 60 * 60; // 时间 1个月 ,单位s
+
     /**
      * redis key -
      */

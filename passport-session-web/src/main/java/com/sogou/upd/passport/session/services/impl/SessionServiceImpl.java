@@ -50,8 +50,6 @@ public class SessionServiceImpl implements SessionService {
 
     private static Logger logger = LoggerFactory.getLogger(SessionServiceImpl.class);
 
-    private static final long ONE_MONTH = 30 * 24 * 60 * 60; // 时间 1个月 ,单位s
-
     private static LoadingCache<Integer, String> appLocalCache = null;
 
     public SessionServiceImpl() {
@@ -255,7 +253,7 @@ public class SessionServiceImpl implements SessionService {
         if (StringUtils.isBlank(serverSecret)) {
             serverSecret = sessionDao.queryAppConfigByClientId(clientId);
             if (StringUtils.isNotBlank(serverSecret)) {
-                redisUtils.setWithinSeconds(cacheKey, serverSecret, ONE_MONTH);
+                redisUtils.setWithinSeconds(cacheKey, serverSecret, CommonConstant.ONE_MONTH);
             }
         }
 
