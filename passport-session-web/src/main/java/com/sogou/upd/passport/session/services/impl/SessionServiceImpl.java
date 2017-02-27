@@ -184,31 +184,59 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public void setSession(String sgid, String userInfo, boolean isWap) {
         // 判断新旧 sgid
+
         int lastIndex = sgid.lastIndexOf('-');
+
+        // TODO passport 上线后，不接收老 sgid
         if (lastIndex <= 0) {
+            /*
             // 非法 sgid
             logger.error("invalid sgid:" + sgid);
             return;
+            */
+            setOldSession(sgid, userInfo);
+        } else {
+            // 生成新 sgid
+            int sessionExpirse = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
+
+            // sgid 前缀 [分表索引]-[account 自增 id]
+            String prefix = sgid.substring(0, lastIndex);
+            // 真实 sgid
+            String realSgid = sgid.substring(lastIndex + 1);
+
+            String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
+
+            // 维护 sgid 的过期时间
+            JSONObject userInfoJson = JSONObject.parseObject(userInfo);
+            long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
+            userInfoJson.put("expire", expire);
+            userInfoJson.put("isWap", isWap);
+
+            // 设置 field 和 key 的失效时间
+            newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());
+            newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+        }
+    }
+
+    /**
+     * 保证 passport 未上版时正常生成 sgid
+     * // TODO passport 上线后把方法删掉
+     * @param sid
+     * @param userInfo
+     */
+    private void setOldSession(String sid, String userInfo) {
+        String key = CommonConstant.PREFIX_SESSION + sid;
+        try {
+            kvUtil.set(key, userInfo, CommonConstant.SESSION_EXPIRSE);
+        } catch (Exception e) {
+            logger.error("set kv fail", e);
         }
 
-        int sessionExpirse = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
-
-        // sgid 前缀 [分表索引]-[account 自增 id]
-        String prefix = sgid.substring(0, lastIndex);
-        // 真实 sgid
-        String realSgid = sgid.substring(lastIndex + 1);
-
-        String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
-
-        // 维护 sgid 的过期时间
-        JSONObject userInfoJson = JSONObject.parseObject(userInfo);
-        long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
-        userInfoJson.put("expire", expire);
-        userInfoJson.put("isWap", isWap);
-
-        // 设置 field 和 key 的失效时间
-        newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());
-        newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+        /**
+         * 由于key已经放出去了，所以及时kv设置失败，依然会去设置redis，因为kv只是备份
+         */
+        redisClientTemplate.set(key, userInfo);
+        redisClientTemplate.expire(key, CommonConstant.SESSION_EXPIRSE);
     }
 
     @Override
