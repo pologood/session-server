@@ -208,7 +208,7 @@ public class SessionServiceImpl implements SessionService {
 
         // 设置 field 和 key 的失效时间
         newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());
-        newSgidRedisClientTemplate.expire(cacheKey, sessionExpirse);
+        newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
     }
 
     @Override
