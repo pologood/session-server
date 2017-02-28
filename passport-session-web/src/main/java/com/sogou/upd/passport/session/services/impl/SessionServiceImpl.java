@@ -127,8 +127,8 @@ public class SessionServiceImpl implements SessionService {
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
-
         }
+
         if (updateFieldsMap.size() > 0) { // 待更新的 field
             newSgidRedisClientTemplate.hmset(cacheKey, updateFieldsMap);
         }
@@ -136,7 +136,7 @@ public class SessionServiceImpl implements SessionService {
         if(isWap) { // wap 对 key 续期
             // 对有效的且剩余生命不足有效期一半的 key 进行续期
             // ttl 返回，key 不存在 -2，未设置过期时间 -1，正常设置返回剩余时间
-            Long leftTime = redisClientTemplate.ttl(cacheKey);
+            Long leftTime = newSgidRedisClientTemplate.ttl(cacheKey);
             if ((leftTime != null) && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) {
                 newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
             }
