@@ -98,7 +98,7 @@ public class SessionServiceImpl implements SessionService {
         boolean needMovePassportId = false;
 
         Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
-        String passportId = newSgidRedisClientTemplate.get(CommonConstant.REDIS_PASSPORTID);
+        String passportId = valueMap.get(CommonConstant.REDIS_PASSPORTID);
         for (Map.Entry<String, String> entry : valueMap.entrySet()) {
             // 存储的 sgid （field）
             String cachedSgid = entry.getKey();
