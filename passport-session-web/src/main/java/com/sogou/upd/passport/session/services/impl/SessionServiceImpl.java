@@ -93,9 +93,8 @@ public class SessionServiceImpl implements SessionService {
         List<String> delFieldsList = Lists.newArrayList();
 
         JSONObject jsonResult = null;
-
-        boolean isWap = false;
         boolean needMovePassportId = false;
+        boolean matchWap = false;
 
         Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
         String passportId = valueMap.get(CommonConstant.REDIS_PASSPORTID);
@@ -115,6 +114,7 @@ public class SessionServiceImpl implements SessionService {
 
             // the default value for isWAP is false
             // Maybe there is no isWap in the sgid property
+            boolean isWap = false;
             if (sgidInfoJson.containsKey(CommonConstant.REDIS_SGID_ISWAP)) {
                 isWap = BooleanUtils.isTrue(sgidInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
             }
@@ -149,6 +149,7 @@ public class SessionServiceImpl implements SessionService {
                     sgidInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
 
                     updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
+                    matchWap = true; // the sgid is for wap, we need to update the expire date
                 }
             }
         }
@@ -169,7 +170,7 @@ public class SessionServiceImpl implements SessionService {
             newSgidRedisClientTemplate.hmset(cacheKey, updateFieldsMap);
         }
 
-        if(isWap) { // wap 对 key 续期
+        if(matchWap) { // wap 对 key 续期
             // 对有效的且剩余生命不足有效期一半的 key 进行续期
             // ttl 返回，key 不存在 -2，未设置过期时间 -1，正常设置返回剩余时间
             Long leftTime = newSgidRedisClientTemplate.ttl(cacheKey);
