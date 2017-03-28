@@ -168,6 +168,9 @@ public class SessionServiceImpl implements SessionService {
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
+            for (String del_sgid : delFieldsList) {
+                logger.warn("sid delete sgid:" + del_sgid);
+            }
         }
 
         if (updateFieldsMap.size() > 0) { // 待更新的 field
@@ -261,7 +264,7 @@ public class SessionServiceImpl implements SessionService {
             newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
         }
         newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
-        logger.warn("sid set sgid:" + sgid);
+        logger.warn("sid set sgid:" + sgid + " userinfo:" + userInfo);
     }
 
     /**
