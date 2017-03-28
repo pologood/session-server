@@ -28,4 +28,13 @@ public class CommonConstant {
      * redis key -
      */
     public static final String REDIS_SGID_EXPIRE = "expire";
+
+    /**
+     * redis key for passport id
+     */
+    public static final String REDIS_PASSPORTID = "passport_id";
+    /**
+     * redis key for sgid->isWap
+     */
+    public static final String REDIS_SGID_ISWAP = "isWap";
 }

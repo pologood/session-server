@@ -1,5 +1,6 @@
 package com.sogou.upd.passport.session.services.impl;
 
+import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -92,37 +93,77 @@ public class SessionServiceImpl implements SessionService {
         List<String> delFieldsList = Lists.newArrayList();
 
         JSONObject jsonResult = null;
-
-        boolean isWap = false;
+        boolean needMovePassportId = false;
+        boolean matchWap = false;
 
         Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
+        String passportId = valueMap.get(CommonConstant.REDIS_PASSPORTID);
         for (Map.Entry<String, String> entry : valueMap.entrySet()) {
             // 存储的 sgid （field）
             String cachedSgid = entry.getKey();
-            // 存储的 passport id，有效期 等信息 （value）
-            String userInfo = entry.getValue();
-            JSONObject userInfoJson = JSONObject.parseObject(userInfo);
+            /**
+             * If this the property for passport_id, do nothing
+             */
+            if (CommonConstant.REDIS_PASSPORTID.equals(cachedSgid)) {
+                continue;
+            }
 
-            isWap = BooleanUtils.isTrue(userInfoJson.getBoolean("isWap"));
+            // 存储的 passport id，有效期 等信息 （value）
+            String sgidInfo = entry.getValue();
+            JSONObject sgidInfoJson = JSONObject.parseObject(sgidInfo);
+
+            // the default value for isWAP is false
+            // Maybe there is no isWap in the sgid property
+            boolean isWap = false;
+            if (sgidInfoJson.containsKey(CommonConstant.REDIS_SGID_ISWAP)) {
+                isWap = BooleanUtils.isTrue(sgidInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
+                if (!isWap) { // remove the original isWap=false
+                    sgidInfoJson.remove(CommonConstant.REDIS_SGID_ISWAP);
+                    updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
+                }
+            }
+
+            // handle the passport_id in the sgid cache
+            if (!Strings.isNullOrEmpty(sgidInfoJson.getString(CommonConstant.REDIS_PASSPORTID))) {
+                if (Strings.isNullOrEmpty(passportId)) {
+                    passportId = sgidInfoJson.getString(CommonConstant.REDIS_PASSPORTID);
+                    needMovePassportId = true;
+                }
+
+                // remove the passpord_id from sgid property and update the redis
+                sgidInfoJson.remove(CommonConstant.REDIS_PASSPORTID);
+                updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
+            }
 
             // 有效期
-            int expire = (Integer) userInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
+            int expire = (Integer) sgidInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
             // 剩余时间
             long leftTime = expire - (currentTimeMillis / 1000);
             if (leftTime <= 0) { // 超过有效期
                 // 加入待删除列表
                 delFieldsList.add(cachedSgid);
                 continue;
-            } else if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // wap 登录，不足一半有效期的续期
-                // 计算新过期时间
-                long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
-                userInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
-                updateFieldsMap.put(cachedSgid, userInfoJson.toJSONString());
             }
 
             if (StringUtils.equals(cachedSgid, sgid)) { // 当前 sgid
-                jsonResult = userInfoJson;
+                jsonResult = sgidInfoJson;
+                // we need to re-calculate the expire date for WAP client
+                if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // wap 登录，不足一半有效期的续期
+                    long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
+                    sgidInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
+
+                    updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
+                    matchWap = true; // the sgid is for wap, we need to update the expire date
+                }
             }
+        }
+        // need to move the passport_id property from sgid to user cache
+        if (needMovePassportId) {
+            updateFieldsMap.put(CommonConstant.REDIS_PASSPORTID, passportId);
+        }
+        // set the passport id to the result JSON
+        if (jsonResult != null && !Strings.isNullOrEmpty(passportId)) {
+            jsonResult.put(CommonConstant.REDIS_PASSPORTID, passportId);
         }
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
@@ -133,7 +174,7 @@ public class SessionServiceImpl implements SessionService {
             newSgidRedisClientTemplate.hmset(cacheKey, updateFieldsMap);
         }
 
-        if(isWap) { // wap 对 key 续期
+        if(matchWap) { // wap 对 key 续期
             // 对有效的且剩余生命不足有效期一半的 key 进行续期
             // ttl 返回，key 不存在 -2，未设置过期时间 -1，正常设置返回剩余时间
             Long leftTime = newSgidRedisClientTemplate.ttl(cacheKey);
@@ -207,13 +248,29 @@ public class SessionServiceImpl implements SessionService {
             String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
 
             // 维护 sgid 的过期时间
+            // the new session format of redis
+            /**
+             * 1. Save entity for every sgid
+             * 2. If the sgid is not from WAP, we ignore "isWap" property
+             *
+             * sgid1={"expire":1491806305,}
+             * sgid2={"expire":1491806306, "isWap":true}
+             * passport_id=codetest1@sogou.com
+             */
             JSONObject userInfoJson = JSONObject.parseObject(userInfo);
+            JSONObject sgidInfoJson = new JSONObject();
             long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
-            userInfoJson.put("expire", expire);
-            userInfoJson.put("isWap", isWap);
+            sgidInfoJson.put("expire", expire);
+            if (isWap) { // save into redis when the request from WAP
+                sgidInfoJson.put("isWap", isWap);
+            }
 
             // 设置 field 和 key 的失效时间
-            newSgidRedisClientTemplate.hset(cacheKey, realSgid, userInfoJson.toJSONString());
+            newSgidRedisClientTemplate.hset(cacheKey, realSgid, sgidInfoJson.toJSONString());
+            String passportId = (String)userInfoJson.get(CommonConstant.REDIS_PASSPORTID);
+            if (!Strings.isNullOrEmpty(passportId)) { // if the passport is not NULL or empty string
+                newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
+            }
             newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
         }
     }
