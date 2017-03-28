@@ -168,6 +168,9 @@ public class SessionServiceImpl implements SessionService {
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
+            for (String del_sgid : delFieldsList) {
+                logger.warn("sid delete expired sgid in get method:" + del_sgid + " passportid:" + passportId);
+            }
         }
 
         if (updateFieldsMap.size() > 0) { // 待更新的 field
@@ -227,52 +230,41 @@ public class SessionServiceImpl implements SessionService {
         // 判断新旧 sgid
 
         int lastIndex = sgid.lastIndexOf('-');
+        // 生成新 sgid
+        int sessionExpirse = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
+        // sgid 前缀 [分表索引]-[account 自增 id]
+        String prefix = sgid.substring(0, lastIndex);
+        // 真实 sgid
+        String realSgid = sgid.substring(lastIndex + 1);
 
-        // TODO passport 上线后，不接收老 sgid
-        if (lastIndex <= 0) {
-            /*
-            // 非法 sgid
-            logger.error("invalid sgid:" + sgid);
-            return;
-            */
-            setOldSession(sgid, userInfo);
-        } else {
-            // 生成新 sgid
-            int sessionExpirse = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
+        String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
 
-            // sgid 前缀 [分表索引]-[account 自增 id]
-            String prefix = sgid.substring(0, lastIndex);
-            // 真实 sgid
-            String realSgid = sgid.substring(lastIndex + 1);
-
-            String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
-
-            // 维护 sgid 的过期时间
-            // the new session format of redis
-            /**
-             * 1. Save entity for every sgid
-             * 2. If the sgid is not from WAP, we ignore "isWap" property
-             *
-             * sgid1={"expire":1491806305,}
-             * sgid2={"expire":1491806306, "isWap":true}
-             * passport_id=codetest1@sogou.com
-             */
-            JSONObject userInfoJson = JSONObject.parseObject(userInfo);
-            JSONObject sgidInfoJson = new JSONObject();
-            long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
-            sgidInfoJson.put("expire", expire);
-            if (isWap) { // save into redis when the request from WAP
-                sgidInfoJson.put("isWap", isWap);
-            }
-
-            // 设置 field 和 key 的失效时间
-            newSgidRedisClientTemplate.hset(cacheKey, realSgid, sgidInfoJson.toJSONString());
-            String passportId = (String)userInfoJson.get(CommonConstant.REDIS_PASSPORTID);
-            if (!Strings.isNullOrEmpty(passportId)) { // if the passport is not NULL or empty string
-                newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
-            }
-            newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+        // 维护 sgid 的过期时间
+        // the new session format of redis
+        /**
+         * 1. Save entity for every sgid
+         * 2. If the sgid is not from WAP, we ignore "isWap" property
+         *
+         * sgid1={"expire":1491806305,}
+         * sgid2={"expire":1491806306, "isWap":true}
+         * passport_id=codetest1@sogou.com
+         */
+        JSONObject userInfoJson = JSONObject.parseObject(userInfo);
+        JSONObject sgidInfoJson = new JSONObject();
+        long expire = (System.currentTimeMillis() / 1000) + sessionExpirse;
+        sgidInfoJson.put("expire", expire);
+        if (isWap) { // save into redis when the request from WAP
+            sgidInfoJson.put("isWap", isWap);
         }
+
+        // 设置 field 和 key 的失效时间
+        newSgidRedisClientTemplate.hset(cacheKey, realSgid, sgidInfoJson.toJSONString());
+        String passportId = (String)userInfoJson.get(CommonConstant.REDIS_PASSPORTID);
+        if (!Strings.isNullOrEmpty(passportId)) { // if the passport is not NULL or empty string
+            newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
+        }
+        newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
+        logger.warn("sid set sgid:" + sgid + " userinfo:" + userInfo);
     }
 
     /**
@@ -303,13 +295,22 @@ public class SessionServiceImpl implements SessionService {
         if (lastIndex > 0) { // 新 sgid
             String prefix = sgid.substring(0, lastIndex);
             String realSgid = sgid.substring(lastIndex + 1);
+            // get the userinfo and print
+            JSONObject userInfo = getNewSgidSession(prefix, realSgid);
             String key = CommonConstant.PREFIX_SESSION + prefix;
             newSgidRedisClientTemplate.hdel(key, realSgid);
+            if (userInfo != null) {
+                logger.warn("sid delete sgid:" + sgid + " userInfo:" + userInfo.toJSONString());
+            } else {
+                logger.warn("sid delete sgid:" + sgid);
+            }
         } else {    // 旧 sgid
             String key = CommonConstant.PREFIX_SESSION + sgid;
             redisClientTemplate.del(key);
             kvUtil.delete(key);
+            logger.warn("sid delete sgid:" + sgid);
         }
+
     }
 
     private String loadAppServerSecret(int clientId) {
