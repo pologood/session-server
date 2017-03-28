@@ -117,6 +117,10 @@ public class SessionServiceImpl implements SessionService {
             boolean isWap = false;
             if (sgidInfoJson.containsKey(CommonConstant.REDIS_SGID_ISWAP)) {
                 isWap = BooleanUtils.isTrue(sgidInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
+                if (!BooleanUtils.isTrue(sgidInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP))) { // remove the original isWap=false
+                    sgidInfoJson.remove(CommonConstant.REDIS_SGID_ISWAP);
+                    updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
+                }
             }
 
             // handle the passport_id in the sgid cache
