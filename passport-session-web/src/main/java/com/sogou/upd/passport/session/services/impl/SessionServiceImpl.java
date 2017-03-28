@@ -169,7 +169,7 @@ public class SessionServiceImpl implements SessionService {
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
             for (String del_sgid : delFieldsList) {
-                logger.warn("sid delete sgid:" + del_sgid);
+                logger.warn("sid delete expired sgid in get method:" + del_sgid + " passportid:" + passportId);
             }
         }
 
