@@ -270,7 +270,7 @@ public class SessionServiceImpl implements SessionService {
                 if (leftTime <= 0) { // 超过有效期
                     // 加入待删除列表
                     delFieldsList.add(cachedSgid);
-                    logger.warn("sid delete expired sgid in set method cachekey:{} userinfo:{} del_sgid:{} expire{}:", prefix, userInfo, cachedSgid, expire);
+                    logger.warn("sid delete expired sgid in set method cachekey:{} userinfo:{} del_sgid:{} expire:{}", prefix, userInfo, cachedSgid, expire);
                 }
             }
         }
