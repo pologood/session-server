@@ -167,7 +167,7 @@ public class SessionServiceImpl implements SessionService {
         }
         // log the fields info when there is more than 5 sgid field for one customer
         if (valueMap != null && valueMap.size() >= 5) {
-            logger.warn("sid get sgid morn than 5 fields sgid:{} size:{} fields:{}", passportId, valueMap.size(), valueMap.toString());
+            logger.warn("sid get sgid morn than 5 fields sgid:{} size:{} fields:{}", sgid, valueMap.size(), valueMap.toString());
         }
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
