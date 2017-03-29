@@ -112,6 +112,17 @@ public class SessionServiceImpl implements SessionService {
             String sgidInfo = entry.getValue();
             JSONObject sgidInfoJson = JSONObject.parseObject(sgidInfo);
 
+            // 有效期
+            int expire = (Integer) sgidInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
+            // 剩余时间
+            long leftTime = expire - (currentTimeMillis / 1000);
+            if (leftTime <= 0) { // 超过有效期
+                // 加入待删除列表
+                delFieldsList.add(cachedSgid);
+                logger.warn("sid delete expired sgid in get method sgid{}: expire:{} passportId:{}", cachedSgid, expire, passportId);
+                continue; // 已经过期，不再做后续操作
+            }
+
             // the default value for isWAP is false
             // Maybe there is no isWap in the sgid property
             boolean isWap = false;
@@ -133,17 +144,6 @@ public class SessionServiceImpl implements SessionService {
                 // remove the passpord_id from sgid property and update the redis
                 sgidInfoJson.remove(CommonConstant.REDIS_PASSPORTID);
                 updateFieldsMap.put(cachedSgid, sgidInfoJson.toJSONString());
-            }
-
-            // 有效期
-            int expire = (Integer) sgidInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
-            // 剩余时间
-            long leftTime = expire - (currentTimeMillis / 1000);
-            if (leftTime <= 0) { // 超过有效期
-                // 加入待删除列表
-                delFieldsList.add(cachedSgid);
-                logger.warn("sid delete expired sgid in get method sgid{}: expire:{} passportId:{}", cachedSgid, expire, passportId);
-                continue;
             }
 
             if (StringUtils.equals(cachedSgid, sgid)) { // 当前 sgid
