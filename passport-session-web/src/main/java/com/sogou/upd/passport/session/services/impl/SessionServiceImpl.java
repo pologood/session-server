@@ -142,6 +142,7 @@ public class SessionServiceImpl implements SessionService {
             if (leftTime <= 0) { // 超过有效期
                 // 加入待删除列表
                 delFieldsList.add(cachedSgid);
+                logger.warn("sid delete expired sgid in get method sgid{}: expire:{} passportId:{}", cachedSgid, expire, passportId);
                 continue;
             }
 
@@ -172,9 +173,6 @@ public class SessionServiceImpl implements SessionService {
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
-            for (String del_sgid : delFieldsList) {
-                logger.warn("sid delete expired sgid in get method:" + del_sgid + " passportid:" + passportId);
-            }
         }
 
         if (updateFieldsMap.size() > 0) { // 待更新的 field
@@ -272,14 +270,12 @@ public class SessionServiceImpl implements SessionService {
                 if (leftTime <= 0) { // 超过有效期
                     // 加入待删除列表
                     delFieldsList.add(cachedSgid);
+                    logger.warn("sid delete expired sgid in set method cachekey:{} userinfo:{} del_sgid:{} expire{}:", prefix, userInfo, cachedSgid, expire);
                 }
             }
         }
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
-            for (String del_sgid : delFieldsList) {
-                logger.warn("sid delete expired sgid in set method cachekey:{} userinfo:{} del_sgid:{}", prefix, userInfo, del_sgid);
-            }
         }
 
         // 维护 sgid 的过期时间
