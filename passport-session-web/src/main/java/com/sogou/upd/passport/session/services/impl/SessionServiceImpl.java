@@ -165,6 +165,10 @@ public class SessionServiceImpl implements SessionService {
         if (jsonResult != null && !Strings.isNullOrEmpty(passportId)) {
             jsonResult.put(CommonConstant.REDIS_PASSPORTID, passportId);
         }
+        // log the fields info when there is more than 10 sgid field for one customer
+        if (valueMap != null && valueMap.size() >= 10) {
+            logger.warn("sid get sgid morn than 10 fields sgid:{} fields:{}", passportId, valueMap.toString());
+        }
 
         if (delFieldsList.size() > 0) { // 删除过期 sgid
             newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
