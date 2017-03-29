@@ -165,8 +165,8 @@ public class SessionServiceImpl implements SessionService {
         if (jsonResult != null && !Strings.isNullOrEmpty(passportId)) {
             jsonResult.put(CommonConstant.REDIS_PASSPORTID, passportId);
         }
-        // log the fields info when there is more than 10 sgid field for one customer
-        if (valueMap != null && valueMap.size() >= 10) {
+        // log the fields info when there is more than 5 sgid field for one customer
+        if (valueMap != null && valueMap.size() >= 5) {
             logger.warn("sid get sgid morn than 10 fields sgid:{} fields:{}", passportId, valueMap.toString());
         }
 
