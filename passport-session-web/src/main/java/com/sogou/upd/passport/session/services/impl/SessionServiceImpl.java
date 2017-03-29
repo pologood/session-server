@@ -242,6 +242,45 @@ public class SessionServiceImpl implements SessionService {
         String realSgid = sgid.substring(lastIndex + 1);
 
         String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
+        // 待删除 fields
+        List<String> delFieldsList = Lists.newArrayList();
+        // 当前时间
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // clear the session
+        // clear the expired session
+        Map<String, String> valueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
+        if (valueMap != null && valueMap.size() > 0) {
+            for (Map.Entry<String, String> entry : valueMap.entrySet()) {
+                // 存储的 sgid （field）
+                String cachedSgid = entry.getKey();
+                /**
+                 * If this the property for passport_id, do nothing
+                 */
+                if (CommonConstant.REDIS_PASSPORTID.equals(cachedSgid)) {
+                    continue;
+                }
+
+                // 存储的 passport id，有效期 等信息 （value）
+                String sgidInfo = entry.getValue();
+                JSONObject sgidInfoJson = JSONObject.parseObject(sgidInfo);
+
+                // 有效期
+                int expire = (Integer) sgidInfoJson.get(CommonConstant.REDIS_SGID_EXPIRE);
+                // 剩余时间
+                long leftTime = expire - (currentTimeMillis / 1000);
+                if (leftTime <= 0) { // 超过有效期
+                    // 加入待删除列表
+                    delFieldsList.add(cachedSgid);
+                }
+            }
+        }
+        if (delFieldsList.size() > 0) { // 删除过期 sgid
+            newSgidRedisClientTemplate.hdel(cacheKey, delFieldsList.toArray(new String[delFieldsList.size()]));
+            for (String del_sgid : delFieldsList) {
+                logger.warn("sid delete expired sgid in set method cachekey:{} userinfo:{} del_sgid:{}", prefix, userInfo, del_sgid);
+            }
+        }
 
         // 维护 sgid 的过期时间
         // the new session format of redis
