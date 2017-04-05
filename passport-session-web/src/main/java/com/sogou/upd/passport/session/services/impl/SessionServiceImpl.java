@@ -387,7 +387,7 @@ public class SessionServiceImpl implements SessionService {
                 }
 
                 // cachedSgid 是否是 wap
-                if ((isWap == isCachedSgidWap) && expire <= earliestExpire) { // 寻找相同类型最早过期 sgid
+                if (isWap != null && (isWap == isCachedSgidWap) && expire <= earliestExpire) { // 寻找相同类型最早过期 sgid
                     // 计数 +1， 记录最早过期时间和对应的 sgid
                     cachedSgidCount++;
                     earliestExpire = expire;
