@@ -102,15 +102,15 @@ public class SessionServiceImpl implements SessionService {
                         String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
                         newSgidRedisClientTemplate.hset(cacheKey, cachedSgid, cachedInfoJson.toJSONString());
                         newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
-
-                        // 返回结果-账号
-                        resultUserInfoJson.put(CommonConstant.REDIS_PASSPORTID, passportId);
-                        // 返回结果-阅读返回微信 openId
-                        if(cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
-                            String weixinOpenid = cachedInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
-                            resultUserInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
-                        }
                     }
+                }
+
+                // 返回结果-账号
+                resultUserInfoJson.put(CommonConstant.REDIS_PASSPORTID, passportId);
+                // 返回结果-阅读返回微信 openId
+                if(cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
+                    String weixinOpenid = cachedInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
+                    resultUserInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
                 }
             }
         });
