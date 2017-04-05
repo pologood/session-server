@@ -384,7 +384,7 @@ public class SessionServiceImpl implements SessionService {
                 }
 
                 boolean isCachedSgidWap = BooleanUtils.isTrue(cachedInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
-                if (!isCachedSgidWap) { // remove the original isWap=false
+                if (!isCachedSgidWap && cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_ISWAP)) { // remove the original isWap=false
                     cachedInfoJson.remove(CommonConstant.REDIS_SGID_ISWAP);
                     updateFieldsMap.put(cachedSgid, cachedInfoJson.toJSONString());
                 }
