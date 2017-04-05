@@ -68,7 +68,7 @@ public class VerifySessionController extends BaseController {
         }
 
         JSONObject userInfo = sessionService.getSession(sgid);
-        if (userInfo == null) {
+        if (userInfo == null || userInfo.isEmpty()) {
             result.put("status", "50001");
             result.put("statusText", "sid不存在或已过期");
             logger.warn("sid miss sgid:" + sgid + " , client_id:" + clientId);
@@ -78,7 +78,7 @@ public class VerifySessionController extends BaseController {
         // 返回结果中去掉过期时间，防止业务线误存此值进行自有逻辑判断
         // 业务线自己判断会依赖本地时间，并且此过期时间会由于续期而产生变化
         userInfo.remove(CommonConstant.REDIS_SGID_EXPIRE);
-        userInfo.remove("isWap");
+        userInfo.remove(CommonConstant.REDIS_SGID_ISWAP);
 
         result.put("status", "0");
         result.put("data", userInfo);

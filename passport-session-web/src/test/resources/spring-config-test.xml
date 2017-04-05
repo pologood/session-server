@@ -45,42 +45,42 @@
             <list>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1622" type="int"/>
                     <constructor-arg name="name" value="redis1" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1623" type="int"/>
                     <constructor-arg name="name" value="redis2" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1624" type="int"/>
                     <constructor-arg name="name" value="redis3" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1625" type="int"/>
                     <constructor-arg name="name" value="redis4" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1626" type="int"/>
                     <constructor-arg name="name" value="redis5" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1627" type="int"/>
                     <constructor-arg name="name" value="redis6" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1628" type="int"/>
                     <constructor-arg name="name" value="redis7" />
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
-                    <constructor-arg name="port" value="1509" type="int"/>
+                    <constructor-arg name="port" value="1629" type="int"/>
                     <constructor-arg name="name" value="redis8" />
                 </bean>
             </list>
@@ -152,6 +152,37 @@
             <list>
                 <bean class="redis.clients.jedis.JedisShardInfo">
                     <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1606" type="int"/>
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1607" type="int"/>
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1608" type="int"/>
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1609" type="int"/>
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1610" type="int"/>
+                </bean>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
+                    <constructor-arg name="port" value="1611" type="int"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean><!--
+    <bean id="newSgidShardedJedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="a.redis.sogou"/>
                     <constructor-arg name="port" value="1509" type="int"/>
                 </bean>
                 <bean class="redis.clients.jedis.JedisShardInfo">
@@ -176,7 +207,7 @@
                 </bean>
             </list>
         </constructor-arg>
-    </bean>
+    </bean>-->
 
     <bean id="newSgidRedisDataSource" class="com.sogou.upd.passport.session.util.redis.RedisDataSource">
         <property name="shardedJedisPool" ref="newSgidShardedJedisPool"/>
