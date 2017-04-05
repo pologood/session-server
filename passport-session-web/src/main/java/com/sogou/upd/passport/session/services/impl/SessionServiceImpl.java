@@ -410,7 +410,7 @@ public class SessionServiceImpl implements SessionService {
 
             // log the fields info when there is more than 5 sgid field for one customer
             Map<String, String> updatedValueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
-            if (updatedValueMap.size() >= 5) {
+            if (updatedValueMap.size() > 5) {
                 logger.warn("sid get sgid more than 5 fields. cachekey:{} size:{} fields:{}", prefix, updatedValueMap.size(), updatedValueMap.toString());
             }
 
