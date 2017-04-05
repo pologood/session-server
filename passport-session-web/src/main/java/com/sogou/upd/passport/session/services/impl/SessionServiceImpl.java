@@ -307,6 +307,7 @@ public class SessionServiceImpl implements SessionService {
      * 遍历 sgid 过程中涉及更新有效期、删除过期 sgid、去除多余信息
      */
     private interface IterateNewSgidCallback {
+
         void callback(String passportId, String cachedSgid, JSONObject cachedInfoJson, long leftTime);
     }
 
@@ -390,11 +391,13 @@ public class SessionServiceImpl implements SessionService {
                 }
 
                 // cachedSgid 是否是 wap
-                if (isWap != null && (isWap == isCachedSgidWap) && expire <= earliestExpire) { // 寻找相同类型最早过期 sgid
-                    // 计数 +1， 记录最早过期时间和对应的 sgid
+                if (isWap != null && (isWap == isCachedSgidWap)) { // 寻找相同类型最早过期 sgid
+                    // 计数 +1
                     cachedSgidCount++;
-                    earliestExpire = expire;
-                    earliestSgid = cachedSgid;
+                    if (expire <= earliestExpire) { // 记录最早过期时间和对应的 sgid
+                        earliestExpire = expire;
+                        earliestSgid = cachedSgid;
+                    }
                 }
             }
 
