@@ -108,7 +108,7 @@ public class SessionServiceImpl implements SessionService {
                 // 返回结果-账号
                 resultUserInfoJson.put(CommonConstant.REDIS_PASSPORTID, passportId);
                 // 返回结果-阅读返回微信 openId
-                if(cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
+                if (cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
                     String weixinOpenid = cachedInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
                     resultUserInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
                 }
@@ -225,7 +225,7 @@ public class SessionServiceImpl implements SessionService {
 
         // 设置 field 和 key 的失效时间
         newSgidRedisClientTemplate.hset(cacheKey, realSgid, sgidInfoJson.toJSONString());
-        String passportId = (String)userInfoJson.get(CommonConstant.REDIS_PASSPORTID);
+        String passportId = (String) userInfoJson.get(CommonConstant.REDIS_PASSPORTID);
         if (!Strings.isNullOrEmpty(passportId)) { // if the passport is not NULL or empty string
             newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
         }
@@ -234,13 +234,13 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void newSession(String prefix, String passportId, String userInfo, boolean isWap) {
+    public String newSession(String prefix, String passportId, String weixinOpenId, boolean isWap) {
         String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
 
         // 新 sgid
         String newSgid = iterateNewSgidSession(prefix, isWap);
-        if(StringUtils.isBlank(newSgid)) {
-            newSgid = SessionServerUtil.createSessionSid(passportId);;
+        if (StringUtils.isBlank(newSgid)) {
+            newSgid = SessionServerUtil.createSessionSid(passportId);
         }
 
         // 维护 sgid 的过期时间
@@ -253,7 +253,6 @@ public class SessionServiceImpl implements SessionService {
          * sgid2={"expire":1491806306, "isWap":true}
          * passport_id=codetest1@sogou.com
          */
-        JSONObject userInfoJson = JSONObject.parseObject(userInfo);
         JSONObject sgidInfoJson = new JSONObject();
         // 过期时间
         int sessionExpire = isWap ? CommonConstant.SESSION_EXPIRSE : CommonConstant.SESSION_EXPIRSE_TWO_WEEKS;
@@ -264,9 +263,8 @@ public class SessionServiceImpl implements SessionService {
             sgidInfoJson.put(CommonConstant.REDIS_SGID_ISWAP, isWap);
         }
         // 阅读需要获取微信 openId 来进行消息推送
-        String weixinOpenid = userInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
-        if (StringUtils.isNotBlank(weixinOpenid)) {
-            sgidInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
+        if (StringUtils.isNotBlank(weixinOpenId)) {
+            sgidInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenId);
         }
 
         // 设置 field 和 key 的失效时间
@@ -274,6 +272,8 @@ public class SessionServiceImpl implements SessionService {
         newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
         newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
         logger.warn("sid set sgid:{} passportId:{} userinfo:{}", newSgid, passportId, sgidInfoJson);
+
+        return newSgid;
     }
 
     @Override
@@ -309,8 +309,9 @@ public class SessionServiceImpl implements SessionService {
     }
 
     private String iterateNewSgidSession(String prefix, Boolean isWap) {
-        return iterateNewSgidSession(prefix, isWap,null);
+        return iterateNewSgidSession(prefix, isWap, null);
     }
+
     /**
      * 遍历账号下所有新 sgid <br>
      * 对所有 sgid 进行检查，删除过期的 sgid，更新格式，打印日志
@@ -369,7 +370,7 @@ public class SessionServiceImpl implements SessionService {
                 }
 
                 // 循环回调
-                if(iterateSgidCallback != null) {
+                if (iterateSgidCallback != null) {
                     iterateSgidCallback.callback(passportId, cachedSgid, cachedInfoJson, leftTime);
                 }
 

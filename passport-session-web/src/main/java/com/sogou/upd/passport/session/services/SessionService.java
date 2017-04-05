@@ -20,10 +20,10 @@ public interface SessionService {
      * 生成新 session
      * @param prefix 前缀，【账号分表索引】-【账号自增 id】
      * @param passportId 账号
-     * @param userInfo 用户信息
+     * @param weixinOpenId 微信 openId
      * @param isWap 是否是移动端
      */
-    public void newSession(String prefix, String passportId, String userInfo, boolean isWap);
+    public String newSession(String prefix, String passportId, String weixinOpenId, boolean isWap);
 
     /**
      * 获取session信息

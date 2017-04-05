@@ -14,10 +14,9 @@ public class NewSessionParams extends BaseApiParams {
     private String passportId;
 
     /**
-     * 用户基本信息
+     * 微信 openId
      */
-    @NotBlank(message = "user_info不能为空")
-    private String user_info;
+    private String weixinOpenId;
 
     /**
      * 是否是 wap 登陆
@@ -39,13 +38,6 @@ public class NewSessionParams extends BaseApiParams {
     public void setPassportId(String passportId) {
         this.passportId = passportId;
     }
-    public String getUser_info() {
-        return user_info;
-    }
-
-    public void setUser_info(String user_info) {
-        this.user_info = user_info;
-    }
 
     public boolean isWap() {
         return wap;
@@ -54,4 +46,13 @@ public class NewSessionParams extends BaseApiParams {
     public void setWap(boolean wap) {
         this.wap = wap;
     }
+
+    public String getWeixinOpenId() {
+        return weixinOpenId;
+    }
+
+    public void setWeixinOpenId(String weixinOpenId) {
+        this.weixinOpenId = weixinOpenId;
+    }
+
 }

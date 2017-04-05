@@ -98,7 +98,7 @@ public class ControlSessionCoontroller extends BaseController {
 
         String prefix = newSessionParams.getPrefix();
         String passportId = newSessionParams.getPassportId();
-        String userInfo = newSessionParams.getUser_info();
+        String weixinOpenId = newSessionParams.getWeixinOpenId();
         boolean isWap = newSessionParams.isWap();
 
         if (!sessionService.checkCode(passportId, clientId, code, ct)) {
@@ -107,9 +107,10 @@ public class ControlSessionCoontroller extends BaseController {
             return handleResult(result, request);
         }
 
-        sessionService.newSession(prefix, passportId, userInfo, isWap);
+        String sgid = sessionService.newSession(prefix, passportId, weixinOpenId, isWap);
 
         result.put("status", "0");
+        result.put("sgid", sgid);
 
         return handleResult(result, request);
     }
