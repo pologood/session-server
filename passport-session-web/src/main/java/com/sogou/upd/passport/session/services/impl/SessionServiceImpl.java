@@ -418,7 +418,7 @@ public class SessionServiceImpl implements SessionService {
             }
 
             String newSgid = null;
-            if (cachedSgidCount > 11) { // 计数大于 11，即找到最早过期的 sgid
+            if (cachedSgidCount >= 10) { // 存在 10 个及以上的 sgid
                 // 此种策略虽然会造成登录 10 次以后，之后再登录都会返回相同的 sgid
                 // 但若正常登录行为，由于有 cookie 和 sgid 保持登录状态的机制，不会造成重复登录
                 newSgid = earliestSgid;
