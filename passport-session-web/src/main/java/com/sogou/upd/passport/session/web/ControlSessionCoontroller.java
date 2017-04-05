@@ -1,5 +1,7 @@
 package com.sogou.upd.passport.session.web;
 
+import com.google.common.collect.Maps;
+
 import com.alibaba.fastjson.JSONObject;
 import com.sogou.upd.passport.session.model.DeleteSessionParams;
 import com.sogou.upd.passport.session.model.NewSessionParams;
@@ -18,6 +20,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -110,7 +114,9 @@ public class ControlSessionCoontroller extends BaseController {
         String sgid = sessionService.newSession(prefix, passportId, weixinOpenId, isWap);
 
         result.put("status", "0");
-        result.put("sgid", sgid);
+        Map<String, String> dataMap = Maps.newHashMap();
+        dataMap.put("sgid", sgid);
+        result.put("data", dataMap);
 
         return handleResult(result, request);
     }
