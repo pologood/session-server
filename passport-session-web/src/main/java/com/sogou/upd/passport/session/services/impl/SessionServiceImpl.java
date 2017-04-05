@@ -91,26 +91,31 @@ public class SessionServiceImpl implements SessionService {
             @Override
             public void callback(String passportId, String cachedSgid, JSONObject cachedInfoJson, long leftTime) {
                 if (StringUtils.equals(cachedSgid, sgid)) { // 当前 sgid
+                    String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
+
                     boolean isWap = BooleanUtils.isTrue(cachedInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
                     // we need to re-calculate the expire date for WAP client
-                    if (isWap && (leftTime <= CommonConstant.SESSION_EXPIRSE_HALF)) { // wap 登录，不足一半有效期的续期
-                        // 重新计算有效期
-                        long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
-                        cachedInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
+                    if (isWap) { // wap 登录，不足一半有效期的续期
+                        if(leftTime <= CommonConstant.SESSION_EXPIRSE_HALF) {
+                            // 重新计算有效期
+                            long expireTime = (System.currentTimeMillis() / 1000) + CommonConstant.SESSION_EXPIRSE;
+                            cachedInfoJson.put(CommonConstant.REDIS_SGID_EXPIRE, expireTime);
 
-                        // 更新失效时间
-                        String cacheKey = CommonConstant.PREFIX_SESSION + prefix;
-                        newSgidRedisClientTemplate.hset(cacheKey, cachedSgid, cachedInfoJson.toJSONString());
+                            // 更新失效时间
+                            newSgidRedisClientTemplate.hset(cacheKey, cachedSgid, cachedInfoJson.toJSONString());
+                        }
+
+                        // 更新 key 失效时间
                         newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
                     }
-                }
 
-                // 返回结果-账号
-                resultUserInfoJson.put(CommonConstant.REDIS_PASSPORTID, passportId);
-                // 返回结果-阅读返回微信 openId
-                if (cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
-                    String weixinOpenid = cachedInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
-                    resultUserInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
+                    // 返回结果-账号
+                    resultUserInfoJson.put(CommonConstant.REDIS_PASSPORTID, passportId);
+                    // 返回结果-阅读返回微信 openId
+                    if (cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_WEIXIN_OPENID)) {
+                        String weixinOpenid = cachedInfoJson.getString(CommonConstant.REDIS_SGID_WEIXIN_OPENID);
+                        resultUserInfoJson.put(CommonConstant.REDIS_SGID_WEIXIN_OPENID, weixinOpenid);
+                    }
                 }
             }
         });
