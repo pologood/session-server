@@ -367,23 +367,16 @@ public class SessionServiceImpl implements SessionService {
                     continue; // 已经过期，不再做后续操作
                 }
 
-                if (StringUtils.isNotBlank(cachedInfoJson.getString(CommonConstant.REDIS_PASSPORTID))) {
+                // 记录 passportId
+                if (cachedInfoJson.containsKey(CommonConstant.REDIS_PASSPORTID)) {
                     passportId = cachedInfoJson.getString(CommonConstant.REDIS_PASSPORTID);
                     needMovePassportId = true;
-                }
-
-                // 循环回调
-                if (iterateSgidCallback != null) {
-                    iterateSgidCallback.callback(passportId, cachedSgid, cachedInfoJson, leftTime);
-                }
-
-                // handle the passport_id in the sgid cache
-                if (needMovePassportId) {
                     // remove the passport_id from sgid property and update the redis
                     cachedInfoJson.remove(CommonConstant.REDIS_PASSPORTID);
                     updateFieldsMap.put(cachedSgid, cachedInfoJson.toJSONString());
                 }
 
+                // 移除 isWap 标记
                 boolean isCachedSgidWap = BooleanUtils.isTrue(cachedInfoJson.getBoolean(CommonConstant.REDIS_SGID_ISWAP));
                 if (!isCachedSgidWap && cachedInfoJson.containsKey(CommonConstant.REDIS_SGID_ISWAP)) { // remove the original isWap=false
                     cachedInfoJson.remove(CommonConstant.REDIS_SGID_ISWAP);
@@ -398,6 +391,11 @@ public class SessionServiceImpl implements SessionService {
                         earliestExpire = expire;
                         earliestSgid = cachedSgid;
                     }
+                }
+
+                // 循环回调
+                if (iterateSgidCallback != null) {
+                    iterateSgidCallback.callback(passportId, cachedSgid, cachedInfoJson, leftTime);
                 }
             }
 
@@ -415,8 +413,8 @@ public class SessionServiceImpl implements SessionService {
             }
 
             // log the fields info when there is more than 5 sgid field for one customer
-            Map<String, String> updatedValueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
-            if (updatedValueMap.size() > 5) {
+            if (newSgidRedisClientTemplate.hlen(cacheKey) > 5) {
+                Map<String, String> updatedValueMap = newSgidRedisClientTemplate.hgetAll(cacheKey);
                 logger.warn("sid get sgid more than 5 fields. cachekey:{} size:{} fields:{}", prefix, updatedValueMap.size(), updatedValueMap.toString());
             }
 
