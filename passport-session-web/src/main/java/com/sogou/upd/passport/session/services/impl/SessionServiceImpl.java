@@ -271,9 +271,11 @@ public class SessionServiceImpl implements SessionService {
         newSgidRedisClientTemplate.hset(cacheKey, newSgid, sgidInfoJson.toJSONString());
         newSgidRedisClientTemplate.hset(cacheKey, CommonConstant.REDIS_PASSPORTID, passportId);
         newSgidRedisClientTemplate.expire(cacheKey, CommonConstant.SESSION_EXPIRSE);
-        logger.warn("sid set sgid:{} passportId:{} userinfo:{}", newSgid, passportId, sgidInfoJson);
 
-        return newSgid;
+        String resultSgid = prefix + "-" + newSgid;
+        logger.warn("sid set sgid:{} passportId:{} userinfo:{}", resultSgid, passportId, sgidInfoJson);
+
+        return resultSgid;
     }
 
     @Override
