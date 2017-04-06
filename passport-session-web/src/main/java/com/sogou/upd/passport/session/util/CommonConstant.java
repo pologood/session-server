@@ -37,4 +37,8 @@ public class CommonConstant {
      * redis key for sgid->isWap
      */
     public static final String REDIS_SGID_ISWAP = "isWap";
+    /**
+     * redis key for weixin_openid
+     */
+    public static final String REDIS_SGID_WEIXIN_OPENID = "weixin_openid";
 }
